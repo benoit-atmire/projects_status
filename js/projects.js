@@ -9,7 +9,9 @@ TrelloPowerUp.initialize({
             // we can either provide a button that has a callback function
             icon: ATMIRE_ICON,
             text: 'Schedule meeting today',
-            callback: updateBoard(t),
+            callback: function(t){
+                return updateBoard(t);
+            },
             condition: 'edit'
         }];
     },
