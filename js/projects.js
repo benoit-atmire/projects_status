@@ -38,14 +38,14 @@ function updateBoard(t) {
             //if (values.board.private ? values.board.private : '';
 
             console.log("Values:");
-            console.log(values);
+            console.log(JSON.stringify(values));
             console.log("--------------------");
 
             var board = t.getContext().board;
             var lists = getLists(board);
 
             console.log("Lists:");
-            console.log(lists);
+            console.log(JSON.stringify(lists));
             console.log("--------------------");
 
             var today = new Date();
@@ -64,7 +64,7 @@ function updateBoard(t) {
             var projects = getProjects(settings.pm);
 
             console.log("Projects:");
-            console.log(projects);
+            console.log(JSON.stringify(projects));
             console.log("--------------------");
 
             for (var i in projects) {
