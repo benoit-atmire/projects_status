@@ -29,7 +29,7 @@ var tmpcallback = function (t, opts) {
     console.log(JSON.stringify(opts));
 }
 
-function updateBoard(t) {
+var updateBoard = function (t) {
 
    return t.getAll()
         .then(function (values) {
@@ -61,7 +61,7 @@ function updateBoard(t) {
 
             // Retrieve all projects for PM from W2P
 
-            var projects = getProjects(settings.pm);
+            var projects = getProjects("Nick");
 
             console.log("Projects:");
             console.log(JSON.stringify(projects));
