@@ -1,6 +1,6 @@
 var CLOCK_ICON = 'https://benoit-atmire.github.io/projects_status/img/clock.svg';
 var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/clock_white.svg';
-var ATMIRE_ICON = 'https://benoit-atmire.github.io/projects_status/img/clock_white.svg';
+var ATMIRE_ICON = 'https://benoit-atmire.github.io/projects_status/img/logo_white.svg';
 var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
@@ -43,7 +43,7 @@ function updateBoard(t) {
             var lists = getLists(board);
 
             console.log("Lists:");
-            console.log(JSON.stringify(lists));
+            console.log(lists);
             console.log("--------------------");
 
             var today = new Date();
@@ -62,7 +62,7 @@ function updateBoard(t) {
             var projects = getProjects(settings.pm);
 
             console.log("Projects:");
-            console.log(JSON.stringify(projects));
+            console.log(projects);
             console.log("--------------------");
 
             foreach (var i in projects) {
@@ -125,8 +125,9 @@ function updateBoard(t) {
                     });
                 }
             }
-            return true;
 */
+            return true;
+
         })
    ;
 }
