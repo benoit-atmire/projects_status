@@ -33,10 +33,12 @@ function updateBoard(t) {
 
    return t.getAll()
         .then(function (values) {
-            var settings = values.board.private ? values.board.private : '';
+            var settings = "";
 
-            console.log("Settings:");
-            console.log(settings);
+            //if (values.board.private ? values.board.private : '';
+
+            console.log("Values:");
+            console.log(values);
             console.log("--------------------");
 
             var board = t.getContext().board;
