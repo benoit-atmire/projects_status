@@ -5,8 +5,8 @@ var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
-        console.log(JSON.stringify(t));
-        console.log(JSON.stringify(opts));
+        //console.log(JSON.stringify(t));
+        //console.log(JSON.stringify(opts));
         return [{
             // we can either provide a button that has a callback function
             icon: WHITE_ICON,
