@@ -9,7 +9,7 @@ TrelloPowerUp.initialize({
             // we can either provide a button that has a callback function
             icon: ATMIRE_ICON,
             text: 'Schedule meeting today',
-            callback: tmpcallback(),
+            callback: updateBoard(t),
             condition: 'edit'
         }];
     },
@@ -31,32 +31,45 @@ var tmpcallback = function (t, opts) {
 
 function updateBoard(t) {
 
-   return Promise.all([t.lists('all'), t.getAll('list', 'shared', 'w2p', ''), t.get('board', 'shared', 'settings', '')])
+   return t.getAll()
         .then(function (values) {
-            var lists = values[0];
+            var settings = values.board.private ? values.board.private : '';
+
+            console.log("Settings:");
+            console.log(settings);
+            console.log("--------------------");
+
+            var board = t.getContext().board;
+            var lists = getLists(board);
+
+            console.log("Lists:");
+            console.log(JSON.stringify(lists));
+            console.log("--------------------");
+
             var today = new Date();
             var today_string = today.toISOString().substring(0,10);
 
 
-            var creation = new Date(1000*parseInt(card.id.substring(0,8),16));
-            var lastUpdate = new Date(card.dateLastActivity);
-            var daysSinceCreation = Math.round(Math.abs((today.getTime() - creation.getTime())/(24*60*60*1000)));
-            var daysSinceUpdate = Math.round(Math.abs((today.getTime() - lastUpdate.getTime())/(24*60*60*1000)));
 
-
-            var settings = values[2];
-            var hasSettings = (settings != '' && settings.username && settings.password && settings.pmid && settings.ttoken && settings.tkey);
+            var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
 
             if (!hasSettings) {
                 // TODO: redirect to settings OR display alert stating settings are missing
             }
 
-            // Retrieve all projects for pmid from W2P
+            // Retrieve all projects for PM from W2P
 
-            var projects = "";
+            var projects = getProjects(settings.pm);
 
+            console.log("Projects:");
+            console.log(JSON.stringify(projects));
+            console.log("--------------------");
 
+            foreach (var i in projects) {
 
+            }
+
+/*
             // Presumably: foreach (i in lists)
 
                 // Card creation structure
@@ -113,7 +126,67 @@ function updateBoard(t) {
                 }
             }
             return true;
-
+*/
         })
    ;
+}
+
+
+function getProjects(pm){
+    var xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.open("GET", "http://w2p-api/reports?username=rest&password=dspace&report_type=projects_overview&pm="+pm, false);
+    //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send();
+
+    var projects = {};
+
+
+    if (xmlhttp.status != 200) return projects;
+
+    var p = xmlhttp.responseText.projects;
+
+    for (var i in p) {projects[p[i].project_id] = p[i]}
+
+    return projects;
+}
+
+function getLists(board){
+    var xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.open("GET", "https://api.trello.com/1/boards/"+board+"/lists/open", false);
+    //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send();
+
+    var lists = {};
+
+    if (xmlhttp.status != 200) return lists;
+
+    var response = xmlhttp.responseText;
+
+    console.log(response);
+
+    for (var i in response){lists[response[i].name.split('::')[1]] = response[i].id;}
+
+    return lists;
+
+}
+
+
+function createList(name, board) {
+    var data = null;
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === this.DONE) {
+        console.log(this.responseText);
+      }
+    });
+
+    xhr.open("POST", "https://api.trello.com/1/boards/" + board + "/lists?name=" + name);
+
+    xhr.send(data);
+
+    return "id"; // return list ID for chaining to card creation ; get it from responseText
 }
