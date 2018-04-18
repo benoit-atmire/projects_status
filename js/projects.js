@@ -65,7 +65,7 @@ function updateBoard(t) {
             console.log(projects);
             console.log("--------------------");
 
-            foreach (var i in projects) {
+            for (var i in projects) {
 
             }
 
