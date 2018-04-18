@@ -7,8 +7,8 @@
   "author": "benoit-atmire",
   "capabilities": [
     "callback",
-    "card-badges",
-    "card-detail-badges",
+    "board-buttons",
+    "on-enable",
     "show-settings"
   ],
   "connectors": {
