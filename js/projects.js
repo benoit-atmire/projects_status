@@ -1,6 +1,6 @@
 var CLOCK_ICON = 'https://benoit-atmire.github.io/projects_status/img/clock.svg';
 var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/clock_white.svg';
-
+var ATMIRE_ICON = 'https://benoit-atmire.github.io/projects_status/img/clock_white.svg';
 var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
@@ -9,7 +9,7 @@ TrelloPowerUp.initialize({
         //console.log(JSON.stringify(opts));
         return [{
             // we can either provide a button that has a callback function
-            icon: WHITE_ICON,
+            icon: ATMIRE_ICON,
             text: 'Schedule meeting today',
             callback: tmpcallback(),
             condition: 'edit'
