@@ -5,8 +5,6 @@ var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
-        //console.log(JSON.stringify(t));
-        //console.log(JSON.stringify(opts));
         return [{
             // we can either provide a button that has a callback function
             icon: ATMIRE_ICON,
@@ -25,8 +23,10 @@ TrelloPowerUp.initialize({
     }
 });
 
-function tmpcallback() {
+var tmpcallback = function (t, opts) {
     console.log("I've been clicked");
+    console.log(JSON.stringify(t));
+    console.log(JSON.stringify(opts));
 }
 
 function updateBoard(t) {
