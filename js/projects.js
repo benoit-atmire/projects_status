@@ -14,6 +14,7 @@ TrelloPowerUp.initialize({
             callback: tmpcallback(),
             condition: 'edit'
         }];
+    },
     'show-settings': function(t, options){
         return t.popup({
             title: 'Settings',
