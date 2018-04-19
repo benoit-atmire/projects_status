@@ -154,7 +154,7 @@ function getProjects(pm){
 function getLists(board, key, token){
     var xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.open("GET", "https://api.trello.com/1/boards/"+board+"/lists/open?key="+key+"&token="+token., false);
+    xmlhttp.open("GET", "https://api.trello.com/1/boards/"+board+"/lists/open?key="+key+"&token="+token, false);
     //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send();
 
