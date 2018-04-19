@@ -8,21 +8,16 @@
 
 <form id="settings">
     <fieldset id="fields">
-        <input type="text" id="pm" />
-        <label for="pm">PM: </label>
+        <label for="pm">PM: </label><input type="text" id="pm" />
 
-        <input type="text" id="username" />
-        <label for="username">W2P username: </label>
+        <label for="username">W2P username: </label><input type="text" id="username" />
 
-        <input type="password" id="password" />
-        <label for="password">W2P password: </label>
+        <label for="password">W2P password: </label><input type="password" id="password" />
 
-        <input type="text" id="ttoken" />
-        <label for="ttoken">Trello token: </label>
+        <label for="ttoken">Trello token: </label><input type="text" id="ttoken" />
 
-        <input type="text" id="tkey" />
-        <label for="tkey">Trello key: </label>
-
+        <label for="tkey">Trello key: </label><input type="text" id="tkey" />
+        
     </fieldset>
     <button type="submit" class="mod-primary">Save</button>
     <p id="error" style="color: red;"></p>
@@ -67,7 +62,7 @@
 
 
     t.render(function(){
-      return t.get('board', 'shared', 'settings', '')
+      return t.get('board', 'private', 'settings', '')
       .then(function(settings){
 
         var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
