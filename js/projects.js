@@ -144,7 +144,8 @@ function getProjects(pm){
 
     if (xmlhttp.status != 200) return projects;
 
-    var p = xmlhttp.responseText.projects;
+    var response = JSON.parse(xmlhttp.responseText);
+    var p = response.projects;
 
     for (var i in p) {projects[p[i].project_id] = p[i]}
 
@@ -162,7 +163,7 @@ function getLists(board, key, token){
 
     if (xmlhttp.status != 200) return lists;
 
-    var response = xmlhttp.responseText;
+    var response = JSON.parse(xmlhttp.responseText);
 
     console.log(response);
 
