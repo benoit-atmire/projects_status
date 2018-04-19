@@ -25,12 +25,6 @@ TrelloPowerUp.initialize({
     }
 });
 
-var tmpcallback = function (t, opts) {
-    console.log("I've been clicked");
-    console.log(JSON.stringify(t));
-    console.log(JSON.stringify(opts));
-}
-
 var updateBoard = function (t) {
 
    return t.getAll()
@@ -140,7 +134,7 @@ var updateBoard = function (t) {
 function getProjects(pm){
     var xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.open("GET", "http://w2p-api/reports?username=rest&password=dspace&report_type=projects_overview&pm="+pm, false);
+    xmlhttp.open("GET", "https://w2p-api/reports?username=rest&password=dspace&report_type=projects_overview&pm="+pm, false);
     //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send();
 
