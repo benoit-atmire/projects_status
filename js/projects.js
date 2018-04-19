@@ -166,7 +166,11 @@ function getLists(board, key, token){
 
     console.log(response);
 
-    for (var i in response){lists[response[i].name.split('::')[1]] = response[i].id;}
+    for (var i in response){
+        console.log(response[i]);
+        console.log(response[i].name);
+        lists[response[i].name.split('::')[1]] = response[i].id;
+        }
 
     return lists;
 
