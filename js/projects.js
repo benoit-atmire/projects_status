@@ -132,34 +132,34 @@ var updateBoard = function (t) {
                 // Project status
 
                 if (!projects[pid]) newcard.idLabels += labels["Not found"].id;
-                else newcard.idLabels += labels[projects[pid].status].id || labels["Other"].id;
+                else newcard.idLabels += labels[projects[pid].status] ? labels[projects[pid].status].id : labels["Other"].id;
 
                 // Project dates
                 var datechanged = false;
 
                 newcard.desc += "Start date: " + projects[pid].start_date;
-                if (projects[pid].start_date == old_projects[pid].start_date){
+                if (old_projects[pid] && projects[pid].start_date == old_projects[pid].start_date){
                     newcard.desc += " (was: " + old_projects[pid].start_date + ")";
                     datechanged = true;
                 }
                 newcard.desc += "\n";
 
                 newcard.desc += "End implementation date: " + projects[pid].end_impl;
-                if (projects[pid].end_impl == old_projects[pid].end_impl){
+                if (old_projects[pid] && projects[pid].end_impl == old_projects[pid].end_impl){
                     newcard.desc += " (was: " + old_projects[pid].end_impl + ")";
                     datechanged = true;
                 }
                 newcard.desc += "\n";
 
                 newcard.desc += "Start test date: " + projects[pid].start_test;
-                if (projects[pid].start_test == old_projects[pid].start_test){
+                if (old_projects[pid] && projects[pid].start_test == old_projects[pid].start_test){
                     newcard.desc += " (was: " + old_projects[pid].start_test + ")";
                     datechanged = true;
                 }
                 newcard.desc += "\n";
 
                 newcard.desc += "End date: " + projects[pid].end_date;
-                if (projects[pid].end_date == old_projects[pid].end_date){
+                if (old_projects[pid] && projects[pid].end_date == old_projects[pid].end_date){
                     newcard.desc += " (was: " + old_projects[pid].end_date + ")";
                     datechanged = true;
                 }
@@ -171,8 +171,9 @@ var updateBoard = function (t) {
 
                 // Project time & budget
 
-                newcard.desc += "Billables: " + projects[pid].billable_hours;
-                newcard.desc += "Worked: " + projects[pid].worked_hours + "(+ " + (projects[pid].worked_hours - old_projects[pid].worked_hours) + ")";
+                newcard.desc += "Billables: " + projects[pid].billable_hours + "\n";
+                newcard.desc += "Worked: " + projects[pid].worked_hours;
+                if (old_projects[pid]) newcard.desc += "(+ " + (projects[pid].worked_hours - old_projects[pid].worked_hours) + ")";
 
 
 
