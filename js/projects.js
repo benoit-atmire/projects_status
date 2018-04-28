@@ -97,7 +97,7 @@ var updateBoard = function (t) {
 
             //var projects = getProjects("Nick");
             var projects = tmpprojects();
-            var toSaveProjects = projects;
+            var toSaveProjects = {};
 
 
             console.log("Projects:");
@@ -187,6 +187,8 @@ var updateBoard = function (t) {
                     */
                     if (percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
 
+                    toSaveProjects[pid] = projects[pid];
+                    
                     delete projects[pid];
                 }
 
