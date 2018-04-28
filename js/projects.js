@@ -138,28 +138,28 @@ var updateBoard = function (t) {
                     var datechanged = false;
 
                     newcard.desc += "Start date: " + projects[pid].start_date;
-                    if (old_projects[pid] && projects[pid].start_date == old_projects[pid].start_date){
+                    if (old_projects[pid] && projects[pid].start_date != old_projects[pid].start_date){
                         newcard.desc += " (was: " + old_projects[pid].start_date + ")";
                         datechanged = true;
                     }
                     newcard.desc += "%0D%0A";
 
                     newcard.desc += "End implementation date: " + projects[pid].end_impl;
-                    if (old_projects[pid] && projects[pid].end_impl == old_projects[pid].end_impl){
+                    if (old_projects[pid] && projects[pid].end_impl != old_projects[pid].end_impl){
                         newcard.desc += " (was: " + old_projects[pid].end_impl + ")";
                         datechanged = true;
                     }
                     newcard.desc += "%0D%0A";
 
                     newcard.desc += "Start test date: " + projects[pid].start_test;
-                    if (old_projects[pid] && projects[pid].start_test == old_projects[pid].start_test){
+                    if (old_projects[pid] && projects[pid].start_test != old_projects[pid].start_test){
                         newcard.desc += " (was: " + old_projects[pid].start_test + ")";
                         datechanged = true;
                     }
                     newcard.desc += "%0D%0A";
 
                     newcard.desc += "End date: " + projects[pid].end_date;
-                    if (old_projects[pid] && projects[pid].end_date == old_projects[pid].end_date){
+                    if (old_projects[pid] && projects[pid].end_date != old_projects[pid].end_date){
                         newcard.desc += " (was: " + old_projects[pid].end_date + ")";
                         datechanged = true;
                     }
@@ -173,7 +173,7 @@ var updateBoard = function (t) {
 
                     newcard.desc += "Billables: " + projects[pid].billable_hours + "%0D%0A";
                     newcard.desc += "Worked: " + projects[pid].worked_hours;
-                    if (old_projects[pid]) newcard.desc += "(+ " + (projects[pid].worked_hours - old_projects[pid].worked_hours) + ")";
+                    if (old_projects[pid]) newcard.desc += " (%2B " + (projects[pid].worked_hours - old_projects[pid].worked_hours) + ")";
 
 
 
