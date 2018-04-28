@@ -84,7 +84,7 @@ var updateBoard = function (t) {
             console.log("--------------------");
 
             var labels = {};
-            if (values.board && values.board.public && values.board.public.labels) labels = values.board.public.labels;
+            if (values.board && values.board.shared && values.board.shared.labels) labels = values.board.shared.labels;
             else labels = createLabels(board, settings.ttoken, settings.tkey);
 
 
@@ -106,7 +106,7 @@ var updateBoard = function (t) {
 
             var old_projects = {};
 
-            if (values.board.public && values.board.public.projects) old_projects = values.board.public.projects;
+            if (values.board.shared && values.board.shared.projects) old_projects = values.board.shared.projects;
 
 
             console.log("Old projects");
@@ -115,7 +115,7 @@ var updateBoard = function (t) {
 
             for (var pid in lists) {
                 var newcard = {
-                    name: "Meeeting " + today_string,
+                    name: "Meeting " + today_string,
                     idList: lists[pid],
                     desc: "",
                     idLabels: "",
@@ -192,7 +192,7 @@ var updateBoard = function (t) {
                     var newlist = createList(projects[p].project_name + " ::" + projects[p].project_id, board, settings.tkey, settings.ttoken);
 
                     var newcard = {
-                        name: "Meeeting " + today_string,
+                        name: "Meeting " + today_string,
                         idList: newlist,
                         desc: "",
                         idLabels: labels[projects[p].status] ? labels[projects[p].status].id : labels["Other"].id,
@@ -233,7 +233,7 @@ var updateBoard = function (t) {
 
             // store labels and old projects
 
-            return t.set('board', 'shared', {'labels': labels, 'projects': projects})
+            return Promise.all(t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'projects', projects))
                 .then(function(values){return values;});
         })
    ;
