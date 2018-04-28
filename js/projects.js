@@ -97,6 +97,7 @@ var updateBoard = function (t) {
 
             //var projects = getProjects("Nick");
             var projects = tmpprojects();
+            var toSaveProjects = projects;
 
 
             console.log("Projects:");
@@ -233,7 +234,7 @@ var updateBoard = function (t) {
 
             // store labels and old projects
 
-            return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'projects', projects)])
+            return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'projects', toSaveProjects)])
                 .then(function(values){
                     console.log("Stored data:");
                     console.log(JSON.stringify(values));
