@@ -234,7 +234,12 @@ var updateBoard = function (t) {
             // store labels and old projects
 
             return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'projects', projects)])
-                .then(function(values){return values;});
+                .then(function(values){
+                    console.log("Stored data:");
+                    console.log(JSON.stringify(values));
+                    console.log("--------------------");
+                    return values;
+                });
         })
    ;
 }
