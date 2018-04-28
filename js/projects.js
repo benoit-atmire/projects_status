@@ -22,20 +22,16 @@ TrelloPowerUp.initialize({
             height: 184,
             width: 600
       });
-    },
-    /*'on-enable': function(t, options) {
-        return createLabels(t);
-
-      }*/
+    }
 });
 
 
 function createLabels(board, token, key) {
 
         var labels = {
-            "In planning": {color:"sky"},
-            "Ongoing": {color:"blue"},
-            "In test": {color:"pink"},
+            "In Planning": {color:"sky"},
+            "In Progress": {color:"blue"},
+            "In Test": {color:"pink"},
             "Complete": {color:"lime"},
             "Archived": {color:"green"},
             "Other": {color:"purple"},
@@ -87,7 +83,6 @@ var updateBoard = function (t) {
             console.log(JSON.stringify(lists));
             console.log("--------------------");
 
-            // TODO: check if values.board.public.labels ; if yes, store in labels, else, create then store
             var labels = {};
             if (values.board && values.board.public && values.board.public.labels) labels = values.board.public.labels;
             else labels = createLabels(board, settings.ttoken, settings.tkey);
@@ -238,7 +233,8 @@ var updateBoard = function (t) {
 
             // store labels and old projects
 
-            return t.set("board", "shared", {"labels": labels, "projects": projects});
+            return t.set('board', 'shared', {'labels': labels, 'projects': projects})
+                .then(function(values){return values;});
         })
    ;
 }
