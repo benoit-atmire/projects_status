@@ -111,11 +111,12 @@ var updateBoard = function (t) {
 
             var old_projects = {};
 
+            if (values.board.public && values.board.public.projects) old_projects = values.board.public.projects;
+
+
             console.log("Old projects");
             console.log(JSON.stringify(old_projects));
             console.log("--------------------");
-
-            if (values.board.public && values.board.public.projects) old_projects = values.board.public.projects;
 
             for (var pid in lists) {
                 var newcard = {
@@ -236,7 +237,9 @@ var updateBoard = function (t) {
                 }
             }
 
-            return true;
+            // store labels and old projects
+
+            return t.set("board", "public", {"labels": labels, "projects": projects});
         })
    ;
 }
