@@ -286,7 +286,7 @@ function createCard(card) {
 
     var request = new XMLHttpRequest();
 
-    var url = "https://api.trello.com/1/cards";
+    var url = "https://api.trello.com/1/cards?";
 
     for (var c in card) {
         url += c + "=" + card[c] + "&";
