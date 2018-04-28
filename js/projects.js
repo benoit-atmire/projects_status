@@ -121,7 +121,6 @@ var updateBoard = function (t) {
             for (var pid in lists) {
                 var newcard = {
                     name: "Meeeting " + today_string,
-                    pos: "top",
                     idList: lists[pid].idList,
                     desc: "",
                     idLabels: "",
@@ -194,12 +193,11 @@ var updateBoard = function (t) {
             }
 
             for (var p in projects) {
-                if (projects[p].project_type == "Fixed price") {
+                if (projects[p].project_type == "Fixed Price Project") {
                     var newlist = createList(projects[p].project_name + " ::" + projects[p].project_id, board, settings.tkey, settings.ttoken);
 
                     var newcard = {
                         name: "Meeeting " + today_string,
-                        pos: "top",
                         idList: newlist,
                         desc: "",
                         idLabels: labels[projects[p].status].id || labels["Other"].id,
@@ -288,10 +286,16 @@ function createCard(card) {
 
     var request = new XMLHttpRequest();
 
+    var url = "https://api.trello.com/1/cards";
 
-    request.open("POST", "https://api.trello.com/1/cards", false);
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify(card));
+    for (var c in card) {
+        url += c + "=" + card[c] + "&";
+    }
+
+    url += "pos=top";
+
+    request.open("POST", url, false);
+    request.send(null);
 
     if (request.status != 200) return "";
 
