@@ -121,7 +121,7 @@ var updateBoard = function (t) {
             for (var pid in lists) {
                 var newcard = {
                     name: "Meeeting " + today_string,
-                    idList: lists[pid].idList,
+                    idList: lists[pid],
                     desc: "",
                     idLabels: "",
                     token : settings.ttoken,
@@ -200,7 +200,7 @@ var updateBoard = function (t) {
                         name: "Meeeting " + today_string,
                         idList: newlist,
                         desc: "",
-                        idLabels: labels[projects[p].status].id || labels["Other"].id,
+                        idLabels: labels[projects[p].status] ? labels[projects[p].status].id : labels["Other"].id,
                         token : settings.ttoken,
                         key : settings.tkey
                     };
