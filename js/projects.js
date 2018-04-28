@@ -233,7 +233,7 @@ var updateBoard = function (t) {
 
             // store labels and old projects
 
-            return Promise.all(t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'projects', projects))
+            return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'projects', projects)])
                 .then(function(values){return values;});
         })
    ;
