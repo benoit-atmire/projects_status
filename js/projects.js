@@ -188,7 +188,7 @@ var updateBoard = function (t) {
                     if (percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
 
                     toSaveProjects[pid] = projects[pid];
-                    
+
                     delete projects[pid];
                 }
 
@@ -236,6 +236,8 @@ var updateBoard = function (t) {
                     if (percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
 
                     createCard(newcard, settings.tkey, settings.ttoken);
+
+                    toSaveProjects[p] = projects[p];
 
                 }
             }
