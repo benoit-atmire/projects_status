@@ -141,36 +141,36 @@ var updateBoard = function (t) {
                     newcard.desc += " (was: " + old_projects[pid].start_date + ")";
                     datechanged = true;
                 }
-                newcard.desc += "\n";
+                newcard.desc += "%0D%0A";
 
                 newcard.desc += "End implementation date: " + projects[pid].end_impl;
                 if (old_projects[pid] && projects[pid].end_impl == old_projects[pid].end_impl){
                     newcard.desc += " (was: " + old_projects[pid].end_impl + ")";
                     datechanged = true;
                 }
-                newcard.desc += "\n";
+                newcard.desc += "%0D%0A";
 
                 newcard.desc += "Start test date: " + projects[pid].start_test;
                 if (old_projects[pid] && projects[pid].start_test == old_projects[pid].start_test){
                     newcard.desc += " (was: " + old_projects[pid].start_test + ")";
                     datechanged = true;
                 }
-                newcard.desc += "\n";
+                newcard.desc += "%0D%0A";
 
                 newcard.desc += "End date: " + projects[pid].end_date;
                 if (old_projects[pid] && projects[pid].end_date == old_projects[pid].end_date){
                     newcard.desc += " (was: " + old_projects[pid].end_date + ")";
                     datechanged = true;
                 }
-                newcard.desc += "\n";
+                newcard.desc += "%0D%0A";
 
-                newcard.desc += "**********\n";
+                newcard.desc += "**********%0D%0A";
 
                 if (datechanged) newcard.idLabels += "," + labels["Date changed"].id;
 
                 // Project time & budget
 
-                newcard.desc += "Billables: " + projects[pid].billable_hours + "\n";
+                newcard.desc += "Billables: " + projects[pid].billable_hours + "%0D%0A";
                 newcard.desc += "Worked: " + projects[pid].worked_hours;
                 if (old_projects[pid]) newcard.desc += "(+ " + (projects[pid].worked_hours - old_projects[pid].worked_hours) + ")";
 
@@ -208,18 +208,18 @@ var updateBoard = function (t) {
                     // Project dates
 
                     newcard.desc += "Start date: " + projects[p].start_date;
-                    newcard.desc += "\n";
+                    newcard.desc += "%0D%0A";
 
                     newcard.desc += "End implementation date: " + projects[p].end_impl;
-                    newcard.desc += "\n";
+                    newcard.desc += "%0D%0A";
 
                     newcard.desc += "Start test date: " + projects[p].start_test;
-                    newcard.desc += "\n";
+                    newcard.desc += "%0D%0A";
 
                     newcard.desc += "End date: " + projects[p].end_date;
-                    newcard.desc += "\n";
+                    newcard.desc += "%0D%0A";
 
-                    newcard.desc += "**********\n";
+                    newcard.desc += "**********%0D%0A";
 
                     // Project time & budget
 
