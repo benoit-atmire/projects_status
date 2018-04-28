@@ -88,7 +88,10 @@ var updateBoard = function (t) {
             console.log("--------------------");
 
             // TODO: check if values.board.public.labels ; if yes, store in labels, else, create then store
-            var labels = values.board.public.labels || createLabels(board, settings.ttoken, settings.tkey)
+            var labels = {};
+            if (values.board && values.board.public && values.board.public.labels) labels = values.board.public.labels;
+            else labels = createLabels(board, settings.ttoken, settings.tkey);
+
 
             console.log("Labels:");
             console.log(JSON.stringify(labels));
