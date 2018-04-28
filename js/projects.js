@@ -22,8 +22,42 @@ TrelloPowerUp.initialize({
             height: 184,
             width: 600
       });
-    }
+    },
+    /*'on-enable': function(t, options) {
+        return createLabels(t);
+
+      }*/
 });
+
+
+function createLabels(board, token, key) {
+
+        var labels = {
+            "In planning": {color:"sky"},
+            "Ongoing": {color:"blue"},
+            "In test": {color:"pink"},
+            "Complete": {color:"lime"},
+            "Archived": {color:"green"},
+            "Other": {color:"purple"},
+            "Date changed": {color:"orange"},
+            "Budget risk": {color:"red"},
+            "Not found": {color:"black"}
+        };
+
+        for (var label in labels) {
+            var request = new XMLHttpRequest();
+
+            request.open("POST", "https://api.trello.com/1/boards/"+board+"/labels?name="+label+"&color="+labels[label].color+"&key="+key+"&token="+token, false);
+            request.send();
+
+            if (request.status != 200) return false;
+
+            var l = JSON.parse(request.responseText);
+            labels[label].id = l.id;
+        }
+
+        return labels;
+}
 
 var updateBoard = function (t) {
 
@@ -33,21 +67,9 @@ var updateBoard = function (t) {
 
             if (values.board.private && values.board.private.settings) settings = values.board.private.settings;
 
-            console.log("Settings:");
-            console.log(JSON.stringify(settings));
+            console.log("Powerup custom data:");
+            console.log(JSON.stringify(values));
             console.log("--------------------");
-
-            var board = t.getContext().board;
-            var lists = getLists(board, settings.tkey, settings.ttoken);
-
-            console.log("Lists:");
-            console.log(JSON.stringify(lists));
-            console.log("--------------------");
-
-            var today = new Date();
-            var today_string = today.toISOString().substring(0,10);
-
-
 
             var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
 
@@ -55,78 +77,163 @@ var updateBoard = function (t) {
                 // TODO: redirect to settings OR display alert stating settings are missing
             }
 
+            var board = t.getContext().board;
+            var lists = getLists(board, settings.tkey, settings.ttoken);
+
+            var today = new Date();
+            var today_string = today.toISOString().substring(0,10);
+
+            console.log("Lists:");
+            console.log(JSON.stringify(lists));
+            console.log("--------------------");
+
+            // TODO: check if values.board.public.labels ; if yes, store in labels, else, create then store
+            var labels = values.board.public.labels || createLabels(board, settings.ttoken, settings.tkey)
+
+            console.log("Labels:");
+            console.log(JSON.stringify(labels));
+            console.log("--------------------");
+
+
             // Retrieve all projects for PM from W2P
 
             //var projects = getProjects("Nick");
             var projects = tmpprojects();
 
+
             console.log("Projects:");
             console.log(JSON.stringify(projects));
             console.log("--------------------");
 
-            for (var i in projects) {
+
+            var old_projects = {};
+
+            console.log("Old projects");
+            console.log(JSON.stringify(old_projects));
+            console.log("--------------------");
+
+            if (values.board.public && values.board.public.projects) old_projects = values.board.public.projects;
+
+            for (var pid in lists) {
+                var newcard = {
+                    name: "Meeeting " + today_string,
+                    pos: "top",
+                    idList: lists[pid].idList,
+                    desc: "",
+                    idLabels: "",
+                    token : settings.ttoken,
+                    key : settings.tkey
+                };
+
+                // Project status
+
+                if (!projects[pid]) newcard.idLabels += labels["Not found"].id;
+                else newcard.idLabels += labels[projects[pid].status].id || labels["Other"].id;
+
+                // Project dates
+                var datechanged = false;
+
+                newcard.desc += "Start date: " + projects[pid].start_date;
+                if (projects[pid].start_date == old_projects[pid].start_date){
+                    newcard.desc += " (was: " + old_projects[pid].start_date + ")";
+                    datechanged = true;
+                }
+                newcard.desc += "\n";
+
+                newcard.desc += "End implementation date: " + projects[pid].end_impl;
+                if (projects[pid].end_impl == old_projects[pid].end_impl){
+                    newcard.desc += " (was: " + old_projects[pid].end_impl + ")";
+                    datechanged = true;
+                }
+                newcard.desc += "\n";
+
+                newcard.desc += "Start test date: " + projects[pid].start_test;
+                if (projects[pid].start_test == old_projects[pid].start_test){
+                    newcard.desc += " (was: " + old_projects[pid].start_test + ")";
+                    datechanged = true;
+                }
+                newcard.desc += "\n";
+
+                newcard.desc += "End date: " + projects[pid].end_date;
+                if (projects[pid].end_date == old_projects[pid].end_date){
+                    newcard.desc += " (was: " + old_projects[pid].end_date + ")";
+                    datechanged = true;
+                }
+                newcard.desc += "\n";
+
+                newcard.desc += "**********\n";
+
+                if (datechanged) newcard.idLabels += "," + labels["Date changed"].id;
+
+                // Project time & budget
+
+                newcard.desc += "Billables: " + projects[pid].billable_hours;
+                newcard.desc += "Worked: " + projects[pid].worked_hours + "(+ " + (projects[pid].worked_hours - old_projects[pid].worked_hours) + ")";
+
+
+
+                var percentage = projects[pid].worked_hours / projects[pid].billable_hours;
+
+                // TODO: ellaborate based on following rules:
+                /*
+                			--> if status == in planning, worked / billable must be < 10%
+                			--> if status == ongoing, worked / billable must be < 60%
+                			--> if status == testing, worked / billable must be < 85%
+                */
+                if (percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
+
+                delete projects[pid];
+
+                createCard(newcard, settings.tkey, settings.ttoken);
 
             }
 
-/*
-            // Presumably: foreach (i in lists)
+            for (var p in projects) {
+                if (projects[p].project_type == "Fixed price") {
+                    var newlist = createList(projects[p].project_name + " ::" + projects[p].project_id, board, settings.tkey, settings.ttoken);
 
-                // Card creation structure
+                    var newcard = {
+                        name: "Meeeting " + today_string,
+                        pos: "top",
+                        idList: newlist,
+                        desc: "",
+                        idLabels: labels[projects[p].status].id || labels["Other"].id,
+                        token : settings.ttoken,
+                        key : settings.tkey
+                    };
 
-                var desc = "";
+                    // Project dates
 
-                // Required card info for the Trello API
-                var card = {
-                    'name' : "Meeting " + today_string,
-                    'desc' : desc,
-                    'idList' : list,
-                    'pos' : 'top',
-                    'token' : settings.ttoken,
-                    'key' : settings.tkey
-                };
+                    newcard.desc += "Start date: " + projects[p].start_date;
+                    newcard.desc += "\n";
 
-                // Query to relevant endpoint
-                var url = 'https://trello.com/1/cards';
-                var options = {
-                    'method' : 'post',
-                    'payload' : card,
-                    'muteHttpExceptions' : true
-                };
+                    newcard.desc += "End implementation date: " + projects[p].end_impl;
+                    newcard.desc += "\n";
+
+                    newcard.desc += "Start test date: " + projects[p].start_test;
+                    newcard.desc += "\n";
+
+                    newcard.desc += "End date: " + projects[p].end_date;
+                    newcard.desc += "\n";
+
+                    newcard.desc += "**********\n";
+
+                    // Project time & budget
+
+                    newcard.desc += "Billables: " + projects[p].billable_hours;
+                    newcard.desc += "Worked: " + projects[p].worked_hours;
+
+                     var percentage = projects[p].worked_hours / projects[p].billable_hours;
 
 
-                // Then delete project from object with "delete" operator (https://stackoverflow.com/questions/3455405/how-do-i-remove-a-key-from-a-javascript-object)
+                    if (percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
 
-            // END FOREACH
+                    createCard(newcard, settings.tkey, settings.ttoken);
 
-            // Loop through remaining elements in "project"
-
-                // If type == fixed price, create list with name == "Project name ::PID"
-
-            if (values[1] && values[1].card && values[1].card.shared) {
-                var w2plink = values[1].card.shared.w2plink || "";
-                var gitlablink = values[1].card.shared.gitlablink || "";
-
-                if (w2plink && w2plink != "") {
-                    badges.push({
-                        icon: W2P_ICON,
-                        text: long ? 'W2P' : null,
-                        url: w2plink,
-                        title: 'Task / Project'
-                    });
-                }
-
-                if (gitlablink && gitlablink != "") {
-                    badges.push({
-                        icon: GIT_ICON,
-                        text: long ? 'Git' : null,
-                        url: gitlablink,
-                        title: 'Branch / Commit'
-                    });
                 }
             }
-*/
+
             return true;
-
         })
    ;
 }
@@ -165,35 +272,40 @@ function getLists(board, key, token){
 
     var response = JSON.parse(xmlhttp.responseText);
 
-    console.log(response);
-
-    for (var i in response){
-        console.log(response[i]);
-        console.log(response[i].name);
-        lists[response[i].name.split('::')[1]] = response[i].id;
-        }
+    for (var i in response){lists[response[i].name.split('::')[1]] = response[i].id;}
 
     return lists;
 
 }
+function createCard(card, key, token) {
 
+    var request = new XMLHttpRequest();
 
-function createList(name, board) {
+    request.open("POST", "https://api.trello.com/1/cards?key="+key+"&token="+token, false);
+
+    request.send(JSON.stringify(card));
+
+    if (request.status != 200) return "";
+
+    var response = JSON.parse(request.responseText);
+
+    return response.id;
+}
+
+function createList(name, board, key, token) {
     var data = null;
 
-    var xhr = new XMLHttpRequest();
+    var request = new XMLHttpRequest();
 
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === this.DONE) {
-        console.log(this.responseText);
-      }
-    });
+    request.open("POST", "https://api.trello.com/1/boards/" + board + "/lists?name=" + name + "&key="+key+"&token="+token, false);
 
-    xhr.open("POST", "https://api.trello.com/1/boards/" + board + "/lists?name=" + name);
+    request.send(data);
 
-    xhr.send(data);
+    if (request.status != 200) return "";
 
-    return "id"; // return list ID for chaining to card creation ; get it from responseText
+    var response = JSON.parse(request.responseText);
+
+    return response.id;
 }
 
 function tmpprojects() {
