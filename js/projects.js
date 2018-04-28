@@ -240,7 +240,7 @@ var updateBoard = function (t) {
 
             // store labels and old projects
 
-            return t.set("board", "public", {"labels": labels, "projects": projects});
+            return t.set("board", "shared", {"labels": labels, "projects": projects});
         })
    ;
 }
@@ -284,12 +284,13 @@ function getLists(board, key, token){
     return lists;
 
 }
-function createCard(card, key, token) {
+function createCard(card) {
 
     var request = new XMLHttpRequest();
 
-    request.open("POST", "https://api.trello.com/1/cards?key="+key+"&token="+token, false);
 
+    request.open("POST", "https://api.trello.com/1/cards", false);
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify(card));
 
     if (request.status != 200) return "";
