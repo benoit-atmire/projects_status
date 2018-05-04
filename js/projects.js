@@ -255,7 +255,7 @@ var updateBoard = function (t) {
 function getProjects(pm, username, password){
     var xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.open("GET", "https://w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&pm="+pm, false);
+    xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&pm="+pm, false);
     //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send();
 
