@@ -95,8 +95,8 @@ var updateBoard = function (t) {
 
             // Retrieve all projects for PM from W2P
 
-            //var projects = getProjects("Nick");
-            var projects = tmpprojects();
+            var projects = getProjects(settings.pm, settings.username, settings.password);
+            //var projects = tmpprojects();
             var toSaveProjects = {};
 
 
@@ -179,13 +179,9 @@ var updateBoard = function (t) {
 
                     var percentage = projects[pid].worked_hours / projects[pid].billable_hours;
 
-                    // TODO: ellaborate based on following rules:
-                    /*
-                                --> if status == in planning, worked / billable must be < 10%
-                                --> if status == ongoing, worked / billable must be < 60%
-                                --> if status == testing, worked / billable must be < 85%
-                    */
-                    if (percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
+                    if (projects[pid].status == "In Planning" && percentage > 0.1) newcard.idLabels += "," + labels["Budget risk"].id;
+                    if (projects[pid].status == "In Progress" && percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
+                    if (projects[pid].status == "In Test" && percentage > 0.85) newcard.idLabels += "," + labels["Budget risk"].id;
 
                     toSaveProjects[pid] = projects[pid];
 
@@ -256,10 +252,10 @@ var updateBoard = function (t) {
 }
 
 
-function getProjects(pm){
+function getProjects(pm, username, password){
     var xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.open("GET", "https://w2p-api/reports?username=rest&password=dspace&report_type=projects_overview&pm="+pm, false);
+    xmlhttp.open("GET", "https://w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&pm="+pm, false);
     //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send();
 
@@ -332,7 +328,7 @@ function createList(name, board, key, token) {
     return response.id;
 }
 
-function tmpprojects() {
+/*function tmpprojects() {
 
     var p = [
                     {
@@ -597,4 +593,4 @@ function tmpprojects() {
         for (var i in p) {projects[p[i].project_id] = p[i]}
 
         return projects;
-}
+}*/
