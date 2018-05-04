@@ -181,7 +181,7 @@ var updateBoard = function (t) {
 
                     if (projects[pid].status == "In Planning" && percentage > 0.1) newcard.idLabels += "," + labels["Budget risk"].id;
                     if (projects[pid].status == "In Progress" && percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
-                    if (projects[pid].status == "In Test" && percentage > 0.85) newcard.idLabels += "," + labels["Budget risk"].id;
+                    if (projects[pid].status == "In Test" && percentage > 0.8) newcard.idLabels += "," + labels["Budget risk"].id;
 
                     toSaveProjects[pid] = projects[pid];
 
