@@ -137,30 +137,30 @@ var updateBoard = function (t) {
                     // Project dates
                     var datechanged = false;
 
-                    newcard.desc += "Start date: " + projects[pid].start_date;
+                    newcard.desc += "Start date: " + projects[pid].start_date.substring(0,10);
                     if (old_projects[pid] && projects[pid].start_date != old_projects[pid].start_date){
-                        newcard.desc += " (was: " + old_projects[pid].start_date + ")";
+                        newcard.desc += " (was: " + old_projects[pid].start_date.substring(0,10) + ")";
                         datechanged = true;
                     }
                     newcard.desc += "%0D%0A";
 
-                    newcard.desc += "End implementation date: " + projects[pid].end_impl;
+                    newcard.desc += "End implementation date: " + projects[pid].end_impl.substring(0,10);
                     if (old_projects[pid] && projects[pid].end_impl != old_projects[pid].end_impl){
-                        newcard.desc += " (was: " + old_projects[pid].end_impl + ")";
+                        newcard.desc += " (was: " + old_projects[pid].end_impl.substring(0,10) + ")";
                         datechanged = true;
                     }
                     newcard.desc += "%0D%0A";
 
-                    newcard.desc += "Start test date: " + projects[pid].start_test;
+                    newcard.desc += "Start test date: " + projects[pid].start_test.substring(0,10);
                     if (old_projects[pid] && projects[pid].start_test != old_projects[pid].start_test){
-                        newcard.desc += " (was: " + old_projects[pid].start_test + ")";
+                        newcard.desc += " (was: " + old_projects[pid].start_test.substring(0,10) + ")";
                         datechanged = true;
                     }
                     newcard.desc += "%0D%0A";
 
-                    newcard.desc += "End date: " + projects[pid].end_date;
+                    newcard.desc += "End date: " + projects[pid].end_date.substring(0,10);
                     if (old_projects[pid] && projects[pid].end_date != old_projects[pid].end_date){
-                        newcard.desc += " (was: " + old_projects[pid].end_date + ")";
+                        newcard.desc += " (was: " + old_projects[pid].end_date.substring(0,10) + ")";
                         datechanged = true;
                     }
                     newcard.desc += "%0D%0A";
@@ -327,270 +327,3 @@ function createList(name, board, key, token) {
 
     return response.id;
 }
-
-/*function tmpprojects() {
-
-    var p = [
-                    {
-                                "billable_hours": "0.00",
-                                "company_name": "New Tokyo Compute",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1175",
-                                "project_name": "NTC SLA",
-                                "project_type": "SLA",
-                                "start_date": "2015-03-09 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Continuous",
-                                "tl": "Roeland",
-                                "worked_hours": "0.05"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "UniversitÃ© de Bordeaux",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1284",
-                                "project_name": "DSpace 6.x installation quote",
-                                "project_type": "Quote",
-                                "start_date": "2015-11-03 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Proposed",
-                                "tl": null,
-                                "worked_hours": "147.50"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "UniversitÃ© Paris 8",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1286",
-                                "project_name": "New DSpace installation",
-                                "project_type": "Quote",
-                                "start_date": "2015-11-03 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Quoting",
-                                "tl": null,
-                                "worked_hours": "9.25"
-                            },
-                            {
-                                "billable_hours": "164.00",
-                                "company_name": "UniversitÃ© de Bordeaux",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1295",
-                                "project_name": "Requirements analysis",
-                                "project_type": "Fixed Price Project",
-                                "start_date": "2015-11-30 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Complete",
-                                "tl": null,
-                                "worked_hours": "86.75"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "International Baccalaureate",
-                                "department": "Belgium",
-                                "end_date": "2016-03-31 23:59:59",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1323",
-                                "project_name": "Upgrade 6.x",
-                                "project_type": "Quote",
-                                "start_date": "2016-03-01 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Proposed",
-                                "tl": "Kevin",
-                                "worked_hours": "0.75"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "Griffith University",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1369",
-                                "project_name": "Griffith Hosting",
-                                "project_type": "Hosting",
-                                "start_date": "2016-07-11 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Continuous",
-                                "tl": "Tom",
-                                "worked_hours": "36.80"
-                            },
-                            {
-                                "billable_hours": "242.00",
-                                "company_name": "Asian Development Bank Institute (ADBi)",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1417",
-                                "project_name": "SLA",
-                                "project_type": "SLA",
-                                "start_date": "2016-10-03 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Continuous",
-                                "tl": "Tom",
-                                "worked_hours": "257.93"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "World Health Organization (WHO)",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1421",
-                                "project_name": "SLA (WHO)",
-                                "project_type": "SLA",
-                                "start_date": "2016-10-05 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Continuous",
-                                "tl": "Tom",
-                                "worked_hours": "95.84"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "Asian Development Bank Institute (ADBi)",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1457",
-                                "project_name": "Managed hosting",
-                                "project_type": "Hosting",
-                                "start_date": "2017-02-07 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Continuous",
-                                "tl": "Tom",
-                                "worked_hours": "14.00"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "Griffith University",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1484",
-                                "project_name": "Griffith SLA",
-                                "project_type": "SLA",
-                                "start_date": "2017-04-12 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Continuous",
-                                "tl": "Tom",
-                                "worked_hours": "60.60"
-                            },
-                            {
-                                "billable_hours": "1139.00",
-                                "company_name": "World Health Organization (WHO)",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1496",
-                                "project_name": "XMLUI Migration",
-                                "project_type": "Fixed Price Project",
-                                "start_date": "2017-05-08 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "In Test",
-                                "tl": "Tom",
-                                "worked_hours": "603.74"
-                            },
-                            {
-                                "billable_hours": "37.75",
-                                "company_name": "ETH Zurich",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1524",
-                                "project_name": "ETHZ SLA research-collection",
-                                "project_type": "SLA",
-                                "start_date": "2017-08-24 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Continuous",
-                                "tl": "Ben",
-                                "worked_hours": "238.07"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "Sciences Po Paris",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1566",
-                                "project_name": "DSpace 6.x installation quote",
-                                "project_type": "Quote",
-                                "start_date": "2017-12-20 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Quoting",
-                                "tl": null,
-                                "worked_hours": "7.00"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "Paris Sud",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1568",
-                                "project_name": "DSpace 6.x installation quote",
-                                "project_type": "Quote",
-                                "start_date": "2017-12-20 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Quoting",
-                                "tl": null,
-                                "worked_hours": "1.50"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "EPF Lausanne",
-                                "department": "Belgium",
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1569",
-                                "project_name": "Data repository quote",
-                                "project_type": "Quote",
-                                "start_date": "2017-12-20 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "Quoting",
-                                "tl": null,
-                                "worked_hours": "8.25"
-                            },
-                            {
-                                "billable_hours": "0.00",
-                                "company_name": "World Health Organization (WHO)",
-                                "department": null,
-                                "end_date": "0000-00-00 00:00:00",
-                                "end_impl": "0000-00-00 00:00:00",
-                                "pm": "Benoît",
-                                "project_id": "1576",
-                                "project_name": "Search Optimizations",
-                                "project_type": "Fixed Price Project",
-                                "start_date": "2018-01-16 00:00:00",
-                                "start_test": "0000-00-00 00:00:00",
-                                "status": "In Test",
-                                "tl": "Tom",
-                                "worked_hours": "6.47"
-                            }
-                ];
-        var projects = {};
-
-        for (var i in p) {projects[p[i].project_id] = p[i]}
-
-        return projects;
-}*/
