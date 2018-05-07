@@ -193,7 +193,7 @@ var updateBoard = function (t) {
             }
 
             for (var p in projects) {
-                if (projects[p].project_type == "Fixed Price Project") {
+                if (projects[p].project_type == "Fixed Price Project" || projects[p].project_type == "Module installation") {
                     var newlist = createList(projects[p].company_name + " - " +projects[p].project_name + " ::" + projects[p].project_id, board, settings.tkey, settings.ttoken);
 
                     var newcard = {
