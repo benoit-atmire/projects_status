@@ -9,7 +9,7 @@ TrelloPowerUp.initialize({
             .then(function (cards) {
                 console.log(JSON.stringify(cards, null, 2));
                 for (c in cards){
-                   t.get(cards[c].id, 'shared', 'datetime').then(function(time) {console.log(time)});
+                   t.get(cards[c].id, 'shared').then(function(card) {console.log(card)});
                 }
             });
     }
@@ -70,13 +70,13 @@ function createLabels(board, token, key) {
 
 var updateBoard = function (t) {
 
-   return t.getAll()
+   return Promise.all([t.getAll(), t.getCards('all')])
         .then(function (values) {
 
             // Retrieve the scripts settings (W2P credentials, Trello API key and token,...)
             var settings = "";
 
-            if (values.board.private && values.board.private.settings) settings = values.board.private.settings;
+            if (values[0].board.private && values[0].board.private.settings) settings = values[0].board.private.settings;
 
             console.log("Powerup custom data:");
             console.log(JSON.stringify(values));
@@ -91,7 +91,7 @@ var updateBoard = function (t) {
 */
             var board = t.getContext().board;
             var lists = getLists(board, settings.tkey, settings.ttoken);
-
+            var cards = values[1];
 
             console.log("Lists:");
             console.log(JSON.stringify(lists));
@@ -132,97 +132,102 @@ var updateBoard = function (t) {
 
 
             // Update all existing projects (== cards) with most recent information
-            for (var pid in old_projects) {
+            for (var c in cards) {
+                t.get(cards[c].id, 'shared', 'project').then(function (project){
+                    var pid = project.project_id;
 
+                    var newcard = {
+                        name: projects[pid].project_name + " (" + projects[pid].company_name + ")",
+                        idList: lists[projects[pid].status] ? lists[projects[pid].status] : lists["Other"],
+                        desc: "",
+                        idLabels: "",
+                        token : settings.ttoken,
+                        key : settings.tkey
+                    };
+
+                    var comment = "";
+
+                    // Project status
+
+                    if (!projects[pid]) {
+                        newcard.idLabels += labels["Not found"].id;
+                    }
+
+                    else {
+                        // Add label for project type
+                        newcard.idLabels += labels[projects[pid].project_type] ? labels[projects[pid].project_type].id : labels["Other"].id;
+
+
+                        // Project dates
+                        var datechanged = false;
+
+                        newcard.desc += "Start date: " + projects[pid].start_date.substring(0,10);
+                        if (projects[pid].start_date != project.start_date){
+                            comment += "Start date: " + projects[pid].start_date.substring(0,10);
+                            comment += " (was: " + project.start_date.substring(0,10) + ")";
+                            comment += "%0D%0A";
+                            datechanged = true;
+                        }
+                        newcard.desc += "%0D%0A";
+
+                        newcard.desc += "End implementation date: " + projects[pid].end_impl.substring(0,10);
+                        if (projects[pid].end_impl != project.end_impl){
+                            comment += "End implementation date: " + projects[pid].end_impl.substring(0,10);
+                            comment += " (was: " + project.end_impl.substring(0,10) + ")";
+                            comment += "%0D%0A";
+                            datechanged = true;
+                        }
+                        newcard.desc += "%0D%0A";
+
+                        newcard.desc += "Start test date: " + projects[pid].start_test.substring(0,10);
+                        if (projects[pid].start_test != project.start_test){
+                            newcard.desc += " (was: " + project.start_test.substring(0,10) + ")";
+                            datechanged = true;
+                        }
+                        newcard.desc += "%0D%0A";
+
+                        newcard.desc += "End date: " + projects[pid].end_date.substring(0,10);
+                        if (projects[pid].end_date != project.end_date){
+                            comment += "End date: " + projects[pid].end_date.substring(0,10);
+                            comment += " (was: " + project.end_date.substring(0,10) + ")";
+                            comment += "%0D%0A";
+                            datechanged = true;
+                        }
+                        newcard.desc += "%0D%0A";
+
+                        newcard.desc += "**********%0D%0A";
+
+                        if (datechanged) newcard.idLabels += "," + labels["Date changed"].id;
+
+                        // Project time & budget
+
+                        newcard.desc += "Billables: " + projects[pid].billable_hours + "%0D%0A";
+                        newcard.desc += "Worked: " + projects[pid].worked_hours;
+
+                        comment += (projects[pid].worked_hours - project.worked_hours) + " hour(s) worked since last log.";
+
+
+
+
+                        var percentage = projects[pid].worked_hours / projects[pid].billable_hours;
+
+                        if (projects[pid].status == "In Planning" && percentage > 0.1) newcard.idLabels += "," + labels["Budget risk"].id;
+                        if (projects[pid].status == "In Progress" && percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
+                        if (projects[pid].status == "In Test" && percentage > 0.8) newcard.idLabels += "," + labels["Budget risk"].id;
+
+                        // Update the project data that will be stored, while still keeping the card ID in there
+                        toSaveProjects[pid] = projects[pid];
+                        toSaveProjects[pid].trello_card_id  = card_id;
+
+                        // Remove that already-processed project from tne new projects' list so it's not processed twice
+                        delete projects[pid];
+                    }
+
+                })
                 var card_id = old_projects[pid].trello_card_id;
-
-                var newcard = {
-                    name: projects[pid].project_name + " (" + projects[pid].company_name + ")",
-                    idList: lists[projects[pid].status] ? lists[projects[pid].status] : lists["Other"],
-                    desc: "",
-                    idLabels: "",
-                    token : settings.ttoken,
-                    key : settings.tkey
-                };
-
-                var comment = "";
-
-                // Project status
-
-                if (!projects[pid]) {
-                    newcard.idLabels += labels["Not found"].id;
-                }
-
-                else {
-                    // Add label for project type
-                    newcard.idLabels += labels[projects[pid].project_type] ? labels[projects[pid].project_type].id : labels["Other"].id;
+                var pid = cards[c].
 
 
-                    // Project dates
-                    var datechanged = false;
-
-                    newcard.desc += "Start date: " + projects[pid].start_date.substring(0,10);
-                    if (old_projects[pid] && projects[pid].start_date != old_projects[pid].start_date){
-                        comment += "Start date: " + projects[pid].start_date.substring(0,10);
-                        comment += " (was: " + old_projects[pid].start_date.substring(0,10) + ")";
-                        comment += "%0D%0A";
-                        datechanged = true;
-                    }
-                    newcard.desc += "%0D%0A";
-
-                    newcard.desc += "End implementation date: " + projects[pid].end_impl.substring(0,10);
-                    if (old_projects[pid] && projects[pid].end_impl != old_projects[pid].end_impl){
-                        comment += "End implementation date: " + projects[pid].end_impl.substring(0,10);
-                        comment += " (was: " + old_projects[pid].end_impl.substring(0,10) + ")";
-                        comment += "%0D%0A";
-                        datechanged = true;
-                    }
-                    newcard.desc += "%0D%0A";
-
-                    newcard.desc += "Start test date: " + projects[pid].start_test.substring(0,10);
-                    if (old_projects[pid] && projects[pid].start_test != old_projects[pid].start_test){
-                        newcard.desc += " (was: " + old_projects[pid].start_test.substring(0,10) + ")";
-                        datechanged = true;
-                    }
-                    newcard.desc += "%0D%0A";
-
-                    newcard.desc += "End date: " + projects[pid].end_date.substring(0,10);
-                    if (old_projects[pid] && projects[pid].end_date != old_projects[pid].end_date){
-                        comment += "End date: " + projects[pid].end_date.substring(0,10);
-                        comment += " (was: " + old_projects[pid].end_date.substring(0,10) + ")";
-                        comment += "%0D%0A";
-                        datechanged = true;
-                    }
-                    newcard.desc += "%0D%0A";
-
-                    newcard.desc += "**********%0D%0A";
-
-                    if (datechanged) newcard.idLabels += "," + labels["Date changed"].id;
-
-                    // Project time & budget
-
-                    newcard.desc += "Billables: " + projects[pid].billable_hours + "%0D%0A";
-                    newcard.desc += "Worked: " + projects[pid].worked_hours;
-                    if (old_projects[pid]) {
-
-                        comment += (projects[pid].worked_hours - old_projects[pid].worked_hours) + " hours worked since last log.";
-                    }
-
-
-
-                    var percentage = projects[pid].worked_hours / projects[pid].billable_hours;
-
-                    if (projects[pid].status == "In Planning" && percentage > 0.1) newcard.idLabels += "," + labels["Budget risk"].id;
-                    if (projects[pid].status == "In Progress" && percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
-                    if (projects[pid].status == "In Test" && percentage > 0.8) newcard.idLabels += "," + labels["Budget risk"].id;
-
-                    // Update the project data that will be stored, while still keeping the card ID in there
-                    toSaveProjects[pid] = projects[pid];
-                    toSaveProjects[pid].trello_card_id  = card_id;
-
-                    // Remove that already-processed project from tne new projects' list so it's not processed twice
-                    delete projects[pid];
-                }
 
                 updateCard(card_id, newcard);
                 createComment(card_id, comment, settings.tkey, settings.ttoken)
