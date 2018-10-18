@@ -8,6 +8,9 @@ TrelloPowerUp.initialize({
         return t.cards('all')
             .then(function (cards) {
                 console.log(JSON.stringify(cards, null, 2));
+                for (c in cards){
+                    t.set(cards[c].id, 'shared', 'datetime', (new Date()).toISOString());
+                }
             });
     }
 });
