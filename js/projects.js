@@ -9,7 +9,7 @@ TrelloPowerUp.initialize({
             .then(function (cards) {
                 console.log(JSON.stringify(cards, null, 2));
                 for (c in cards){
-                    t.set(cards[c].id, 'shared', 'datetime', (new Date()).toISOString());
+                   t.get(cards[c].id, 'shared', 'datetime').then(function(time) {console.log(time)});
                 }
             });
     }
