@@ -79,26 +79,23 @@ var updateBoard = function (t) {
 */
             var board = t.getContext().board;
             var lists = getLists(board, settings.tkey, settings.ttoken);
-/* UNUSED
-            var today = new Date();
-            var today_string = today.toISOString().substring(0,10);
-*/
-/*
+
+
             console.log("Lists:");
             console.log(JSON.stringify(lists));
             console.log("--------------------");
-*/
+
 
             // Create or retrieve the state / alert labels
             var labels = {};
             if (values.board && values.board.shared && values.board.shared.labels) labels = values.board.shared.labels;
             else labels = createLabels(board, settings.ttoken, settings.tkey);
 
-/*
+
             console.log("Labels:");
             console.log(JSON.stringify(labels));
             console.log("--------------------");
-*/
+
 
             // Retrieve all projects for PM from W2P
 
@@ -106,21 +103,21 @@ var updateBoard = function (t) {
             //var projects = tmpprojects();
             var toSaveProjects = {};
 
-/*
+
             console.log("Projects:");
             console.log(JSON.stringify(projects));
             console.log("--------------------");
-*/
+
 
             var old_projects = {};
 
             if (values.board.shared && values.board.shared.projects) old_projects = values.board.shared.projects;
 
-/*
+
             console.log("Old projects");
             console.log(JSON.stringify(old_projects));
             console.log("--------------------");
-*/
+
 
             // Update all existing projects (== cards) with most recent information
             for (var pid in old_projects) {
