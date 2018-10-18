@@ -126,7 +126,7 @@ var updateBoard = function (t) {
 
                 var newcard = {
                     name: projects[pid].project_name,
-                    idList: lists[projects[pid].status] ? lists[projects[pid].status].id : lists["Other"].id,
+                    idList: lists[projects[pid].status] ? lists[projects[pid].status] : lists["Other"],
                     desc: "",
                     idLabels: "",
                     token : settings.ttoken,
@@ -221,7 +221,7 @@ var updateBoard = function (t) {
 
                 var newcard = {
                     name: projects[p].project_name,
-                    idList: lists[projects[p].status] ? lists[projects[p].status].id : lists["Other"].id,
+                    idList: lists[projects[p].status] ? lists[projects[p].status] : lists["Other"],
                     desc: "",
                     idLabels: labels[projects[p].project_type] ? labels[projects[p].project_type].id : labels["Other"].id,
                     token : settings.ttoken,
