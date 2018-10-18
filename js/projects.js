@@ -223,8 +223,8 @@ var updateBoard = function (t) {
             for (var p in projects) {
 
                 var newcard = {
-                    name: "Meeting " + today_string,
-                    idList: lists[projects[pid].status] ? lists[projects[pid].status].id : lists["Other"].id,
+                    name: projects[p].project_name,
+                    idList: lists[projects[p].status] ? lists[projects[p].status].id : lists["Other"].id,
                     desc: "",
                     idLabels: labels[projects[p].project_type] ? labels[projects[p].project_type].id : labels["Other"].id,
                     token : settings.ttoken,
