@@ -5,6 +5,15 @@ var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
+        return t.cards('all')
+            .then(function (cards) {
+                console.log(JSON.stringify(cards, null, 2));
+            });
+    }
+});
+/*
+TrelloPowerUp.initialize({
+    'board-buttons': function (t, opts) {
         return [{
             // we can either provide a button that has a callback function
             icon: ATMIRE_ICON,
@@ -23,7 +32,7 @@ TrelloPowerUp.initialize({
             width: 600
       });
     }
-});
+});*/
 
 
 function createLabels(board, token, key) {
@@ -125,7 +134,7 @@ var updateBoard = function (t) {
                 var card_id = old_projects[pid].trello_card_id;
 
                 var newcard = {
-                    name: projects[pid].project_name,
+                    name: projects[pid].project_name + " (" + projects[pid].company_name + ")",
                     idList: lists[projects[pid].status] ? lists[projects[pid].status] : lists["Other"],
                     desc: "",
                     idLabels: "",
@@ -220,7 +229,7 @@ var updateBoard = function (t) {
             for (var p in projects) {
 
                 var newcard = {
-                    name: projects[p].project_name,
+                    name: projects[p].project_name + " (" + projects[p].company_name + ")",
                     idList: lists[projects[p].status] ? lists[projects[p].status] : lists["Other"],
                     desc: "",
                     idLabels: labels[projects[p].project_type] ? labels[projects[p].project_type].id : labels["Other"].id,
