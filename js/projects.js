@@ -70,77 +70,62 @@ function createLabels(board, token, key) {
 
 var updateBoard = function (t) {
 
-    return Promise.all([t.getAll(), t.cards('all'), t.lists('all)')])
+
+    // Get board data (settings & labels)
+
+    return t.getAll()
+        .then(function (data) {
+            var settings;
+            var labels;
+            if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
+            if (data.board && data.board.shared && data.board.shared.labels) labels = data.board.shared.labels;
+            return Promise.all(settings, labels || createLabels((t.getContext()).board, settings.ttoken, settings.tkey));
+        })
+    // Then get cards, lists and projects
+        .then(function (boarddata){
+            var settings = boarddata[0];
+            var labels = boarddata[1];
+            return Promise.all([settings, t.cards('all'), t.lists('all)'), getProjects(settings.pm, settings.username, settings.password), labels])
+        }, function (error) { console.error("Failed!", error)})
+    // Then process all that info
         .then(function (values) {
-
-            // Retrieve the scripts settings (W2P credentials, Trello API key and token,...)
-            var settings = "";
-
-            if (values[0].board.private && values[0].board.private.settings) settings = values[0].board.private.settings;
-
-            console.log("Powerup custom data:");
-            console.log(JSON.stringify(values[0]));
-            console.log("--------------------");
-
-            var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
-
-            /*
-            if (!hasSettings) {
-                // TODO: redirect to settings OR display alert stating settings are missing
-            }
-*/
-
-            var lists = values[2];
-            //for (var i in response){lists[response[i].name] = response[i].id;}
+            var settings = values[0];
             var cards = values[1];
+            var lists = values[2];
+            //for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
+            var projects = values[3];
+            var labels = values[4];
+
 
             console.log("Lists:");
             console.log(JSON.stringify(lists));
             console.log("--------------------");
 
-
-            // Create or retrieve the state / alert labels
-            var labels = {};
-            if (values.board && values.board.shared && values.board.shared.labels) labels = values.board.shared.labels;
-            else labels = createLabels(board, settings.ttoken, settings.tkey);
-
-
             console.log("Labels:");
             console.log(JSON.stringify(labels));
             console.log("--------------------");
-
-
-            // Retrieve all projects for PM from W2P
-
-            var projects = getProjects(settings.pm, settings.username, settings.password);
-            //var projects = tmpprojects();
-
-            var totalNbProjects = projects.length;
-
-            var toSaveProjects = {};
-
 
             console.log("Projects:");
             console.log(JSON.stringify(projects));
             console.log("--------------------");
 
-
-            var old_projects = {};
-
-            if (values.board.shared && values.board.shared.projects) old_projects = values.board.shared.projects;
-
-
-            console.log("Old projects");
-            console.log(JSON.stringify(old_projects));
+            console.log("Cards:");
+            console.log(JSON.stringify(cards));
             console.log("--------------------");
 
+            /* For each card:
+            * - update existing project
+            * - store latest project details in plugin data
+            * - remove from projects list
+            */
 
-            return Promise.all(updateCards(cards, settings.tkey, settings.ttoken))
 
-                .then(function (existing_projects) {
+            /* For remaining projects:
+            * - create new project
+            * - store project details in plugin data
+            */
+        })
 
-                })
-        });
 }
 
 
@@ -172,24 +157,6 @@ function getProjects(pm, username, password){
     });
 }
 
-function getLists(board, key, token){
-    var xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.open("GET", "https://api.trello.com/1/boards/"+board+"/lists/open?key="+key+"&token="+token, false);
-    //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send();
-
-    var lists = {};
-
-    if (xmlhttp.status != 200) return lists;
-
-    var response = JSON.parse(xmlhttp.responseText);
-
-    for (var i in response){lists[response[i].name] = response[i].id;}
-
-    return lists;
-
-}
 function createCard(card) {
 
     var request = new XMLHttpRequest();
