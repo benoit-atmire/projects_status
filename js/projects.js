@@ -86,7 +86,7 @@ var updateBoard = function (t) {
             var settings = boarddata[0];
             var labels = boarddata[1];
             return Promise.all([settings, t.cards('all'), t.lists('all)'), getProjects(settings.pm, settings.username, settings.password), labels])
-        }, function (error) { console.error("Failed!", error)})
+        })
     // Then process all that info
         .then(function (values) {
             var settings = values[0];
