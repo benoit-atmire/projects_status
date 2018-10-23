@@ -138,7 +138,7 @@ var updateBoard = function (t) {
 
 
 function getProjects(pm, username, password){
-
+    console.log("Start retrieving projects");
     return new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
         var projects = {};
@@ -148,14 +148,16 @@ function getProjects(pm, username, password){
                 var response = JSON.parse(xmlhttp.responseText);
                 var p = response.projects;
                 for (var i in p) {projects[p[i].project_id] = p[i]}
-
+                console.log(JSON.stringify(projects, null, '\t'));
                 resolve(projects);
 
             } else {
+                console.log(xmlhttp.statusText);
                 reject(Error(xmlhttp.statusText));
             }
         };
         xmlhttp.onerror = function () {
+            console.log("network error");
             reject(Error("Something went wrong with the query (network error)"));
         }
         xmlhttp.send();
