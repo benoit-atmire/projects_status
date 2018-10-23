@@ -132,7 +132,7 @@ var updateBoard = function (t) {
             * - create new project
             * - store project details in plugin data
             */
-        })
+        }, function (error) { console.error(error);});
 
 }
 
