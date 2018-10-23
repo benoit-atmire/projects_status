@@ -75,20 +75,25 @@ var updateBoard = function (t) {
 
     return t.getAll()
         .then(function (data) {
+            console.log("Step 1 start");
             var settings;
             var labels;
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
             if (data.board && data.board.shared && data.board.shared.labels) labels = data.board.shared.labels;
+            console.log("Step 1 end");
             return Promise.all([settings, labels || createLabels((t.getContext()).board, settings.ttoken, settings.tkey)]);
         })
     // Then get cards, lists and projects
         .then(function (boarddata){
+            console.log("Step 2 start");
             var settings = boarddata[0];
             var labels = boarddata[1];
+            console.log("Step 2 end");
             return Promise.all([settings, t.cards('all'), t.lists('all)'), getProjects(settings.pm, settings.username, settings.password), labels])
         })
     // Then process all that info
         .then(function (values) {
+            console.log("Step 3 start");
             var settings = values[0];
             var cards = values[1];
             var lists = values[2];
