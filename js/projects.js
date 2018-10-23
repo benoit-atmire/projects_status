@@ -126,6 +126,7 @@ var updateBoard = function (t) {
 
             for (var pid in projects){
                 sendCard(null, projects[pid], settings, labels, lists, false, SLAcredits).then(function (created) {
+                    console.log("Created task: " + created);
                     cards[created] = pid;
                     t.set(created, 'shared', 'project', projects[pid]);
                 });
@@ -140,7 +141,6 @@ var updateBoard = function (t) {
 }
 
 function getProjects(pm, username, password){
-    console.log("Start retrieving projects");
     return new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
         var projects = {};
@@ -150,7 +150,6 @@ function getProjects(pm, username, password){
                 var response = JSON.parse(xmlhttp.responseText);
                 var p = response.projects;
                 for (var i in p) {projects[p[i].project_id] = p[i]}
-                console.log(JSON.stringify(projects, null, '\t'));
                 resolve(projects);
 
             } else {
@@ -281,7 +280,6 @@ function sendCard(card_id, project, settings, labels, lists, old_project, SLAcre
         request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(request.responseText);
-                console.log(JSON.stringify(response));
                 resolve(response.id);
             } else {
                 console.log(xmlhttp.statusText);
