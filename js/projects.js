@@ -90,7 +90,8 @@ var updateBoard = function (t) {
             var labels = boarddata[1];
             console.log(JSON.stringify(labels, null, '\t'));
             console.log("Step 2 end");
-            return Promise.all([settings, t.cards('all'), t.lists('all)'), getProjects(settings.pm, settings.username, settings.password), labels]);
+            return t.cards('all');
+            //return Promise.all([settings, t.cards('all'), t.lists('all)'), getProjects(settings.pm, settings.username, settings.password), labels]);
         })
     // Then process all that info
         .then(function (values) {
