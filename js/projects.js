@@ -127,8 +127,8 @@ var updateBoard = function (t) {
             for (var pid in projects){
                 sendCard(null, projects[pid], settings, labels, lists, false, SLAcredits).then(function (created) {
                     console.log("Created task: " + created);
-                    cards[created] = pid;
-                    t.set(created, 'shared', 'project', projects[pid]);
+                    cards[created.trello] = created.project;
+                    t.set(created.trello, 'shared', 'project', projects[created.project]);
                 });
             }
 
@@ -280,7 +280,10 @@ function sendCard(card_id, project, settings, labels, lists, old_project, SLAcre
         request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(request.responseText);
-                resolve(response.id);
+                resolve({   "trello": response.id,
+                            "project" : project.project_id
+                        }
+                        );
             } else {
                 console.log(xmlhttp.statusText);
                 reject(Error(xmlhttp.statusText));
