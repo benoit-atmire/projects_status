@@ -65,6 +65,8 @@ function createLabels(board, token, key) {
             labels[label].id = l.id;
         }
 
+        t.set('board', 'shared', 'labels', labels);
+
         return labels;
 }
 
@@ -293,6 +295,8 @@ function sendCard(card_id, project, settings, labels, lists, old_project, SLAcre
         }
 
         url += "pos=top";
+
+        var request = new XMLHttpRequest();
 
         request.open(action, url);
 
