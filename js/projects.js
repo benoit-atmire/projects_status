@@ -159,6 +159,7 @@ var updateBoard = function (t) {
                 });
             }
 
+            console.log(cards);
             return cards;
 
         }, function (error) { console.error(error);})
