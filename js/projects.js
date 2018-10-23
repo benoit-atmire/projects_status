@@ -79,7 +79,7 @@ var updateBoard = function (t) {
             var labels;
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
             if (data.board && data.board.shared && data.board.shared.labels) labels = data.board.shared.labels;
-            return Promise.all(settings, labels || createLabels((t.getContext()).board, settings.ttoken, settings.tkey));
+            return Promise.all([settings, labels || createLabels((t.getContext()).board, settings.ttoken, settings.tkey)]);
         })
     // Then get cards, lists and projects
         .then(function (boarddata){
