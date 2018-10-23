@@ -75,32 +75,23 @@ var updateBoard = function (t) {
 
     return t.getAll()
         .then(function (data) {
-            console.log("Step 1 start");
-            console.log(JSON.stringify(data, null, '\t'));
             var settings;
             var labels;
             var mapping = {};
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
             if (data.board && data.board.shared && data.board.shared.labels) labels = data.board.shared.labels;
             if (data.board && data.board.shared && data.board.shared.mapping) mapping = data.board.shared.mapping;
-            console.log("Step 1 end");
             return Promise.all([settings, labels || createLabels((t.getContext()).board, settings.ttoken, settings.tkey), mapping]);
         })
     // Then get cards, lists and projects
         .then(function (boarddata){
-            console.log("Step 2 start");
             var settings = boarddata[0];
             var labels = boarddata[1];
             t.set('board', 'shared', 'labels', labels);
-            console.log(JSON.stringify(labels, null, '\t'));
-            console.log("Step 2 end");
             return Promise.all([boarddata, t.lists('all'), getProjects(settings.pm, settings.username, settings.password), getAllSLACreditsBalances()]);
-            //return Promise.all([settings, t.cards('all'), t.lists('all)'),labels]);
         }, function (error) { console.error(error);})
     // Then process all that info
         .then(function (values) {
-            console.log("Step 3 start");
-            console.log(values);
             console.log(JSON.stringify(values));
             var settings = values[0][0];
             var labels = values[0][1];
@@ -110,25 +101,6 @@ var updateBoard = function (t) {
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
             var projects = values[2];
             var SLAcredits = values[3];
-
-
-
-            console.log("Lists:");
-            console.log(JSON.stringify(lists));
-            console.log("--------------------");
-
-            console.log("Labels:");
-            console.log(JSON.stringify(labels));
-            console.log("--------------------");
-
-            console.log("Projects:");
-            console.log(JSON.stringify(projects));
-            console.log("--------------------");
-
-            console.log("Cards:");
-            console.log(JSON.stringify(cards));
-            console.log("--------------------");
-
 
             /* For each card:
             * - update existing project
@@ -309,6 +281,7 @@ function sendCard(card_id, project, settings, labels, lists, old_project, SLAcre
         request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(request.responseText);
+                console.log(JSON.stringify(response));
                 resolve(response.id);
             } else {
                 console.log(xmlhttp.statusText);
