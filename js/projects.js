@@ -3,7 +3,7 @@ var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/cloc
 var ATMIRE_ICON = 'https://benoit-atmire.github.io/projects_status/img/logo_white.svg';
 var Promise = TrelloPowerUp.Promise;
 
-TrelloPowerUp.initialize({
+/*TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
         return t.cards('all')
             .then(function (cards) {
@@ -13,8 +13,8 @@ TrelloPowerUp.initialize({
                 }
             });
     }
-});
-/*
+});*/
+
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
         return [{
@@ -35,7 +35,7 @@ TrelloPowerUp.initialize({
             width: 600
       });
     }
-});*/
+});
 
 
 function createLabels(board, token, key) {
@@ -70,7 +70,7 @@ function createLabels(board, token, key) {
 
 var updateBoard = function (t) {
 
-   return Promise.all([t.getAll(), t.getCards('all')])
+    return Promise.all([t.getAll(), t.cards('all'), t.lists('all)')])
         .then(function (values) {
 
             // Retrieve the scripts settings (W2P credentials, Trello API key and token,...)
@@ -79,7 +79,7 @@ var updateBoard = function (t) {
             if (values[0].board.private && values[0].board.private.settings) settings = values[0].board.private.settings;
 
             console.log("Powerup custom data:");
-            console.log(JSON.stringify(values));
+            console.log(JSON.stringify(values[0]));
             console.log("--------------------");
 
             var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
@@ -89,8 +89,9 @@ var updateBoard = function (t) {
                 // TODO: redirect to settings OR display alert stating settings are missing
             }
 */
-            var board = t.getContext().board;
-            var lists = getLists(board, settings.tkey, settings.ttoken);
+
+            var lists = values[2];
+            //for (var i in response){lists[response[i].name] = response[i].id;}
             var cards = values[1];
 
             console.log("Lists:");
@@ -113,6 +114,9 @@ var updateBoard = function (t) {
 
             var projects = getProjects(settings.pm, settings.username, settings.password);
             //var projects = tmpprojects();
+
+            var totalNbProjects = projects.length;
+
             var toSaveProjects = {};
 
 
@@ -131,185 +135,41 @@ var updateBoard = function (t) {
             console.log("--------------------");
 
 
-            // Update all existing projects (== cards) with most recent information
-            for (var c in cards) {
-                t.get(cards[c].id, 'shared', 'project').then(function (project){
-                    var pid = project.project_id;
+            return Promise.all(updateCards(cards, settings.tkey, settings.ttoken))
 
-                    var newcard = {
-                        name: projects[pid].project_name + " (" + projects[pid].company_name + ")",
-                        idList: lists[projects[pid].status] ? lists[projects[pid].status] : lists["Other"],
-                        desc: "",
-                        idLabels: "",
-                        token : settings.ttoken,
-                        key : settings.tkey
-                    };
-
-                    var comment = "";
-
-                    // Project status
-
-                    if (!projects[pid]) {
-                        newcard.idLabels += labels["Not found"].id;
-                    }
-
-                    else {
-                        // Add label for project type
-                        newcard.idLabels += labels[projects[pid].project_type] ? labels[projects[pid].project_type].id : labels["Other"].id;
-
-
-                        // Project dates
-                        var datechanged = false;
-
-                        newcard.desc += "Start date: " + projects[pid].start_date.substring(0,10);
-                        if (projects[pid].start_date != project.start_date){
-                            comment += "Start date: " + projects[pid].start_date.substring(0,10);
-                            comment += " (was: " + project.start_date.substring(0,10) + ")";
-                            comment += "%0D%0A";
-                            datechanged = true;
-                        }
-                        newcard.desc += "%0D%0A";
-
-                        newcard.desc += "End implementation date: " + projects[pid].end_impl.substring(0,10);
-                        if (projects[pid].end_impl != project.end_impl){
-                            comment += "End implementation date: " + projects[pid].end_impl.substring(0,10);
-                            comment += " (was: " + project.end_impl.substring(0,10) + ")";
-                            comment += "%0D%0A";
-                            datechanged = true;
-                        }
-                        newcard.desc += "%0D%0A";
-
-                        newcard.desc += "Start test date: " + projects[pid].start_test.substring(0,10);
-                        if (projects[pid].start_test != project.start_test){
-                            newcard.desc += " (was: " + project.start_test.substring(0,10) + ")";
-                            datechanged = true;
-                        }
-                        newcard.desc += "%0D%0A";
-
-                        newcard.desc += "End date: " + projects[pid].end_date.substring(0,10);
-                        if (projects[pid].end_date != project.end_date){
-                            comment += "End date: " + projects[pid].end_date.substring(0,10);
-                            comment += " (was: " + project.end_date.substring(0,10) + ")";
-                            comment += "%0D%0A";
-                            datechanged = true;
-                        }
-                        newcard.desc += "%0D%0A";
-
-                        newcard.desc += "**********%0D%0A";
-
-                        if (datechanged) newcard.idLabels += "," + labels["Date changed"].id;
-
-                        // Project time & budget
-
-                        newcard.desc += "Billables: " + projects[pid].billable_hours + "%0D%0A";
-                        newcard.desc += "Worked: " + projects[pid].worked_hours;
-
-                        comment += (projects[pid].worked_hours - project.worked_hours) + " hour(s) worked since last log.";
-
-
-
-
-                        var percentage = projects[pid].worked_hours / projects[pid].billable_hours;
-
-                        if (projects[pid].status == "In Planning" && percentage > 0.1) newcard.idLabels += "," + labels["Budget risk"].id;
-                        if (projects[pid].status == "In Progress" && percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
-                        if (projects[pid].status == "In Test" && percentage > 0.8) newcard.idLabels += "," + labels["Budget risk"].id;
-
-                        // Update the project data that will be stored, while still keeping the card ID in there
-                        toSaveProjects[pid] = projects[pid];
-                        toSaveProjects[pid].trello_card_id  = card_id;
-
-                        // Remove that already-processed project from tne new projects' list so it's not processed twice
-                        delete projects[pid];
-                    }
+                .then(function (existing_projects) {
 
                 })
-                var card_id = old_projects[pid].trello_card_id;
-                var pid = cards[c].
-
-
-
-                updateCard(card_id, newcard);
-                createComment(card_id, comment, settings.tkey, settings.ttoken)
-
-            }
-            // Create new cards for all remaining projects
-            for (var p in projects) {
-
-                var newcard = {
-                    name: projects[p].project_name + " (" + projects[p].company_name + ")",
-                    idList: lists[projects[p].status] ? lists[projects[p].status] : lists["Other"],
-                    desc: "",
-                    idLabels: labels[projects[p].project_type] ? labels[projects[p].project_type].id : labels["Other"].id,
-                    token : settings.ttoken,
-                    key : settings.tkey
-                };
-
-                // Project dates
-
-                newcard.desc += "Start date: " + projects[p].start_date;
-                newcard.desc += "%0D%0A";
-
-                newcard.desc += "End implementation date: " + projects[p].end_impl;
-                newcard.desc += "%0D%0A";
-
-                newcard.desc += "Start test date: " + projects[p].start_test;
-                newcard.desc += "%0D%0A";
-
-                newcard.desc += "End date: " + projects[p].end_date;
-                newcard.desc += "%0D%0A";
-
-                newcard.desc += "**********%0D%0A";
-
-                // Project time & budget
-
-                newcard.desc += "Billables: " + projects[p].billable_hours;
-                newcard.desc += "Worked: " + projects[p].worked_hours;
-
-                var percentage = projects[p].worked_hours / projects[p].billable_hours;
-
-                if (projects[p].status == "In Planning" && percentage > 0.1) newcard.idLabels += "," + labels["Budget risk"].id;
-                if (projects[p].status == "In Progress" && percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
-                if (projects[p].status == "In Test" && percentage > 0.8) newcard.idLabels += "," + labels["Budget risk"].id;
-
-                toSaveProjects[p] = projects[p];
-                toSaveProjects[p].trello_card_id = createCard(newcard, settings.tkey, settings.ttoken);
-
-
-            }
-
-            // store labels and old projects
-
-            return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'projects', toSaveProjects)])
-                .then(function(values){
-                    console.log("Stored data:");
-                    console.log(JSON.stringify(values));
-                    console.log("--------------------");
-                    return values;
-                });
-        })
-   ;
+        });
 }
 
 
+
+
+
 function getProjects(pm, username, password){
-    var xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&pm="+pm, false);
-    //xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send();
+    return new Promise(function (resolve, reject) {
+        var xmlhttp = new XMLHttpRequest();
+        var projects = {};
+        xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&pm="+pm);
+        xmlhttp.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                var response = JSON.parse(xmlhttp.responseText);
+                var p = response.projects;
+                for (var i in p) {projects[p[i].project_id] = p[i]}
 
-    var projects = {};
+                resolve(projects);
 
-
-    if (xmlhttp.status != 200) return projects;
-
-    var response = JSON.parse(xmlhttp.responseText);
-    var p = response.projects;
-
-    for (var i in p) {projects[p[i].project_id] = p[i]}
-
-    return projects;
+            } else {
+                reject(Error(xmlhttp.statusText));
+            }
+        };
+        xmlhttp.onerror = function () {
+            reject(Error("Something went wrong with the query (network error)"));
+        }
+        xmlhttp.send();
+    });
 }
 
 function getLists(board, key, token){
@@ -382,4 +242,133 @@ function createComment(card_id, text, key, token) {
     request.open("POST", "https://trello.com/1/cards/" + card_id + "/actions/comments?text=" + text + "&key="+key+"&token="+token);
 
     request.send(null);
+}
+
+function updateCards(cards, key, token) {
+
+    var treated_projects = [];
+
+    for (var c in cards) {
+        Promise.all([t.get(cards[c].id, 'shared', 'project'), getAllSLACreditsBalances()]).then(function (values) {
+            var project = values[0];
+            var SLAcredits = values[1];
+            var pid = project.project_id;
+
+            var newcard = {
+                name: projects[pid].project_name + " (" + projects[pid].company_name + ")",
+                idList: lists[projects[pid].status] ? lists[projects[pid].status] : lists["Other"],
+                desc: "",
+                idLabels: "",
+                token: settings.ttoken,
+                key: settings.tkey
+            };
+
+            var comment = "";
+
+            // Project status
+
+            if (!projects[pid]) {
+                newcard.idLabels += labels["Not found"].id;
+            }
+
+            else {
+                // Add label for project type
+                newcard.idLabels += labels[projects[pid].project_type] ? labels[projects[pid].project_type].id : labels["Other"].id;
+
+
+                // Project dates
+                var datechanged = false;
+
+                newcard.desc += "Start date: " + projects[pid].start_date.substring(0, 10);
+                if (projects[pid].start_date != project.start_date) {
+                    comment += "Start date: " + projects[pid].start_date.substring(0, 10);
+                    comment += " (was: " + project.start_date.substring(0, 10) + ")";
+                    comment += "%0D%0A";
+                    datechanged = true;
+                }
+                newcard.desc += "%0D%0A";
+
+                newcard.desc += "End implementation date: " + projects[pid].end_impl.substring(0, 10);
+                if (projects[pid].end_impl != project.end_impl) {
+                    comment += "End implementation date: " + projects[pid].end_impl.substring(0, 10);
+                    comment += " (was: " + project.end_impl.substring(0, 10) + ")";
+                    comment += "%0D%0A";
+                    datechanged = true;
+                }
+                newcard.desc += "%0D%0A";
+
+                newcard.desc += "Start test date: " + projects[pid].start_test.substring(0, 10);
+                if (projects[pid].start_test != project.start_test) {
+                    newcard.desc += " (was: " + project.start_test.substring(0, 10) + ")";
+                    datechanged = true;
+                }
+                newcard.desc += "%0D%0A";
+
+                newcard.desc += "End date: " + projects[pid].end_date.substring(0, 10);
+                if (projects[pid].end_date != project.end_date) {
+                    comment += "End date: " + projects[pid].end_date.substring(0, 10);
+                    comment += " (was: " + project.end_date.substring(0, 10) + ")";
+                    comment += "%0D%0A";
+                    datechanged = true;
+                }
+                newcard.desc += "%0D%0A";
+
+                newcard.desc += "**********%0D%0A";
+
+                if (datechanged) newcard.idLabels += "," + labels["Date changed"].id;
+
+                // Project time & budget
+
+                newcard.desc += "Billables: " + projects[pid].billable_hours + "%0D%0A";
+                newcard.desc += "Worked: " + projects[pid].worked_hours;
+
+                comment += (projects[pid].worked_hours - project.worked_hours) + " hour(s) worked since last log.";
+
+                if (projects[pid].project_type == "Module installation" || projects[pid].project_type == "Fixed price project") {
+                    var percentage = projects[pid].worked_hours / projects[pid].billable_hours;
+
+                    if (projects[pid].status == "In Planning" && percentage > 0.1) newcard.idLabels += "," + labels["Budget risk"].id;
+                    if (projects[pid].status == "In Progress" && percentage > 0.6) newcard.idLabels += "," + labels["Budget risk"].id;
+                    if (projects[pid].status == "In Test" && percentage > 0.8) newcard.idLabels += "," + labels["Budget risk"].id;
+                }
+
+                else if (projects[pid].project_type == "Module installation") {
+                    if (SLAcredits[pid] > 0) newcard.idLabels += "," + labels["Budget risk"].id;
+                }
+
+
+            }
+
+            updateCard(cards[c].id, newcard);
+            createComment(cards[c].id, comment, key, token);
+
+            treated_projects.push(new Promise(function (resolve, reject) {
+                if (true) resolve(pid);
+                else reject(0);
+            }));
+
+        })
+
+    }
+
+    return treated_projects;
+}
+
+function getAllSLACreditsBalances() {
+    return new Promise(function (resolve, reject) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec");
+        xmlhttp.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(JSON.parse(xmlhttp.responseText));
+
+            } else {
+                reject(Error(xmlhttp.statusText));
+            }
+        };
+        xmlhttp.onerror = function () {
+            reject(Error("Something went wrong with the query (network error)"));
+        }
+        xmlhttp.send();
+    });
 }
