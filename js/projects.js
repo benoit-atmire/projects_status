@@ -289,7 +289,7 @@ function sendCard(card_id, project, settings, labels, lists, old_project, SLAcre
         }
 
         for (var c in newcard) {
-            url += c + "=" + card[c] + "&";
+            url += c + "=" + newcard[c] + "&";
         }
 
         url += "pos=top";
