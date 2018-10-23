@@ -95,6 +95,8 @@ var updateBoard = function (t) {
     // Then process all that info
         .then(function (values) {
             console.log("Step 3 start");
+            console.log(values);
+            console.log(JSON.stringify(values));
             var settings = values[0];
             var cards = values[1];
             var lists = values[2];
