@@ -129,6 +129,7 @@ var updateBoard = function (t) {
             console.log(JSON.stringify(cards));
             console.log("--------------------");
 
+
             /* For each card:
             * - update existing project
             * - store latest project details in plugin data
@@ -139,7 +140,9 @@ var updateBoard = function (t) {
                 projects.delete(cards[id]);
                 t.get(id, 'shared', 'project').then(function (old_project) {
                     return sendCard(id, p, settings, labels, lists, old_project, SLAcredits);
-                }).then(function (updated) {t.set(updated, 'shared', 'project', p);});
+                }).then(function (updated) {
+                    t.set(updated, 'shared', 'project', p);
+                });
 
             }
 
@@ -151,12 +154,15 @@ var updateBoard = function (t) {
 
             for (var pid in projects){
                 sendCard(null, projects[pid], settings, labels, lists, false, SLAcredits).then(function (created) {
+                    cards[created] = pid;
                     t.set(created, 'shared', 'project', projects[pid]);
                 });
             }
 
+            return cards;
 
-        }, function (error) { console.error(error);});
+        }, function (error) { console.error(error);})
+        .then (function (mapping) {t.set('board', 'shared', 'mapping', mapping);});
 
 }
 
