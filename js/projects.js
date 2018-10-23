@@ -65,8 +65,6 @@ function createLabels(board, token, key) {
             labels[label].id = l.id;
         }
 
-        t.set('board', 'shared', 'labels', labels);
-
         return labels;
 }
 
@@ -93,6 +91,7 @@ var updateBoard = function (t) {
             console.log("Step 2 start");
             var settings = boarddata[0];
             var labels = boarddata[1];
+            t.set('board', 'shared', 'labels', labels);
             console.log(JSON.stringify(labels, null, '\t'));
             console.log("Step 2 end");
             return Promise.all([boarddata, t.lists('all'), getProjects(settings.pm, settings.username, settings.password), getAllSLACreditsBalances()]);
