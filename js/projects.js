@@ -92,10 +92,14 @@ var updateBoard = function (t) {
         }, function (error) { console.error(error);})
     // Then process all that info
         .then(function (values) {
-            console.log(JSON.stringify(values));
             var settings = values[0][0];
             var labels = values[0][1];
             var cards = values[0][2];
+
+            console.log("----------- Cards");
+            console.log(JSON.stringify(cards, null, '\t'));
+            console.log("-----------------");
+
             var lists_table = values[1];
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
@@ -110,10 +114,8 @@ var updateBoard = function (t) {
             for (var id in cards) {
                 var p = projects(cards[id]) || null;
                 projects.delete(cards[id]);
-                t.get(id, 'shared', 'project').then(function (old_project) {
-                    return sendCard(id, p, settings, labels, lists, old_project, SLAcredits);
-                }).then(function (updated) {
-                    t.set(updated, 'shared', 'project', p);
+                sendCard(id, p, settings, labels, lists, SLAcredits).then(function (updated) {
+                    t.set(updated.trello, 'shared', 'project', projects[updated.project]);
                 });
 
             }
@@ -125,14 +127,14 @@ var updateBoard = function (t) {
             */
 
             for (var pid in projects){
-                sendCard(null, projects[pid], settings, labels, lists, false, SLAcredits).then(function (created) {
-                    console.log("Created task: " + created);
+                sendCard(null, projects[pid], settings, labels, lists, SLAcredits).then(function (created) {
+                    console.log("Created task: " + JSON.stringify(created));
                     cards[created.trello] = created.project;
-                    t.set(created.trello, 'shared', 'project', projects[created.project]);
+                    t.set(created.trello, 'shared', 'project', projects[created.project]); //TODO: fix (card not availble yet)
                 });
             }
 
-            console.log(cards);
+            console.log(JSON.stringify(cards, null, '\t'));
             return cards;
 
         }, function (error) { console.error(error);})
@@ -165,8 +167,12 @@ function getProjects(pm, username, password){
     });
 }
 
-function sendCard(card_id, project, settings, labels, lists, old_project, SLAcredits) {
+function sendCard(card_id, project, settings, labels, lists, SLAcredits) {
 
+    // TODO: Get old version of project, if any
+
+
+    // TODO: Then function
     return new Promise( function (resolve, reject){
 
         var newcard = {
