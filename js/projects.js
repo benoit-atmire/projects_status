@@ -76,6 +76,7 @@ var updateBoard = function (t) {
     return t.getAll()
         .then(function (data) {
             console.log("Step 1 start");
+            console.log(JSON.stringify(data, null, '\t'));
             var settings;
             var labels;
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
