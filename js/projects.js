@@ -130,15 +130,18 @@ var updateBoard = function (t) {
                 sendCard(null, projects[pid], settings, labels, lists, SLAcredits).then(function (created) {
                     console.log("Created task: " + JSON.stringify(created));
                     cards[created.trello] = created.project;
-                    t.set(created.trello, 'shared', 'project', projects[created.project]); //TODO: fix (card not availble yet)
+                    t.set(created.trello, 'shared', 'project', projects[created.project]); //TODO: fix (card not available yet)
                 });
             }
 
-            console.log(JSON.stringify(cards, null, '\t'));
+
             return cards;
 
         }, function (error) { console.error(error);})
-        .then (function (mapping) {t.set('board', 'shared', 'mapping', mapping);});
+        .then (function (mapping) {
+            console.log(JSON.stringify(mapping, null, '\t'));
+            t.set('board', 'shared', 'mapping', JSON.stringify(mapping));
+        });
 
 }
 
@@ -170,6 +173,7 @@ function getProjects(pm, username, password){
 function sendCard(card_id, project, settings, labels, lists, SLAcredits) {
 
     // TODO: Get old version of project, if any
+    // ==> need to define where and how to store that, since powerup data doesn't seem to work
 
 
     // TODO: Then function
