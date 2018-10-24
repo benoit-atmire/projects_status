@@ -172,7 +172,7 @@ function getProjects(pm, username, password){
 function sendCard(t, card_id, project, settings, labels, lists, SLAcredits) {
 
     // Get old version of project, if any
-    return t.get(card_id, 'shared', 'project', false).then(function (old_project) {
+    return ((card_id === null) ? false : t.get(card_id, 'shared', 'project')).then(function (old_project) {
 
         return new Promise( function (resolve, reject){
 
