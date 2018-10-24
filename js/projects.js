@@ -174,7 +174,7 @@ function sendCard(card_id, project, settings, labels, lists, SLAcredits) {
 
     // TODO: Get old version of project, if any
     // ==> need to define where and how to store that, since powerup data doesn't seem to work
-    t.get(card_id, 'shared', 'project', false).then(function (old_project) {
+    return t.get(card_id, 'shared', 'project', false).then(function (old_project) {
 
         // TODO: Then function
         return new Promise( function (resolve, reject){
