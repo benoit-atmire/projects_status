@@ -113,7 +113,7 @@ var updateBoard = function (t) {
             */
             for (var id in cards) {
                 var p = projects[cards[id]] || null;
-                projects.delete(cards[id]);
+                delete projects[cards[id]];
                 sendCard(id, p, settings, labels, lists, SLAcredits).then(function (updated) {
                     t.set(updated.trello, 'shared', 'project', projects[updated.project]);
                 });
