@@ -113,7 +113,7 @@ var updateBoard = function (t) {
             for (var id in cards) {
                 var p = projects[cards[id]] || null;
                 delete projects[cards[id]];
-                sendCard(id, p, settings, labels, lists, SLAcredits).then(function (updated) {
+                sendCard(t, id, p, settings, labels, lists, SLAcredits).then(function (updated) {
                     t.set(updated.trello, 'shared', 'project', projects[updated.project]);
                 });
 
@@ -126,7 +126,7 @@ var updateBoard = function (t) {
             */
 
             for (var pid in projects){
-                sendCard(null, projects[pid], settings, labels, lists, SLAcredits).then(function (created) {
+                sendCard(t, null, projects[pid], settings, labels, lists, SLAcredits).then(function (created) {
                     console.log("Created task: " + JSON.stringify(created));
                     cards[created.trello] = created.project;
                     t.set(created.trello, 'shared', 'project', projects[created.project]); //TODO: fix (card not available yet)
@@ -169,10 +169,9 @@ function getProjects(pm, username, password){
     });
 }
 
-function sendCard(card_id, project, settings, labels, lists, SLAcredits) {
+function sendCard(t, card_id, project, settings, labels, lists, SLAcredits) {
 
     // Get old version of project, if any
-    var t = window.TrelloPowerUp.iframe();
     return t.get(card_id, 'shared', 'project', false).then(function (old_project) {
 
         return new Promise( function (resolve, reject){
