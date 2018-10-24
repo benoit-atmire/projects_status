@@ -18,7 +18,6 @@ var Promise = TrelloPowerUp.Promise;
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
         return [{
-            // we can either provide a button that has a callback function
             icon: ATMIRE_ICON,
             text: 'Schedule meeting today',
             callback: function(t){
@@ -172,11 +171,10 @@ function getProjects(pm, username, password){
 
 function sendCard(card_id, project, settings, labels, lists, SLAcredits) {
 
-    // TODO: Get old version of project, if any
-    // ==> need to define where and how to store that, since powerup data doesn't seem to work
+    // Get old version of project, if any
+    var t = window.TrelloPowerUp.iframe();
     return t.get(card_id, 'shared', 'project', false).then(function (old_project) {
 
-        // TODO: Then function
         return new Promise( function (resolve, reject){
 
             var newcard = {
