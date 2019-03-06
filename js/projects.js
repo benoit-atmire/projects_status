@@ -24,7 +24,15 @@ TrelloPowerUp.initialize({
                 return updateBoard(t);
             },
             condition: 'edit'
-        }];
+        },
+            {
+                icon: ATMIRE_ICON,
+                text: 'Add card data',
+                callback: function(t){
+                    return t.set("5c80296000e191221a6a473f","shared","test","blabla");
+                },
+                condition: 'edit'
+            }];
     },
     'show-settings': function(t, options){
         return t.popup({
