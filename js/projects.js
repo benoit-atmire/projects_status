@@ -122,14 +122,14 @@ var updateBoard = function (t) {
             * - store latest project details in plugin data
             * - remove from projects list
             */
-            for (var id in cards) {
+            /*for (var id in cards) {
                 var p = projects[cards[id]] || null;
                 delete projects[cards[id]];
                 sendCard(t, id, p, settings, labels, lists, 0).then(function (updated) {
                     t.set(updated.trello, 'shared', 'project', projects[updated.project]);
                 });
 
-            }
+            }*/
 
             /* For remaining projects:
             * - create new project
