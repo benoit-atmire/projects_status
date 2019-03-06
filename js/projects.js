@@ -138,6 +138,7 @@ var updateBoard = function (t) {
             */
 
             for (var pid in projects){
+                console.log("Processing project "+pid);
                 sendCard(t, null, projects[pid], settings, labels, lists, 0).then(function (created) {
                     console.log("Created task: " + JSON.stringify(created));
                     cards[created.trello] = created.project;
