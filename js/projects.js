@@ -148,7 +148,7 @@ function getProjects(pm, username, password){
     return new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
         var projects = {};
-        xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&pm="+pm);
+        xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&department=Belgium");
         xmlhttp.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(xmlhttp.responseText);
