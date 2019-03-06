@@ -89,8 +89,8 @@ var updateBoard = function (t) {
             var settings = boarddata[0];
             var labels = boarddata[1];
             t.set('board', 'shared', 'labels', labels);
-            return Promise.all([boarddata, t.lists('all'), getProjects(settings.pm, settings.username, settings.password), getAllSLACreditsBalances()]);
-        }, function (error) { console.error(error);})
+            return Promise.all([boarddata, t.lists('all'), getProjects(settings.pm, settings.username, settings.password)]);
+        })
     // Then process all that info
         .then(function (values) {
             var settings = values[0][0];
@@ -104,8 +104,17 @@ var updateBoard = function (t) {
             var lists_table = values[1];
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
+
+            console.log("----------- Lists");
+            console.log(JSON.stringify(lists, null, '\t'));
+            console.log("-----------------");
+
+
             var projects = values[2];
-            var SLAcredits = values[3];
+
+            console.log("----------- Projects");
+            console.log(JSON.stringify(projects, null, '\t'));
+            console.log("-----------------");
 
             /* For each card:
             * - update existing project
@@ -115,7 +124,7 @@ var updateBoard = function (t) {
             for (var id in cards) {
                 var p = projects[cards[id]] || null;
                 delete projects[cards[id]];
-                sendCard(t, id, p, settings, labels, lists, SLAcredits).then(function (updated) {
+                sendCard(t, id, p, settings, labels, lists, 0).then(function (updated) {
                     t.set(updated.trello, 'shared', 'project', projects[updated.project]);
                 });
 
@@ -128,7 +137,7 @@ var updateBoard = function (t) {
             */
 
             for (var pid in projects){
-                sendCard(t, null, projects[pid], settings, labels, lists, SLAcredits).then(function (created) {
+                sendCard(t, null, projects[pid], settings, labels, lists, 0).then(function (created) {
                     console.log("Created task: " + JSON.stringify(created));
                     cards[created.trello] = created.project;
                     t.set(created.trello, 'shared', 'project', projects[created.project]); //TODO: fix (card not available yet)
