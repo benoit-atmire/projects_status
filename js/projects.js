@@ -89,13 +89,15 @@ var updateBoard = function (t) {
             var settings = boarddata[0];
             var labels = boarddata[1];
             t.set('board', 'shared', 'labels', labels);
-            return Promise.all([boarddata, t.lists('all'), getProjects(settings.pm, settings.username, settings.password)]);
+            return Promise.all([boarddata, t.lists('all'), getProjects(settings.pm, settings.username, settings.password), t.cards('all')]);
         })
     // Then process all that info
         .then(function (values) {
             var settings = values[0][0];
             var labels = values[0][1];
             var cards = values[0][2];
+
+            console.log(values[3]);
 
             console.log("----------- Cards");
             console.log(JSON.stringify(cards, null, '\t'));
@@ -122,14 +124,25 @@ var updateBoard = function (t) {
             * - store latest project details in plugin data
             * - remove from projects list
             */
-            /*for (var id in cards) {
+            for (var id in cards) {
+                // Get project associated with that card
                 var p = projects[cards[id]] || null;
-                delete projects[cards[id]];
-                sendCard(t, id, p, settings, labels, lists, 0).then(function (updated) {
-                    t.set(updated.trello, 'shared', 'project', projects[updated.project]);
-                });
 
-            }*/
+                // Delete project from project list to prevent double processing
+                delete projects[cards[id]];
+
+                // If p doesn't exist, project has been archived and can be unmapped
+                if (p === null) cardsToDelete.push(id);
+
+                // Else, update the card with project data
+                else updateCard(t, cards[id], p, settings, labels, list, 0)
+
+
+                /*sendCard(t, id, p, settings, labels, lists, 0).then(function (updated) {
+                    t.set(updated.trello, 'shared', 'project', projects[updated.project]);
+                });*/
+
+            }
 
             /* For remaining projects:
             * - create new project
