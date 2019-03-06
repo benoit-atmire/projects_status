@@ -102,6 +102,7 @@ var updateBoard = function (t) {
             console.log("-----------------");
 
             var lists_table = values[1];
+            console.log(lists_table);
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
 
