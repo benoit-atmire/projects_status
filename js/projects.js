@@ -211,7 +211,8 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
 
         var card = {
             token: settings.ttoken,
-            key: settings.tkey
+            key: settings.tkey,
+            desc: ""
         };
 
         var comment = "";
@@ -220,6 +221,7 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
 
         if (new_project === null) {
             card.idLabels += labels["Not found"].id;
+            if (old_project !== null) card.desc += "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + old_project.project_id + ") %0D%0A" ;
         }
 
         else {
@@ -233,7 +235,7 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
                 comment += "%0D%0A";
             }
 
-            card.desc = "";
+            card.desc += "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + new_project.project_id + ") %0D%0A" ;
             card.idLabels = "";
 
             // Add label for project type
