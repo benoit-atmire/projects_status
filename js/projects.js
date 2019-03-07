@@ -193,12 +193,12 @@ function getProjects(pm, username, password){
 
             } else {
                 console.log(xmlhttp.statusText);
-                reject(Error(xmlhttp.statusText));
+                reject(new Error(xmlhttp.statusText));
             }
         };
         xmlhttp.onerror = function () {
             console.log("network error");
-            reject(Error("Something went wrong with the query (network error)"));
+            reject(new Error("Something went wrong with the query (network error)"));
         }
         xmlhttp.send();
     });
@@ -221,7 +221,7 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
 
         if (new_project === null) {
             card.idLabels += labels["Not found"].id;
-            if (old_project !== null) card.desc += "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + old_project.project_id + ") %0D%0A" ;
+            if (old_project !== null) card.desc += "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + old_project.project_id + ") %0D%0A" ;
         }
 
         else {
@@ -235,7 +235,7 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
                 comment += "%0D%0A";
             }
 
-            card.desc += "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + new_project.project_id + ") %0D%0A" ;
+            card.desc += "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + new_project.project_id + ") %0D%0A" ;
             card.idLabels = "";
 
             // Add label for project type
@@ -307,13 +307,14 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             if (datechanged) card.idLabels += "," + labels["Date changed"].id;
             if (datemissing) card.idLabels += "," + labels["Date missing"].id;
 
-            var nextDeadline;
+            if (!datemissing) {
+                var nextDeadline;
 
-            if (new_project.status == "In Planning" || new_project.status == "In Progress") nextDeadline = new Date(new_project.end_impl.substring(0, 10));
-            else nextDeadline = new Date(new_project.end_date.substring(0, 10));
+                if (new_project.status == "In Planning" || new_project.status == "In Progress") nextDeadline = new Date(new_project.end_impl.substring(0, 10));
+                else nextDeadline = new Date(new_project.end_date.substring(0, 10));
 
-            if (nextDeadline < new Date()) card.idLabels += "," + labels["Outdated"].id;
-
+                if (nextDeadline < new Date()) card.idLabels += "," + labels["Outdated"].id;
+            }
             // Project time & budget
 
             card.desc += "Billables: " + new_project.billable_hours + "%0D%0A";
@@ -370,13 +371,13 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
                         );
             } else {
                 console.log(request.statusText);
-                reject(Error(request.statusText));
+                reject(new Error(request.statusText));
             }
         };
 
         request.onerror = function () {
             console.log("network error");
-            reject(Error("Something went wrong with the query (network error)"));
+            reject(new Error("Something went wrong with the query (network error)"));
         }
         request.send();
 
