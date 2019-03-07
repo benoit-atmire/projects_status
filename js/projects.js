@@ -107,8 +107,8 @@ var updateBoard = function (t) {
 
             console.log(values[3]);
 
-            console.log("----------- Cards");
-            console.log(JSON.stringify(cards, null, '\t'));
+            console.log("----------- Old projects");
+            console.log(JSON.stringify(old_projects, null, '\t'));
             console.log("-----------------");
 
 
@@ -121,7 +121,7 @@ var updateBoard = function (t) {
             console.log("-----------------");
 
 
-            console.log("----------- Projects");
+            console.log("----------- New projects");
             console.log(JSON.stringify(projects, null, '\t'));
             console.log("-----------------");
 
