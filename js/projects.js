@@ -224,11 +224,11 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
 
         else {
             // Initiate card values with basic project info
-            card.name = new_poject.project_name + " (" + new_poject.company_name + ")";
+            card.name = new_project.project_name + " (" + new_project.company_name + ")";
             card.idList = lists[new_project.status] ? lists[new_project.status] : lists["Other"];
 
             if (new_project.status != old_project.status) {
-                comment += "Updated status: " + new_poject.status;
+                comment += "Updated status: " + new_project.status;
                 comment += " (was: " + old_project.status + ")";
                 comment += "%0D%0A";
             }
@@ -237,7 +237,7 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             card.idLabels = "";
 
             // Add label for project type
-            card.idLabels += labels[new_poject.project_type] ? labels[project.project_type].id : labels["Other"].id;
+            card.idLabels += labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id;
 
 
             // Project dates
@@ -245,8 +245,8 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             var datemissing = false;
 
             card.desc += "Start date: " + new_project.start_date.substring(0, 10);
-            if (old_project && new_poject.start_date != old_project.start_date) {
-                comment += "Start date: " + new_poject.start_date.substring(0, 10);
+            if (old_project && new_project.start_date != old_project.start_date) {
+                comment += "Start date: " + new_project.start_date.substring(0, 10);
                 comment += " (was: " + old_project.start_date.substring(0, 10) + ")";
                 comment += "%0D%0A";
                 datechanged = true;
@@ -254,9 +254,9 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             if (new_project.start_date.substring(0, 10) == "0000-00-00") datemissing = true;
             card.desc += "%0D%0A";
 
-            card.desc += "End implementation date: " + new_poject.end_impl.substring(0, 10);
-            if (old_project && new_poject.end_impl != old_project.end_impl) {
-                comment += "End implementation date: " + new_poject.end_impl.substring(0, 10);
+            card.desc += "End implementation date: " + new_project.end_impl.substring(0, 10);
+            if (old_project && new_project.end_impl != old_project.end_impl) {
+                comment += "End implementation date: " + new_project.end_impl.substring(0, 10);
                 comment += " (was: " + old_project.end_impl.substring(0, 10) + ")";
                 comment += "%0D%0A";
                 datechanged = true;
@@ -264,17 +264,17 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             if (new_project.end_impl.substring(0, 10) == "0000-00-00") datemissing = true;
             card.desc += "%0D%0A";
 
-            card.desc += "Start test date: " + new_poject.start_test.substring(0, 10);
-            if (old_project && new_poject.start_test != old_project.start_test) {
+            card.desc += "Start test date: " + new_project.start_test.substring(0, 10);
+            if (old_project && new_project.start_test != old_project.start_test) {
                 card.desc += " (was: " + old_project.start_test.substring(0, 10) + ")";
                 datechanged = true;
             }
             if (new_project.start_test.substring(0, 10) == "0000-00-00") datemissing = true;
             card.desc += "%0D%0A";
 
-            card.desc += "End date: " +new_poject.end_date.substring(0, 10);
-            if (old_project && new_poject.end_date != old_project.end_date) {
-                comment += "End date: " + new_poject.end_date.substring(0, 10);
+            card.desc += "End date: " +new_project.end_date.substring(0, 10);
+            if (old_project && new_project.end_date != old_project.end_date) {
+                comment += "End date: " + new_project.end_date.substring(0, 10);
                 comment += " (was: " + old_project.end_date.substring(0, 10) + ")";
                 comment += "%0D%0A";
                 datechanged = true;
@@ -289,14 +289,14 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
 
             var nextDeadline;
 
-            if (new_poject.status == "In Planning" || new_poject.status == "In Progress") nextDeadline = new Date(new_poject.end_impl.substring(0, 10));
-            else nextDeadline = new Date(new_poject.end_date.substring(0, 10));
+            if (new_project.status == "In Planning" || new_project.status == "In Progress") nextDeadline = new Date(new_project.end_impl.substring(0, 10));
+            else nextDeadline = new Date(new_project.end_date.substring(0, 10));
 
             if (nextDeadline < new Date()) card.idLabels += "," + labels["Outdated"].id;
 
             // Project time & budget
 
-            card.desc += "Billables: " + new_poject.billable_hours + "%0D%0A";
+            card.desc += "Billables: " + new_project.billable_hours + "%0D%0A";
 
             if (old_project && old_project.billable_hours != new_project.billable_hours) {
                 comment += "Billable hours updated from " + old_project.billable_hours + " to " + new_project.billable_hours;
@@ -304,16 +304,16 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
                 card.idLabels += "," + labels["Billable changed"].id;
             }
 
-            card.desc += "Worked: " + new_poject.worked_hours;
+            card.desc += "Worked: " + new_project.worked_hours;
 
-            if (old_project) comment += (new_poject.worked_hours - old_project.worked_hours) + " hour(s) worked since last log.";
+            if (old_project) comment += (new_project.worked_hours - old_project.worked_hours) + " hour(s) worked since last log.";
 
-            if (new_poject.project_type == "Module installation" || new_poject.project_type == "Fixed price project") {
-                var percentage = new_poject.worked_hours / new_poject.billable_hours;
+            if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed price project") {
+                var percentage = new_project.worked_hours / new_project.billable_hours;
 
-                if (new_poject.status == "In Planning" && percentage > 0.1) card.idLabels += "," + labels["Budget risk"].id;
-                if (new_poject.status == "In Progress" && percentage > 0.6) card.idLabels += "," + labels["Budget risk"].id;
-                if (new_poject.status == "In Test" && percentage > 0.8) card.idLabels += "," + labels["Budget risk"].id;
+                if (new_project.status == "In Planning" && percentage > 0.1) card.idLabels += "," + labels["Budget risk"].id;
+                if (new_project.status == "In Progress" && percentage > 0.6) card.idLabels += "," + labels["Budget risk"].id;
+                if (new_project.status == "In Test" && percentage > 0.8) card.idLabels += "," + labels["Budget risk"].id;
             }
 
 
