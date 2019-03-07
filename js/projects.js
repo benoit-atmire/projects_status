@@ -381,6 +381,25 @@ function createComment(card_id, text, key, token) {
     request.send(null);
 }
 
+
+function getAllBadges(t, long) {
+    return {};
+
+}
+
+function getCardButtons(t) {
+    return {
+        icon: ATMIRE_ICON,
+            text: "Update project info",
+        callback: function(t){
+        return t.popup({
+            title: "W2P Link",
+            url: 'views/settings.html'
+        });
+    }
+    }
+}
+
 function getAllSLACreditsBalances() {
     return new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
