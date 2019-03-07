@@ -244,43 +244,61 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             var datechanged = false;
             var datemissing = false;
 
-            card.desc += "Start date: " + new_project.start_date.substring(0, 10);
-            if (old_project && new_project.start_date != old_project.start_date) {
-                comment += "Start date: " + new_project.start_date.substring(0, 10);
-                comment += " (was: " + old_project.start_date.substring(0, 10) + ")";
-                comment += "%0D%0A";
-                datechanged = true;
-            }
-            if (new_project.start_date.substring(0, 10) == "0000-00-00") datemissing = true;
-            card.desc += "%0D%0A";
+            if (new_project.start_date == null || new_project.start_date.substring(0, 10) == "0000-00-00") datemissing = true;
+            else {
+                card.desc += "Start date: " + new_project.start_date.substring(0, 10);
 
-            card.desc += "End implementation date: " + new_project.end_impl.substring(0, 10);
-            if (old_project && new_project.end_impl != old_project.end_impl) {
-                comment += "End implementation date: " + new_project.end_impl.substring(0, 10);
-                comment += " (was: " + old_project.end_impl.substring(0, 10) + ")";
-                comment += "%0D%0A";
-                datechanged = true;
-            }
-            if (new_project.end_impl.substring(0, 10) == "0000-00-00") datemissing = true;
-            card.desc += "%0D%0A";
+                if (old_project && new_project.start_date != old_project.start_date) {
+                    comment += "Start date: " + new_project.start_date.substring(0, 10);
+                    comment += " (was: " + old_project.start_date.substring(0, 10) + ")";
+                    comment += "%0D%0A";
+                    datechanged = true;
+                }
 
-            card.desc += "Start test date: " + new_project.start_test.substring(0, 10);
-            if (old_project && new_project.start_test != old_project.start_test) {
-                card.desc += " (was: " + old_project.start_test.substring(0, 10) + ")";
-                datechanged = true;
+                card.desc += "%0D%0A";
             }
-            if (new_project.start_test.substring(0, 10) == "0000-00-00") datemissing = true;
-            card.desc += "%0D%0A";
 
-            card.desc += "End date: " +new_project.end_date.substring(0, 10);
-            if (old_project && new_project.end_date != old_project.end_date) {
-                comment += "End date: " + new_project.end_date.substring(0, 10);
-                comment += " (was: " + old_project.end_date.substring(0, 10) + ")";
-                comment += "%0D%0A";
-                datechanged = true;
+            if (new_project.end_impl == null || new_project.end_impl.substring(0, 10) == "0000-00-00") datemissing = true;
+            else {
+                card.desc += "End implementation date: " + new_project.end_impl.substring(0, 10);
+
+                if (old_project && new_project.end_impl != old_project.end_impl) {
+                    comment += "End implementation date: " + new_project.end_impl.substring(0, 10);
+                    comment += " (was: " + old_project.end_impl.substring(0, 10) + ")";
+                    comment += "%0D%0A";
+                    datechanged = true;
+                }
+
+                card.desc += "%0D%0A";
             }
-            if (new_project.end_date.substring(0, 10) == "0000-00-00") datemissing = true;
-            card.desc += "%0D%0A";
+
+            if (new_project.start_test == null || new_project.start_test.substring(0, 10) == "0000-00-00") datemissing = true;
+            else {
+                card.desc += "Start test date: " + new_project.start_test.substring(0, 10);
+
+                if (old_project && new_project.start_test != old_project.start_test) {
+                    comment += "Start test date: " + new_project.start_test.substring(0, 10);
+                    comment += " (was: " + old_project.start_test.substring(0, 10) + ")";
+                    comment += "%0D%0A";
+                    datechanged = true;
+                }
+
+                card.desc += "%0D%0A";
+            }
+
+            if (new_project.end_date == null || new_project.end_date.substring(0, 10) == "0000-00-00") datemissing = true;
+            else {
+                card.desc += "End date: " + new_project.end_date.substring(0, 10);
+
+                if (old_project && new_project.end_date != old_project.end_date) {
+                    comment += "End date: " + new_project.end_date.substring(0, 10);
+                    comment += " (was: " + old_project.end_date.substring(0, 10) + ")";
+                    comment += "%0D%0A";
+                    datechanged = true;
+                }
+
+                card.desc += "%0D%0A";
+            }
 
             card.desc += "**********%0D%0A";
 
@@ -345,12 +363,12 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(request.responseText);
                 resolve({   "card_id": response.id,
-                            "project" : project.project_id
+                            "project" : new_project.project_id
                         }
                         );
             } else {
-                console.log(xmlhttp.statusText);
-                reject(Error(xmlhttp.statusText));
+                console.log(request.statusText);
+                reject(Error(request.statusText));
             }
         };
 
