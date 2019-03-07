@@ -92,7 +92,7 @@ var updateBoard = function (t) {
             console.log(boarddata);
             var settings = boarddata[0];
             var labels = boarddata[1];
-            var projects = boarddate[2];
+            var projects = boarddata[2];
             t.set('board', 'private', 'labels', labels);
             return Promise.all([settings, labels, t.lists('all'), getProjects(settings.pm, settings.username, settings.password), projects]);
         })
