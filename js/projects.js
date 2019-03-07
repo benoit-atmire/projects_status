@@ -24,15 +24,7 @@ TrelloPowerUp.initialize({
                 return updateBoard(t);
             },
             condition: 'edit'
-        },
-            {
-                icon: ATMIRE_ICON,
-                text: 'Add card data',
-                callback: function(t){
-                    return t.set("5c80296000e191221a6a473f","shared","test","blabla");
-                },
-                condition: 'edit'
-            }];
+        }];
     },
     'show-settings': function(t, options){
         return t.popup({
@@ -90,7 +82,7 @@ var updateBoard = function (t) {
             var labels;
             var projects = {};
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
-            if (data.board && data.board.private && data.board.private.labels) labels = data.board.shared.labels;
+            if (data.board && data.board.private && data.board.private.labels) labels = data.board.private.labels;
             if (data.board && data.board.shared && data.board.shared.projects) projects = data.board.shared.projects;
             console.log(data);
             return Promise.all([settings, labels || createLabels((t.getContext()).board, settings.ttoken, settings.tkey), projects]);
