@@ -191,15 +191,15 @@ function getProjects(pm, username, password){
                 for (var i in p) {projects[p[i].project_id] = p[i]}
                 resolve(projects);
 
-            } else {
+            } /*else {
                 console.log(xmlhttp.statusText);
                 reject(new Error(xmlhttp.statusText));
-            }
+            }*/
         };
-        xmlhttp.onerror = function () {
+        /*xmlhttp.onerror = function () {
             console.log("network error");
             reject(new Error("Something went wrong with the query (network error)"));
-        }
+        }*/
         xmlhttp.send();
     });
 }
@@ -369,16 +369,16 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
                             "project" : new_project.project_id
                         }
                         );
-            } else {
+            } /*else {
                 console.log(request.statusText);
                 reject(new Error(request.statusText));
-            }
+            }*/
         };
 
-        request.onerror = function () {
+        /*request.onerror = function () {
             console.log("network error");
             reject(new Error("Something went wrong with the query (network error)"));
-        }
+        }*/
         request.send();
 
         if (old_project !==null) createComment(old_project.card_id, comment, settings.tkey, settings.ttoken);
@@ -408,13 +408,13 @@ function getAllSLACreditsBalances() {
             if (this.status >= 200 && this.status < 300) {
                 resolve(JSON.parse(xmlhttp.responseText));
 
-            } else {
+            } /*else {
                 reject(Error(xmlhttp.statusText));
-            }
+            }*/
         };
-        xmlhttp.onerror = function () {
+        /*xmlhttp.onerror = function () {
             reject(Error("Something went wrong with the query (network error)"));
-        }
+        }*/
         xmlhttp.send();
     });
 }
