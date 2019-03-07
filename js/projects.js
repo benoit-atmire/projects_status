@@ -191,7 +191,7 @@ function createCard(t, new_project, settings, labels, lists) {
         };
 
         // Add TL
-        card.idLabels += "," + labels[new_project.tl] ? labels[new_project.tl].id : labels["TBD"].id
+        card.idLabels += "," + labels[new_project.tl] ? labels[new_project.tl].id : labels["TBD"].id;
 
         var action = 'POST';
         var url = "https://api.trello.com/1/cards?";
@@ -210,7 +210,7 @@ function createCard(t, new_project, settings, labels, lists) {
         request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(request.responseText);
-                var created = {new_project.project_id:new_project};
+                var created = {new_project.project_id : new_project};
                 created[new_project.project_id].card_id = response.id;
                 t.set('board', 'shared', created);
                 resolve(created);
