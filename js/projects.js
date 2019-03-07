@@ -227,7 +227,7 @@ function updateCard(t, old_project, new_project, settings, labels, lists) {
             card.name = new_project.project_name + " (" + new_project.company_name + ")";
             card.idList = lists[new_project.status] ? lists[new_project.status] : lists["Other"];
 
-            if (new_project.status != old_project.status) {
+            if (old_project !== null && new_project.status != old_project.status) {
                 comment += "Updated status: " + new_project.status;
                 comment += " (was: " + old_project.status + ")";
                 comment += "%0D%0A";
