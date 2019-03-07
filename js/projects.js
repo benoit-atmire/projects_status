@@ -210,7 +210,8 @@ function createCard(t, new_project, settings, labels, lists) {
         request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(request.responseText);
-                var created = {new_project.project_id : new_project};
+                var created = {};
+                created[new_project.project_id] = new_project;
                 created[new_project.project_id].card_id = response.id;
                 t.set('board', 'shared', created);
                 resolve(created);
