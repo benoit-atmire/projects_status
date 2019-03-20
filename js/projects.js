@@ -39,7 +39,7 @@ TrelloPowerUp.initialize({
                 var labels = createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
                 console.log("Labels created");
                 console.log(labels);
-                return t.set(t.getContext()).board, 'private', 'labels', labels;
+                return t.set(t.getContext().board, 'private', 'labels', labels);
             });
     }
 });
