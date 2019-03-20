@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+</head>
+<body>
+
+<form id="addproject">
+    <fieldset id="fields">
+        <label for="project">PM: </label><input type="text" id="project" list="w2plist"/>
+        <datalist id="W2plist"></datalist>
+
+    </fieldset>
+    <button id="submit" type="submit" class="mod-primary">Add</button>
+    <p id="error" style="color: red;"></p>
+</form>
+
+<script>
+    var t = TrelloPowerUp.iframe();
+    var Promise = TrelloPowerUp.Promise;
+
+    document.getElementById("addproject").addEventListener('submit', function(event){
+        event.preventDefault();
+
+
+
+        var project = document.getElementById("project").value;
+
+        if (project == "") {
+            document.getElementById("error").value = "Please fill in a project";
+            document.getElementById("submit").disabled = false;
+            return false;
+        }
+
+        else {
+            document.getElementById("error").value = "";
+            document.getElementById("submit").disabled = true;
+            document.getElementById("submit").value = "Processing...";
+
+            var options = document.querySelectorAll('#W2plist option');
+            var pid;
+            for (var i = 0 ; i < options.length ; i++){
+                if (options[i].value == project){
+                    pid = options[i].getAttribute('pid');
+                    break;
+                }
+            }
+
+            return t.set('card', 'shared', 'pid', pid)
+                .then(function(){
+                    t.closePopup();
+                });
+        }
+    });
+
+
+    t.render(function(){
+        return t.get('board', 'private', 'settings', '')
+            .then(function(settings) {
+                return getProjects(settings.username, settings.password);
+            })
+            .then(function (projects) {
+
+                var dataList = document.getElementById('W2plist');
+
+                for (var i in projects) {
+                    var option = document.createElement('option');
+                    option.value = projects[i].project_name + " (" + response.projects[i].company_name + ")";
+                    option.setAttribute("pid", response.projects[i].project_id);
+                    dataList.appendChild(option);
+                }
+
+                t.sizeTo('#addproject').done();
+            });
+    });
+
+
+    function getProjects(username, password){
+        return new Promise(function (resolve, reject) {
+            var xmlhttp = new XMLHttpRequest();
+            var projects = {};
+            xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview");
+            xmlhttp.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    var response = JSON.parse(xmlhttp.responseText);
+                    var p = response.projects;
+                    for (var i in p) {projects[p[i].project_id] = p[i]}
+                    resolve(projects);
+
+                } /*else {
+                console.log(xmlhttp.statusText);
+                reject(new Error(xmlhttp.statusText));
+            }*/
+            };
+            /*xmlhttp.onerror = function () {
+                console.log("network error");
+                reject(new Error("Something went wrong with the query (network error)"));
+            }*/
+            xmlhttp.send();
+        });
+    }
+
+</script>
+</body>
+</html>

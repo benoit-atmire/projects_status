@@ -8,7 +8,7 @@ TrelloPowerUp.initialize({
             icon: ATMIRE_ICON,
             text: 'Schedule meeting today',
             callback: function(t){
-                return updateBoard(t);
+                return updateBoard(t, false);
             },
             condition: 'edit'
         }];
@@ -22,6 +22,7 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': function(t, options) {
+        updateLabels(t);
         return getAllBadges(t, false);
     },
     'card-detail-badges': function(t, options) {
@@ -29,6 +30,13 @@ TrelloPowerUp.initialize({
     },
     'card-buttons': function(t, options){
         return getCardButtons(t);
+    },
+    'on-enable': function(t, options){
+        return t.getAll()
+            .then(function(data){
+                if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
+                createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
+            });
     }
 });
 
@@ -68,30 +76,49 @@ function createLabels(board, token, key) {
         return labels;
 }
 
-var updateBoard = function (t) {
+function updateLabels(t){
+    // TODO
+
+    // For current card
+
+    // Get addon data
+
+    // Get fields "warnings" and "messages"
+
+    // For each of these values, add corresponding label
+
+    // Send POST request to card to add labels
+
+    // Delete "messages" field from plugin data
+}
+
+
+
+var updateBoard = function (t, filter) {
+
+    // TODO: refactor / rewrite:
+
+    /*
+    For each card in the board,
+    - get updated W2P data
+    - compare with current data
+    - calculate the "warning" and "messages" fields
+    - add comments with the changes
+
+     */
 
 
     // Get board data (settings & labels)
 
     return t.getAll()
         .then(function (data) {
+            console.log(data);
             var settings;
             var labels;
             var projects = {};
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
             if (data.board && data.board.private && data.board.private.labels) labels = data.board.private.labels;
-            if (data.board && data.board.shared && data.board.shared.projects) projects = data.board.shared.projects;
-            console.log(data);
-            return Promise.all([settings, labels || createLabels((t.getContext()).board, settings.ttoken, settings.tkey), projects]);
-        })
-    // Then get cards, lists and projects
-        .then(function (boarddata){
-            console.log(boarddata);
-            var settings = boarddata[0];
-            var labels = boarddata[1];
-            var projects = boarddata[2];
-            t.set('board', 'private', 'labels', labels);
-            return Promise.all([settings, labels, t.lists('all'), getProjects(settings.pm, settings.username, settings.password), projects]);
+            return Promise.all([settings, labels, t.lists('all'), getProjects(settings.username, settings.password), t.cards('all')]);
         })
     // Then process all that info
         .then(function (values) {
@@ -99,7 +126,7 @@ var updateBoard = function (t) {
             var labels = values[1];
             var lists_table = values[2];
             var projects = values[3];
-            var old_projects = values[4];
+            var cards = values[4];
 
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
@@ -109,7 +136,7 @@ var updateBoard = function (t) {
             * - store latest project details in plugin data
             * - remove from projects list
             */
-            for (var id in old_projects) {
+            /*for (var c in cards) {
                 // Get project data from W2P
                 var new_project = projects[old_projects[id]] || null;
 
@@ -125,37 +152,17 @@ var updateBoard = function (t) {
 
                 else t.remove('board', 'shared', id);
 
-            }
-
-
-            /* For remaining projects:
-            * - create new project
-            * - store project details in plugin data
-            * - add project to mapping
-            */
-
-            for (var pid in projects) {
-                console.log("Processing project " + pid);
-
-                new_projects[pid] = projects[pid];
-
-               createCard(t, projects[pid], settings, labels, lists).then(function (created) {
-                    console.log("Created card: " + JSON.stringify(created));
-                });
-            }
-
-
-            return new_projects;
+            }*/
 
         });
 
 }
 
-function getProjects(pm, username, password){
+function getProjects(username, password){
     return new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
         var projects = {};
-        xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&pm="+pm);
+        xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + username + "&password=" + password + "&report_type=projects_overview&department=Belgium");
         xmlhttp.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 var response = JSON.parse(xmlhttp.responseText);
@@ -384,21 +391,49 @@ function createComment(card_id, text, key, token) {
 
 
 function getAllBadges(t, long) {
+    // TODO: badge with end date for current phase
+
+    // TODO/ badge with activity level (based on time worked last week) ?
+
+    // TODO: badge for ?
+
     return {};
 
 }
 
 function getCardButtons(t) {
-    return {
-        icon: ATMIRE_ICON,
+    return [
+        // TODO: If project mapped
+        {
+            icon: ATMIRE_ICON,
             text: "Update project info",
-        callback: function(t){
-        return t.popup({
-            title: "W2P Link",
-            url: 'views/settings.html'
-        });
-    }
-    }
+            callback: function(t){
+                return updateBoard(t,(t.getContext()).card);
+            }
+        },
+        // TODO: If not project mapped
+        {
+            icon: ATMIRE_ICON,
+            text: "Map with project",
+            callback: function(t){
+                return t.popup({
+                    title: "W2P Link",
+                    url: 'views/settings.html'
+                 });
+                }
+        },
+        // TODO: If project mapped && type == SLA
+        {
+            icon: ATMIRE_ICON,
+            text: "Add fixed price credits",
+            callback: function(t){
+                return t.popup({
+                    title: "W2P Link",
+                    url: 'views/settings.html'
+                });
+            }
+        }
+    ];
 }
 
 function getAllSLACreditsBalances() {
