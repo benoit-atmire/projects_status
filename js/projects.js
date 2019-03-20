@@ -35,9 +35,11 @@ TrelloPowerUp.initialize({
         return t.getAll()
             .then(function(data){
                 if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
+                if (data.board && data.board.private && data.board.private.labels) return true;
                 var labels = createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
                 console.log("Labels created");
-                colsone.log(labels);
+                console.log(labels);
+                return t.set(t.getContext()).board, 'private', 'labels', labels;
             });
     }
 });
