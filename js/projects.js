@@ -29,7 +29,17 @@ TrelloPowerUp.initialize({
         return getAllBadges(t, true);
     },
     'card-buttons': function(t, options){
-        return getCardButtons(t);
+        //return getCardButtons(t);
+        return [{
+            icon: ATMIRE_ICON,
+            text: "Map with project",
+            callback: function(t){
+                return t.popup({
+                    title: "W2P Project",
+                    url: 'views/mapproject.html'
+                });
+            }
+        }];
     }
 });
 
