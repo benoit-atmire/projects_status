@@ -58,14 +58,21 @@
         }
 
         if (!hasLabels) {
-            createLabels(t, (t.getContext()).board, settings.ttoken, settings.tkey)
-                .then(function (l) {console.log("Labels created")});
+            return Promise.all([createLabels((t.getContext()).board, settings.ttoken, settings.tkey), t.set('board', 'private', 'settings', settings)])
+                .then(function (labels){
+                    t.set(board, 'private', 'labels', labels[0])
+                })
+                .then(function (l){
+                    console.log("Labels created")
+                })
         }
 
-        return t.set('board', 'private', 'settings',  settings)
-            .then(function(){
-                t.closePopup();
-            });
+        else {
+            return t.set('board', 'private', 'settings', settings)
+                .then(function () {
+                    t.closePopup();
+                });
+        }
     });
 
 
@@ -97,7 +104,7 @@
     });
 
 
-    function createLabels(t, board, token, key) {
+    function createLabels(board, token, key) {
 
         var labels = {
             "Quote": {color:"green"},
@@ -129,7 +136,9 @@
             labels[label].id = l.id;
         }
 
-        return t.set(board, 'private', 'labels', labels);
+        console.log(labels);
+
+        return labels;
     }
 </script>
 </body>
