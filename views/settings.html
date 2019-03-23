@@ -57,27 +57,12 @@
             };
         }
 
-        if (!hasLabels) {
+        if (!hasLabels) createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
 
-            return Promise.all([t.set('board', 'private', 'settings',  settings), createLabels((t.getContext()).board, settings.ttoken, settings.tkey)])
-                .then(function(data){
-                    var labels = data[1];
-                    console.log("Labels created");
-                    console.log(labels);
-                    return t.set((t.getContext()).board, 'private', 'labels', labels);
-                })
-
-                .then(function(){
-                    t.closePopup();
-                });
-        }
-
-        else {
-            return t.set('board', 'private', 'settings',  settings)
-                .then(function(){
-                    t.closePopup();
-                });
-        }
+        return t.set('board', 'private', 'settings',  settings)
+            .then(function(){
+                t.closePopup();
+            });
     });
 
 
@@ -89,7 +74,6 @@
         var labels = boarddata.labels;
         var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
         var hasLabels = (labels != '');
-        // TODO: haslabels?
 
         if (hasSettings) {
             document.getElementById("pm").value = settings.pm;
@@ -144,7 +128,9 @@
             labels[label].id = l.id;
         }
 
-        return labels;
+        console.log("Labels created");
+        console.log(labels);
+        return t.set(board, 'private', 'labels', labels);
     }
 </script>
 </body>
