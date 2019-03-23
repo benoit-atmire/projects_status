@@ -224,9 +224,12 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                     key: settings.tkey,
                     desc: "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + new_project.project_id + ") %0D%0A",
                     name: new_project.project_name + " (" + new_project.company_name + ")",
-                    idList: lists[new_project.status] ? lists[new_project.status] : lists["Other"],
-                    idLabels: labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id
+                    idList: lists[new_project.status] ? lists[new_project.status] : lists["Other"]
                 };
+
+                var idLabels_add = [];
+                idLabels_add.push(labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id);
+                var idLabels_remove = [];
 
                 var comment = "";
 
@@ -287,8 +290,9 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
 
                 }
 
-                if (datechanged) card.idLabels += "," + labels["Date changed"].id;
-                if (datemissing) card.idLabels += "," + labels["Date missing"].id;
+                if (datechanged) idLabels_add.push(labels["Date changed"].id);
+                if (datemissing) idLabels_add.push(labels["Date missing"].id);
+                else idLabels_remove.push(labels["Date missing"].id);
 
                 if (!datemissing) {
                     var nextDeadline;
@@ -296,15 +300,17 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                     if (new_project.status == "In Planning" || new_project.status == "In Progress") nextDeadline = new Date(new_project.end_impl.substring(0, 10));
                     else nextDeadline = new Date(new_project.end_date.substring(0, 10));
 
-                    if (nextDeadline < new Date()) card.idLabels += "," + labels["Outdated"].id;
+                    if (nextDeadline < new Date()) idLabels_add.push(labels["Outdated"].id);
+                    else idLabels_remove.push(labels["Outdated"].id);
                 }
                 // Project time & budget
 
                 if (card_data.billable_hours && card_data.billable_hours != new_project.billable_hours) {
                     comment += "Billable hours updated from " + card_data.billable_hours + " to " + new_project.billable_hours;
                     comment += "%0D%0A";
-                    card.idLabels += "," + labels["Billable changed"].id;
+                    idLabels_add.push(labels["Billable changed"].id);
                 }
+
 
 
                 if (card_data.worked_hours) comment += (new_project.worked_hours - card_data.worked_hours) + " hour(s) worked since last log.";
@@ -312,9 +318,10 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed price project") {
                     var percentage = new_project.worked_hours / new_project.billable_hours;
 
-                    if (new_project.status == "In Planning" && percentage > 0.1) card.idLabels += "," + labels["Budget risk"].id;
-                    if (new_project.status == "In Progress" && percentage > 0.6) card.idLabels += "," + labels["Budget risk"].id;
-                    if (new_project.status == "In Test" && percentage > 0.8) card.idLabels += "," + labels["Budget risk"].id;
+                    if (new_project.status == "In Planning" && percentage > 0.1) idLabels_add.push(labels["Budget risk"].id);
+                    else if (new_project.status == "In Progress" && percentage > 0.6) idLabels_add.push(labels["Budget risk"].id);
+                    else if (new_project.status == "In Test" && percentage > 0.8) idLabels_add.push(labels["Budget risk"].id);
+                    else idLabels_remove.push(labels["Budget risk"].id);
                 }
 
 
@@ -329,6 +336,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
 
                 // Save project data in card data
                 t.set(card_id, 'shared', card_data);
+                t.set(card_id, 'private', 'labels', )
 
 
                 // Update card list and labels
@@ -357,10 +365,13 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
 
                 // Comment card
                 if (comment.length > 0) createComment(card_id, comment, settings.tkey, settings.ttoken);
+                if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
+                if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);
+
             });
         });
 }
-//https://api.trello.com/1/cards/5c964f9e13fc8713b15ff21f?token=78e5c1dae23a1876e26253323ced59d0c04447037a92eb27313ac462dc63d50d&key=f30f0a775267ab8e3ed803a4ea93659e&desc=[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=1813)%20%0D%0A&name=OpenBIS%20integration%20quote%20(ETH%20Zurich)&idList=undefined&idLabels=5c961ddc4862e47620a9ca26,5c961dde72c75e5d3b71e2d0&pos=top
+
 function createComment(card_id, text, key, token) {
 
     var request = new XMLHttpRequest();
@@ -377,6 +388,40 @@ function createComment(card_id, text, key, token) {
 
 }
 
+function addLabels(labels, card_id, key, token){
+
+    for (var l in labels) {
+        var xhr = new XMLHttpRequest();
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                console.log(this.responseText);
+            }
+        });
+
+        xhr.open("POST", "https://api.trello.com/1/cards/" + card_id + "/idLabels?value=" + labels[l] + "?key=" + key + "&token=" + token);
+
+        xhr.send(null);
+    }
+}
+
+function removeLabels(labels, card_id, key, token){
+    for (var l in labels){
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                console.log(this.responseText);
+            }
+        });
+
+        xhr.open("DELETE", "https://api.trello.com/1/cards/"+card_id+"/idLabels/"+labels[l]+"?key="+key+"&token="+token);
+
+        xhr.send(null);
+    }
+
+}
 
 function getAllBadges(t, long) {
     // TODO: badge with end date for current phase
@@ -408,45 +453,30 @@ function getCardButtons(t) {
                 });
             }
 
-            buttons.push({
-                icon: ATMIRE_ICON,
-                text: "Atmire website",
-                url: "http://www.atmire.com"
-            });
-
-
-           /* [
-                // TODO: If project mapped
-                {
+            else {
+                buttons.push({
                     icon: ATMIRE_ICON,
                     text: "Update project info",
                     callback: function(t){
-                        return updateBoard(t,(t.getContext()).card);
+                        return updateBoard(t,t.getContext().card);
                     }
-                },
-                // TODO: If not project mapped
-                {
-                    icon: ATMIRE_ICON,
-                    text: "Map with project",
-                    callback: function(t){
-                        return t.popup({
-                            title: "W2P Project",
-                            url: 'views/mapproject.html'
-                        });
-                    }
-                },
-        // TODO: If project mapped && type == SLA
-        {
-            icon: ATMIRE_ICON,
-            text: "Add fixed price credits",
-            callback: function(t){
-                return t.popup({
-                    title: "W2P Link",
-                    url: 'views/settings.html'
                 });
+
+                if (data.card.shared && data.card.shared.project_type && data.card.shared.project_type == "SLA"){
+                    buttons.push({
+                        icon: ATMIRE_ICON,
+                        text: "Add fixed price credits",
+                        /*callback: function(t){
+                            return t.popup({
+                                title: "W2P Link",
+                                url: 'views/settings.html'
+                            });*/
+                        url: "https://www.atmire.com"
+                        }
+                    });
+                }
             }
-        }
-            ];*/
+
             return buttons;
 
         });
