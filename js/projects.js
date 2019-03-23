@@ -356,11 +356,11 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 request.send();
 
                 // Comment card
-                createComment(card_id, comment, settings.tkey, settings.ttoken);
+                if (comment.length > 0) createComment(card_id, comment, settings.tkey, settings.ttoken);
             });
         });
 }
-
+//https://api.trello.com/1/cards/5c964f9e13fc8713b15ff21f?token=78e5c1dae23a1876e26253323ced59d0c04447037a92eb27313ac462dc63d50d&key=f30f0a775267ab8e3ed803a4ea93659e&desc=[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=1813)%20%0D%0A&name=OpenBIS%20integration%20quote%20(ETH%20Zurich)&idList=undefined&idLabels=5c961ddc4862e47620a9ca26,5c961dde72c75e5d3b71e2d0&pos=top
 function createComment(card_id, text, key, token) {
 
     var request = new XMLHttpRequest();
@@ -374,6 +374,7 @@ function createComment(card_id, text, key, token) {
     request.open("POST", "https://trello.com/1/cards/" + card_id + "/actions/comments?text=" + text + "&key="+key+"&token="+token);
 
     request.send(null);
+
 }
 
 
