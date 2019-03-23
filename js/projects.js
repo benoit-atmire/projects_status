@@ -103,10 +103,10 @@ function updateBoard (t, filter) {
                 for (var c = 0; c < cards.length; c++) {
                     t.get(cards[c].id, 'private')
                         .then(function (cardinfo) {
-                            if (cardinfo.id) return updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                            if (cardinfo.id) return Promise.all([cardinfo, updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists)]);
                         })
-                        .then(function (project_data){
-                            t.set(cardinfo.id, 'shared', project_data);
+                        .then(function (tosave){
+                            t.set(tosave[0].id, 'shared', tosave[1]);
                         })
                 }
             }
