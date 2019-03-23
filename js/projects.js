@@ -54,7 +54,7 @@ function updateLabels(t){
 
 
 
-var updateBoard = function (t, filter) {
+function updateBoard (t, filter) {
 
     // TODO: refactor / rewrite:
 
@@ -92,10 +92,21 @@ var updateBoard = function (t, filter) {
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
 
-            for (var c = 0 ; c < cards.length ; c++){
-                updateCard(t, card[c].id, projects, settings, labels, lists);
+            if (filter){
+                t.get(cards[filter].id, 'private')
+                    .then(function (cardinfo){
+                        updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                    })
             }
 
+            else {
+                for (var c = 0; c < cards.length; c++) {
+                    t.get(cards[c].id, 'private')
+                        .then(function (cardinfo) {
+                            updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                        })
+                }
+            }
             /* For each card:
             * - update existing project
             * - store latest project details in plugin data
@@ -201,13 +212,11 @@ function createCard(t, new_project, settings, labels, lists) {
     });
 }
 
-function updateCard(t, card_id, projects, settings, labels, lists) {
+function updateCard(t, card_id, new_project, settings, labels, lists) {
 
-    return t.get(card_id, 'shared')
+    return t.get(card_id, 'shared') // Get old version of project, if any
         .then(function (card_data){
-            var new_project = projects[card_data.pid];
-
-            // Get old version of project, if any
+            console.log(card_data);
             return new Promise( function (resolve, reject){
 
 

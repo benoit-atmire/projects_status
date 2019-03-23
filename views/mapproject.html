@@ -47,7 +47,12 @@
                 }
             }
             console.log("Context: " + t.getContext().card);
-            return t.set('card', 'shared', t.getContext().card, pid)
+
+            var card_data = {
+                id : t.getContext().card,
+                pid : pid
+            }
+            return t.set('card', 'private', card_data)
                 .then(function(){
                     t.closePopup();
                 });
