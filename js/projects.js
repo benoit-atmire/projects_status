@@ -96,7 +96,7 @@ function updateBoard (t, filter) {
                 t.get(cards[filter].id, 'private')
                     .then(function (cardinfo){
                         updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
-                        t.set(cardinfo.id, 'shared', projects[cardinfo.pid]);
+                        t.set(cardinfo.id, 'shared', 'project', projects[cardinfo.pid]);
                     })
             }
 
@@ -106,7 +106,7 @@ function updateBoard (t, filter) {
                         .then(function (cardinfo) {
                             if (cardinfo.id) {
                                 updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
-                                t.set(cardinfo.id, 'shared', projects[cardinfo.pid]);
+                                t.set(cardinfo.id, 'shared', 'project', projects[cardinfo.pid]);
                             }
                         })
                 }
@@ -143,9 +143,10 @@ function getProjects(username, password){
 function updateCard(t, card_id, new_project, settings, labels, lists) {
     console.log(card_id);
     return t.get(card_id, 'shared') // Get old version of project, if any
-        .then(function (card_data){
-            console.log(card_data);
+        .then(function (data){
+            console.log(data);
             return new Promise( function (resolve, reject){
+                var card_data = data.project || {};
 
                 var card = {
                     token: settings.ttoken,
