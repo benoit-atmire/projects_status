@@ -219,20 +219,22 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
             console.log(card_data);
             return new Promise( function (resolve, reject){
 
+                var card = {
+                    token: settings.ttoken,
+                    key: settings.tkey,
+                    desc: "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + new_project.project_id + ") %0D%0A",
+                    name: new_project.project_name + " (" + new_project.company_name + ")",
+                    idList: lists[new_project.status] ? lists[new_project.status] : lists["Other"],
+                    idLabels: labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id
+                };
 
                 var comment = "";
 
-                // Project status
-                var idList = lists[new_project.status] ? lists[new_project.status] : lists["Other"];
-
-
-                if (new_project.status != card_data.status) {
+                if (card_data.status && new_project.status != card_data.status) {
                     comment += "Updated status: " + new_project.status;
                     comment += " (was: " + card_data.status + ")";
                     comment += "%0D%0A";
                 }
-
-                var idLabels = labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id;
 
 
                 // Project dates
@@ -285,8 +287,8 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
 
                 }
 
-                if (datechanged) idLabels += "," + labels["Date changed"].id;
-                if (datemissing) idLabels += "," + labels["Date missing"].id;
+                if (datechanged) card.idLabels += "," + labels["Date changed"].id;
+                if (datemissing) card.idLabels += "," + labels["Date missing"].id;
 
                 if (!datemissing) {
                     var nextDeadline;
@@ -294,14 +296,14 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                     if (new_project.status == "In Planning" || new_project.status == "In Progress") nextDeadline = new Date(new_project.end_impl.substring(0, 10));
                     else nextDeadline = new Date(new_project.end_date.substring(0, 10));
 
-                    if (nextDeadline < new Date()) idLabels += "," + labels["Outdated"].id;
+                    if (nextDeadline < new Date()) card.idLabels += "," + labels["Outdated"].id;
                 }
                 // Project time & budget
 
                 if (card_data.billable_hours && card_data.billable_hours != new_project.billable_hours) {
                     comment += "Billable hours updated from " + card_data.billable_hours + " to " + new_project.billable_hours;
                     comment += "%0D%0A";
-                    idLabels += "," + labels["Billable changed"].id;
+                    card.idLabels += "," + labels["Billable changed"].id;
                 }
 
 
@@ -310,14 +312,20 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed price project") {
                     var percentage = new_project.worked_hours / new_project.billable_hours;
 
-                    if (new_project.status == "In Planning" && percentage > 0.1) idLabels += "," + labels["Budget risk"].id;
-                    if (new_project.status == "In Progress" && percentage > 0.6) idLabels += "," + labels["Budget risk"].id;
-                    if (new_project.status == "In Test" && percentage > 0.8) idLabels += "," + labels["Budget risk"].id;
+                    if (new_project.status == "In Planning" && percentage > 0.1) card.idLabels += "," + labels["Budget risk"].id;
+                    if (new_project.status == "In Progress" && percentage > 0.6) card.idLabels += "," + labels["Budget risk"].id;
+                    if (new_project.status == "In Test" && percentage > 0.8) card.idLabels += "," + labels["Budget risk"].id;
                 }
 
 
                 var action = 'PUT';
-                var url = "https://api.trello.com/1/cards/" + card_id + "?idLabels="+idLabels+"&idList="+idList;
+                var url = "https://api.trello.com/1/cards/" + card_id + "?";
+
+                for (var c in card) {
+                    url += c + "=" + card[c] + "&";
+                }
+
+                url += "pos=top";
 
                 // Save project data in card data
                 t.set(card_id, 'shared', card_data);
