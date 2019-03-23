@@ -370,11 +370,16 @@ function getCardButtons(t) {
             console.log(data);
             var buttons = [];
             if (data && (!data.card || !data.card.shared || !data.card.shared.pid || data.card.shared.pid == "")){
-                console.log("Card has no pid yet");
                 buttons.push({
                     icon: ATMIRE_ICON,
                     text: "Map with project",
-                    url: "http://www.atmire.com"
+                    callback: function (t) {
+                        return t.popup({
+                            title: "W2P Project",
+                            url: 'views/mapproject.html'
+                        })
+
+                    }
                 });
             }
 
