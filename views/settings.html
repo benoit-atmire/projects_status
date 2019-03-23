@@ -62,7 +62,7 @@
 
             var labels = createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
             console.log(JSON.stringify(labels));
-            return Promise.all([t.set('board', 'private', 'labels', labels), t.set('board', 'private', 'settings', settings)])
+            return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'private', 'settings', settings)])
                 .then(function (){
                     t.closePopup();
                 })
@@ -78,15 +78,16 @@
 
 
     t.render(function(){
-      return t.get('board', 'private')
-      .then(function(boarddata){
+      return t.getAll()
+      .then(function(data){
 
-          console.log(boarddata);
-          var settings = boarddata.settings;
-        var hasSettings = (settings && settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
-        var hasLabels = (boarddata.labels && boarddata.labels != '');
+          console.log(data);
+          var settings;
+        var hasSettings = (data.board.private.settings && data.board.private.settings != '' && data.board.private.settings.username && data.board.private.settings.password && data.board.private.settings.pm && data.board.private.settings.ttoken && data.board.private.settings.tkey);
+        var hasLabels = (data.board.shared.labels && data.board.shared.labels != '');
 
         if (hasSettings) {
+            settings = data.board.private.settings;
             document.getElementById("pm").value = settings.pm;
             document.getElementById("username").value = settings.username;
             document.getElementById("password").value = settings.password;
