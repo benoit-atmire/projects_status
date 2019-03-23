@@ -21,16 +21,16 @@ TrelloPowerUp.initialize({
             width: 600
       });
     },
-    'card-badges': function(t, options) {
+    /*'card-badges': function(t, options) {
         updateLabels(t);
         return getAllBadges(t, false);
     },
     'card-detail-badges': function(t, options) {
         return getAllBadges(t, true);
-    },
+    },*/
     'card-buttons': function(t, options){
-        //return getCardButtons(t);
-        return [{
+        return getCardButtons(t);
+        /*return [{
             icon: ATMIRE_ICON,
             text: "Map with project",
             callback: function(t){
@@ -39,7 +39,7 @@ TrelloPowerUp.initialize({
                     url: 'views/mapproject.html'
                 });
             }
-        }];
+        }];*/
     }
 });
 
