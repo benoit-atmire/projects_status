@@ -375,26 +375,39 @@ function getAllBadges(t, long) {
 }
 
 function getCardButtons(t) {
-    return [
-        // TODO: If project mapped
-        /*{
-            icon: ATMIRE_ICON,
-            text: "Update project info",
-            callback: function(t){
-                return updateBoard(t,(t.getContext()).card);
+    return t.getAll()
+        .then(function (data) {
+
+            var buttons = [];
+            if (data && data.card && data.card.shared && (!data.card.shared.pid || data.card.shared.pid == "")){
+                buttons.push({
+                    icon: ATMIRE_ICON,
+                    text: "Map with project",
+                    url: "http://www.atmire.com"
+                });
             }
-        },*/
-        // TODO: If not project mapped
-        {
-            icon: ATMIRE_ICON,
-            text: "Map with project",
-            callback: function(t){
-                return t.popup({
-                    title: "W2P Project",
-                    url: 'views/mapproject.html'
-                 });
-                }
-        }/*,
+
+
+           /* [
+                // TODO: If project mapped
+                {
+                    icon: ATMIRE_ICON,
+                    text: "Update project info",
+                    callback: function(t){
+                        return updateBoard(t,(t.getContext()).card);
+                    }
+                },
+                // TODO: If not project mapped
+                {
+                    icon: ATMIRE_ICON,
+                    text: "Map with project",
+                    callback: function(t){
+                        return t.popup({
+                            title: "W2P Project",
+                            url: 'views/mapproject.html'
+                        });
+                    }
+                },
         // TODO: If project mapped && type == SLA
         {
             icon: ATMIRE_ICON,
@@ -405,8 +418,11 @@ function getCardButtons(t) {
                     url: 'views/settings.html'
                 });
             }
-        }*/
-    ];
+        }
+            ];*/
+            return buttons;
+
+        });
 }
 
 function getAllSLACreditsBalances() {
