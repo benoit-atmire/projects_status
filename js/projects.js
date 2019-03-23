@@ -103,7 +103,7 @@ function updateBoard (t, filter) {
                 for (var c = 0; c < cards.length; c++) {
                     t.get(cards[c].id, 'private')
                         .then(function (cardinfo) {
-                            updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                            if (cardinfo.id) updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
                         })
                 }
             }
@@ -213,7 +213,7 @@ function createCard(t, new_project, settings, labels, lists) {
 }
 
 function updateCard(t, card_id, new_project, settings, labels, lists) {
-
+    console.log(card_id);
     return t.get(card_id, 'shared') // Get old version of project, if any
         .then(function (card_data){
             console.log(card_data);
@@ -385,7 +385,7 @@ function getCardButtons(t) {
         .then(function (data) {
             console.log(data);
             var buttons = [];
-            if (data && (!data.card || !data.card.shared || !data.card.shared.pid || data.card.shared.pid == "")){
+            if (data && (!data.card || !data.card.private || !data.card.private.pid || data.card.private.pid == "")){
                 buttons.push({
                     icon: ATMIRE_ICON,
                     text: "Map with project",
