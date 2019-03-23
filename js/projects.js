@@ -96,6 +96,7 @@ function updateBoard (t, filter) {
                 t.get(cards[filter].id, 'private')
                     .then(function (cardinfo){
                         updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                        t.set(cardinfo.id, 'shared', projects[cardinfo.pid]);
                     })
             }
 
@@ -103,14 +104,10 @@ function updateBoard (t, filter) {
                 for (var c = 0; c < cards.length; c++) {
                     t.get(cards[c].id, 'private')
                         .then(function (cardinfo) {
-                            if (cardinfo.id) return Promise.all([cardinfo, updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists)]);
-                            else return (new Promise (function (resolve, reject) {
-                                resolve(false);
-                            }));
-                        })
-                        .then(function (tosave){
-                            console.log(tosave);
-                            if (tosave) return t.set(tosave[0].id, 'shared', tosave[1]);
+                            if (cardinfo.id) {
+                                updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                                t.set(cardinfo.id, 'shared', projects[cardinfo.pid]);
+                            }
                         })
                 }
             }
