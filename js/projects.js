@@ -30,16 +30,6 @@ TrelloPowerUp.initialize({
     },*/
     'card-buttons': function(t, options){
         return getCardButtons(t);
-        /*return [{
-            icon: ATMIRE_ICON,
-            text: "Map with project",
-            callback: function(t){
-                return t.popup({
-                    title: "W2P Project",
-                    url: 'views/mapproject.html'
-                });
-            }
-        }];*/
     }
 });
 
@@ -379,7 +369,7 @@ function getCardButtons(t) {
         .then(function (data) {
             console.log(data);
             var buttons = [];
-            if (data && data.card && data.card.shared && (!data.card.shared.pid || data.card.shared.pid == "")){
+            if (data && data.card && (!data.card.shared || !data.card.shared.pid || data.card.shared.pid == "")){
                 console.log("Card has no pid yet");
                 buttons.push({
                     icon: ATMIRE_ICON,
