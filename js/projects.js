@@ -472,7 +472,6 @@ function getCardButtons(t) {
                                 url: 'views/settings.html'
                             });*/
                         url: "https://www.atmire.com"
-                        }
                     });
                 }
             }
