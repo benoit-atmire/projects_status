@@ -29,6 +29,7 @@
 
     document.getElementById("settings").addEventListener('submit', function(event){
         document.getElementById("sendform").disabled = true;
+        document.getElementById("sendform").value = "Please wait..."
         event.preventDefault();
 
         var username = document.getElementById("username").value;
@@ -37,7 +38,7 @@
         var tkey = document.getElementById("tkey").value;
         var hasLabels = (document.getElementById("labels").value == "yes");
 
-        if ((pm == "") || (username == "") || (password == "") || (ttoken == "") || (tkey == "")) {
+        if ((username == "") || (password == "") || (ttoken == "") || (tkey == "")) {
             document.getElementById("error").value = "All fields are mandatory";
             return false;
         }
@@ -77,7 +78,7 @@
 
           console.log(data);
           var settings;
-        var hasSettings = (data.board.private.settings && data.board.private.settings != '' && data.board.private.settings.username && data.board.private.settings.password && data.board.private.settings.pm && data.board.private.settings.ttoken && data.board.private.settings.tkey);
+        var hasSettings = (data.board.private.settings && data.board.private.settings != '' && data.board.private.settings.username && data.board.private.settings.password && data.board.private.settings.ttoken && data.board.private.settings.tkey);
         var hasLabels = (data.board.shared.labels && data.board.shared.labels != '');
 
         if (hasSettings) {
