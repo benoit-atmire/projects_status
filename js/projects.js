@@ -136,7 +136,9 @@ function getProjects(username, password){
     });
 }
 
-function updateCard(tt, card_id, new_project, settings, labels, lists) {
+function updateCard(t, card_id, new_project, settings, labels, lists) {
+    console.log("Board: " + t.getContext().board);
+    console.log("Card: " + t.getContext().card);
     console.log(card_id);
     return t.get(card_id, 'shared', 'project', {}) // Get old version of project, if any
         .then(function (card_data){
