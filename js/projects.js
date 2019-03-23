@@ -92,9 +92,7 @@ var updateBoard = function (t, filter) {
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
 
-            for (var  in cards) {
 
-            }
 
             /* For each card:
             * - update existing project
