@@ -46,8 +46,8 @@
                     break;
                 }
             }
-            console.log("Context: " + t.getContext().toString());
-            return t.set('card', 'shared', 'pid', pid)
+            console.log("Context: " + t.getContext().card);
+            return t.set('card', 'shared', t.getContext().card, pid)
                 .then(function(){
                     t.closePopup();
                 });

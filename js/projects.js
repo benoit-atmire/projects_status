@@ -92,7 +92,11 @@ var updateBoard = function (t, filter) {
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
 
+            for (var c = 0 ; c < cards.length ; c++){
+                updateCard(t, card[c].id, projects, settings, labels, lists);
+            }
 
+            }
 
             /* For each card:
             * - update existing project
@@ -199,142 +203,147 @@ function createCard(t, new_project, settings, labels, lists) {
     });
 }
 
-function updateCard(t, card_id, new_project, settings, labels, lists, card_data) {
+function updateCard(t, card_id, projects, settings, labels, lists) {
 
-    // Get old version of project, if any
-    return new Promise( function (resolve, reject){
+    return t.get(card_id, 'shared')
+        .then(function (card_data){
+            var new_project = projects[card_data.pid];
 
-
-        var comment = "";
-
-        // Project status
-        var idList = lists[new_project.status] ? lists[new_project.status] : lists["Other"];
+            // Get old version of project, if any
+            return new Promise( function (resolve, reject){
 
 
-        if (new_project.status != card_data.status) {
-            comment += "Updated status: " + new_project.status;
-            comment += " (was: " + card_data.status + ")";
-            comment += "%0D%0A";
-        }
+                var comment = "";
 
-        var idLabels = labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id;
+                // Project status
+                var idList = lists[new_project.status] ? lists[new_project.status] : lists["Other"];
 
 
-        // Project dates
-        var datechanged = false;
-        var datemissing = false;
+                if (new_project.status != card_data.status) {
+                    comment += "Updated status: " + new_project.status;
+                    comment += " (was: " + card_data.status + ")";
+                    comment += "%0D%0A";
+                }
 
-        if (new_project.start_date == null || new_project.start_date.substring(0, 10) == "0000-00-00") datemissing = true;
-        else {
-
-            if (card_data && new_project.start_date != card_data.start_date) {
-                comment += "Start date: " + new_project.start_date.substring(0, 10);
-                comment += " (was: " + card_data.start_date.substring(0, 10) + ")";
-                comment += "%0D%0A";
-                datechanged = true;
-            }
-
-        }
-
-        if (new_project.end_impl == null || new_project.end_impl.substring(0, 10) == "0000-00-00") datemissing = true;
-        else {
-
-            if (card_data && new_project.end_impl != card_data.end_impl) {
-                comment += "End implementation date: " + new_project.end_impl.substring(0, 10);
-                comment += " (was: " + card_data.end_impl.substring(0, 10) + ")";
-                comment += "%0D%0A";
-                datechanged = true;
-            }
-
-        }
-
-        if (new_project.start_test == null || new_project.start_test.substring(0, 10) == "0000-00-00") datemissing = true;
-        else {
-            if (card_data && new_project.start_test != card_data.start_test) {
-                comment += "Start test date: " + new_project.start_test.substring(0, 10);
-                comment += " (was: " + card_data.start_test.substring(0, 10) + ")";
-                comment += "%0D%0A";
-                datechanged = true;
-            }
-        }
-
-        if (new_project.end_date == null || new_project.end_date.substring(0, 10) == "0000-00-00") datemissing = true;
-        else {
-
-            if (card_data && new_project.end_date != card_data.end_date) {
-                comment += "End date: " + new_project.end_date.substring(0, 10);
-                comment += " (was: " + card_data.end_date.substring(0, 10) + ")";
-                comment += "%0D%0A";
-                datechanged = true;
-            }
-
-        }
-
-        if (datechanged) idLabels += "," + labels["Date changed"].id;
-        if (datemissing) idLabels += "," + labels["Date missing"].id;
-
-        if (!datemissing) {
-            var nextDeadline;
-
-            if (new_project.status == "In Planning" || new_project.status == "In Progress") nextDeadline = new Date(new_project.end_impl.substring(0, 10));
-            else nextDeadline = new Date(new_project.end_date.substring(0, 10));
-
-            if (nextDeadline < new Date()) idLabels += "," + labels["Outdated"].id;
-        }
-        // Project time & budget
-
-        if (card_data && card_data.billable_hours != new_project.billable_hours) {
-            comment += "Billable hours updated from " + card_data.billable_hours + " to " + new_project.billable_hours;
-            comment += "%0D%0A";
-            idLabels += "," + labels["Billable changed"].id;
-        }
+                var idLabels = labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id;
 
 
-        if (card_data) comment += (new_project.worked_hours - card_data.worked_hours) + " hour(s) worked since last log.";
+                // Project dates
+                var datechanged = false;
+                var datemissing = false;
 
-        if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed price project") {
-            var percentage = new_project.worked_hours / new_project.billable_hours;
+                if (new_project.start_date == null || new_project.start_date.substring(0, 10) == "0000-00-00") datemissing = true;
+                else {
 
-            if (new_project.status == "In Planning" && percentage > 0.1) idLabels += "," + labels["Budget risk"].id;
-            if (new_project.status == "In Progress" && percentage > 0.6) idLabels += "," + labels["Budget risk"].id;
-            if (new_project.status == "In Test" && percentage > 0.8) idLabels += "," + labels["Budget risk"].id;
-        }
+                    if (card_data && new_project.start_date != card_data.start_date) {
+                        comment += "Start date: " + new_project.start_date.substring(0, 10);
+                        comment += " (was: " + card_data.start_date.substring(0, 10) + ")";
+                        comment += "%0D%0A";
+                        datechanged = true;
+                    }
+
+                }
+
+                if (new_project.end_impl == null || new_project.end_impl.substring(0, 10) == "0000-00-00") datemissing = true;
+                else {
+
+                    if (card_data && new_project.end_impl != card_data.end_impl) {
+                        comment += "End implementation date: " + new_project.end_impl.substring(0, 10);
+                        comment += " (was: " + card_data.end_impl.substring(0, 10) + ")";
+                        comment += "%0D%0A";
+                        datechanged = true;
+                    }
+
+                }
+
+                if (new_project.start_test == null || new_project.start_test.substring(0, 10) == "0000-00-00") datemissing = true;
+                else {
+                    if (card_data && new_project.start_test != card_data.start_test) {
+                        comment += "Start test date: " + new_project.start_test.substring(0, 10);
+                        comment += " (was: " + card_data.start_test.substring(0, 10) + ")";
+                        comment += "%0D%0A";
+                        datechanged = true;
+                    }
+                }
+
+                if (new_project.end_date == null || new_project.end_date.substring(0, 10) == "0000-00-00") datemissing = true;
+                else {
+
+                    if (card_data && new_project.end_date != card_data.end_date) {
+                        comment += "End date: " + new_project.end_date.substring(0, 10);
+                        comment += " (was: " + card_data.end_date.substring(0, 10) + ")";
+                        comment += "%0D%0A";
+                        datechanged = true;
+                    }
+
+                }
+
+                if (datechanged) idLabels += "," + labels["Date changed"].id;
+                if (datemissing) idLabels += "," + labels["Date missing"].id;
+
+                if (!datemissing) {
+                    var nextDeadline;
+
+                    if (new_project.status == "In Planning" || new_project.status == "In Progress") nextDeadline = new Date(new_project.end_impl.substring(0, 10));
+                    else nextDeadline = new Date(new_project.end_date.substring(0, 10));
+
+                    if (nextDeadline < new Date()) idLabels += "," + labels["Outdated"].id;
+                }
+                // Project time & budget
+
+                if (card_data && card_data.billable_hours != new_project.billable_hours) {
+                    comment += "Billable hours updated from " + card_data.billable_hours + " to " + new_project.billable_hours;
+                    comment += "%0D%0A";
+                    idLabels += "," + labels["Billable changed"].id;
+                }
 
 
-        var action = 'PUT';
-        var url = "https://api.trello.com/1/cards/" + card_id + "?idLabels="+idLabels+"&idList="+idList;
+                if (card_data) comment += (new_project.worked_hours - card_data.worked_hours) + " hour(s) worked since last log.";
 
-        // Save project data in card data
-        t.set(card_id, 'shared', card_data);
+                if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed price project") {
+                    var percentage = new_project.worked_hours / new_project.billable_hours;
+
+                    if (new_project.status == "In Planning" && percentage > 0.1) idLabels += "," + labels["Budget risk"].id;
+                    if (new_project.status == "In Progress" && percentage > 0.6) idLabels += "," + labels["Budget risk"].id;
+                    if (new_project.status == "In Test" && percentage > 0.8) idLabels += "," + labels["Budget risk"].id;
+                }
 
 
-        // Update card list and labels
-        var request = new XMLHttpRequest();
+                var action = 'PUT';
+                var url = "https://api.trello.com/1/cards/" + card_id + "?idLabels="+idLabels+"&idList="+idList;
 
-        request.open(action, url);
+                // Save project data in card data
+                t.set(card_id, 'shared', card_data);
 
-        request.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
-                var response = JSON.parse(request.responseText);
-                resolve({   "card_id": response.id,
-                            "project" : new_project.project_id
-                        }
-                        );
-            } /*else {
-                console.log(request.statusText);
-                reject(new Error(request.statusText));
-            }*/
-        };
 
-        /*request.onerror = function () {
-            console.log("network error");
-            reject(new Error("Something went wrong with the query (network error)"));
-        }*/
-        request.send();
+                // Update card list and labels
+                var request = new XMLHttpRequest();
 
-        // Comment card
-        createComment(card_id, comment, settings.tkey, settings.ttoken);
-    });
+                request.open(action, url);
+
+                request.onload = function () {
+                    if (this.status >= 200 && this.status < 300) {
+                        var response = JSON.parse(request.responseText);
+                        resolve({   "card_id": response.id,
+                                    "project" : new_project.project_id
+                                }
+                                );
+                    } /*else {
+                        console.log(request.statusText);
+                        reject(new Error(request.statusText));
+                    }*/
+                };
+
+                /*request.onerror = function () {
+                    console.log("network error");
+                    reject(new Error("Something went wrong with the query (network error)"));
+                }*/
+                request.send();
+
+                // Comment card
+                createComment(card_id, comment, settings.tkey, settings.ttoken);
+            });
+        });
 }
 
 function createComment(card_id, text, key, token) {
