@@ -104,9 +104,13 @@ function updateBoard (t, filter) {
                     t.get(cards[c].id, 'private')
                         .then(function (cardinfo) {
                             if (cardinfo.id) return Promise.all([cardinfo, updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists)]);
+                            else return (new Promise (function (resolve, reject) {
+                                resolve(false);
+                            }));
                         })
                         .then(function (tosave){
-                            t.set(tosave[0].id, 'shared', tosave[1]);
+                            console.log(tosave);
+                            if (tosave) return t.set(tosave[0].id, 'shared', tosave[1]);
                         })
                 }
             }
