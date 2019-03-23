@@ -61,7 +61,7 @@
         if (!hasLabels) {
 
             var labels = createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
-
+            console.log(labels);
             return Promise.all([t.set('board', 'private', 'labels', labels), t.set('board', 'private', 'settings', settings)])
                 .then(function (){
                     t.closePopup();
@@ -83,7 +83,7 @@
 
           console.log(boarddata);
           var settings = boarddata.settings;
-        var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
+        var hasSettings = (settings && settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
         var hasLabels = (boarddata.labels && boarddata.labels != '');
 
         if (hasSettings) {
@@ -136,7 +136,7 @@
             var l = JSON.parse(request.responseText);
             labels[label].id = l.id;
         }
-
+        console.log("Created labels");
         return labels;
     }
 </script>
