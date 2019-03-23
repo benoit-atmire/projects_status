@@ -103,7 +103,10 @@ function updateBoard (t, filter) {
                 for (var c = 0; c < cards.length; c++) {
                     t.get(cards[c].id, 'private')
                         .then(function (cardinfo) {
-                            if (cardinfo.id) updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                            if (cardinfo.id) return updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
+                        })
+                        .then(function (project_data){
+                            t.set(cardinfo.id, 'shared', project_data);
                         })
                 }
             }
@@ -137,13 +140,11 @@ function getProjects(username, password){
 }
 
 function updateCard(t, card_id, new_project, settings, labels, lists) {
-    console.log("Board: " + t.getContext().board);
-    console.log("Card: " + t.getContext().card);
     console.log(card_id);
-    return t.get(card_id, 'shared', 'project', {}) // Get old version of project, if any
+    return t.get(card_id, 'shared') // Get old version of project, if any
         .then(function (card_data){
             console.log(card_data);
-            return Promise.all([t.set(card_id, 'shared', 'project', card_data), new Promise( function (resolve, reject){
+            return new Promise( function (resolve, reject){
 
                 var card = {
                     token: settings.ttoken,
@@ -271,10 +272,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 request.onload = function () {
                     if (this.status >= 200 && this.status < 300) {
                         var response = JSON.parse(request.responseText);
-                        resolve({   "card_id": response.id,
-                                    "project" : new_project.project_id
-                                }
-                                );
+                        resolve(card_data);
                     } /*else {
                         console.log(request.statusText);
                         reject(new Error(request.statusText));
@@ -292,7 +290,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
                 if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);
 
-            })]);
+            });
         });
 }
 
