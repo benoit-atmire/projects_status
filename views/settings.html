@@ -56,9 +56,14 @@
                 "tkey": tkey
             };
         }
-        console.log(t);
-        console.log((t.getContext()).board);
-        if (!hasLabels) createLabels((t, t.getContext()).board, settings.ttoken, settings.tkey);
+
+        if (!hasLabels) {
+            t.set('board', 'private', 'labels', createLabels((t, t.getContext()).board, settings.ttoken, settings.tkey))
+                .then(function (l){
+                    console.log("Labels created");
+                    console.log(l);
+                });
+        }
 
         return t.set('board', 'private', 'settings',  settings)
             .then(function(){
@@ -73,9 +78,8 @@
 
           console.log(boarddata);
           var settings = boarddata.settings;
-        var labels = boarddata.labels;
         var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
-        var hasLabels = (labels != '');
+        var hasLabels = (boarddata.labels && boarddata.labels != '');
 
         if (hasSettings) {
             document.getElementById("pm").value = settings.pm;
@@ -128,9 +132,7 @@
             labels[label].id = l.id;
         }
 
-        console.log("Labels created");
-        console.log(labels);
-        return t.set(board, 'private', 'labels', labels);
+        return labels;
     }
 </script>
 </body>
