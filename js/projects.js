@@ -138,10 +138,10 @@ function getProjects(username, password){
 
 function updateCard(t, card_id, new_project, settings, labels, lists) {
     console.log(card_id);
-    return t.get(card_id, 'shared') // Get old version of project, if any
+    return t.get(card_id, 'shared', 'project') // Get old version of project, if any
         .then(function (card_data){
             console.log(card_data);
-            return Promise.all([t.set(card_id, 'shared', card_data), new Promise( function (resolve, reject){
+            return Promise.all([t.set(card_id, 'shared', 'project', card_data), new Promise( function (resolve, reject){
 
                 var card = {
                     token: settings.ttoken,
@@ -248,7 +248,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                     if (new_project.status == "In Test" && percentage > 0.8) budgetrisk = true;
 
                     if (budgetrisk) idLabels_add.push(labels["Budget risk"].id);
-                    else  idLabels_remove.push(labels["Budget risk"].id);
+                    else idLabels_remove.push(labels["Budget risk"].id);
                 }
 
 
