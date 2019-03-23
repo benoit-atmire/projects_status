@@ -226,7 +226,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 var idList = lists[new_project.status] ? lists[new_project.status] : lists["Other"];
 
 
-                if (new_project.status != card_data.status) {
+                if (card_data && new_project.status != card_data.status) {
                     comment += "Updated status: " + new_project.status;
                     comment += " (was: " + card_data.status + ")";
                     comment += "%0D%0A";
@@ -242,7 +242,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (new_project.start_date == null || new_project.start_date.substring(0, 10) == "0000-00-00") datemissing = true;
                 else {
 
-                    if (card_data && new_project.start_date != card_data.start_date) {
+                    if (card_data && card_data.start_date && new_project.start_date != card_data.start_date) {
                         comment += "Start date: " + new_project.start_date.substring(0, 10);
                         comment += " (was: " + card_data.start_date.substring(0, 10) + ")";
                         comment += "%0D%0A";
@@ -254,7 +254,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (new_project.end_impl == null || new_project.end_impl.substring(0, 10) == "0000-00-00") datemissing = true;
                 else {
 
-                    if (card_data && new_project.end_impl != card_data.end_impl) {
+                    if (card_data && card_data.end_impl && new_project.end_impl != card_data.end_impl) {
                         comment += "End implementation date: " + new_project.end_impl.substring(0, 10);
                         comment += " (was: " + card_data.end_impl.substring(0, 10) + ")";
                         comment += "%0D%0A";
@@ -265,7 +265,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
 
                 if (new_project.start_test == null || new_project.start_test.substring(0, 10) == "0000-00-00") datemissing = true;
                 else {
-                    if (card_data && new_project.start_test != card_data.start_test) {
+                    if (card_data && card_data.start_test && new_project.start_test != card_data.start_test) {
                         comment += "Start test date: " + new_project.start_test.substring(0, 10);
                         comment += " (was: " + card_data.start_test.substring(0, 10) + ")";
                         comment += "%0D%0A";
@@ -276,7 +276,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (new_project.end_date == null || new_project.end_date.substring(0, 10) == "0000-00-00") datemissing = true;
                 else {
 
-                    if (card_data && new_project.end_date != card_data.end_date) {
+                    if (card_data && card_data.end_date && new_project.end_date != card_data.end_date) {
                         comment += "End date: " + new_project.end_date.substring(0, 10);
                         comment += " (was: " + card_data.end_date.substring(0, 10) + ")";
                         comment += "%0D%0A";
@@ -298,7 +298,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 }
                 // Project time & budget
 
-                if (card_data && card_data.billable_hours != new_project.billable_hours) {
+                if (card_data && card_data.billable_hours && card_data.billable_hours != new_project.billable_hours) {
                     comment += "Billable hours updated from " + card_data.billable_hours + " to " + new_project.billable_hours;
                     comment += "%0D%0A";
                     idLabels += "," + labels["Billable changed"].id;
