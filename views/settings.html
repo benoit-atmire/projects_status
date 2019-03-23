@@ -58,11 +58,8 @@
         }
 
         if (!hasLabels) {
-            t.set('board', 'private', 'labels', createLabels((t.getContext()).board, settings.ttoken, settings.tkey))
-                .then(function (l){
-                    console.log("Labels created");
-                    console.log(l);
-                });
+            createLabels((t.getContext()).board, settings.ttoken, settings.tkey)
+                .then(function (l) {console.log("Labels created")});
         }
 
         return t.set('board', 'private', 'settings',  settings)
@@ -132,7 +129,7 @@
             labels[label].id = l.id;
         }
 
-        return labels;
+        return t.set(board, 'private', 'labels', labels);
     }
 </script>
 </body>
