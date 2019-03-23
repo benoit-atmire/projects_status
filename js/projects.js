@@ -377,9 +377,10 @@ function getAllBadges(t, long) {
 function getCardButtons(t) {
     return t.getAll()
         .then(function (data) {
-
+            console.log(data);
             var buttons = [];
             if (data && data.card && data.card.shared && (!data.card.shared.pid || data.card.shared.pid == "")){
+                console.log("Card has no pid yet");
                 buttons.push({
                     icon: ATMIRE_ICON,
                     text: "Map with project",
