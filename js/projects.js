@@ -290,7 +290,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
                 if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);
 
-            })];
+            })]);
         });
 }
 
