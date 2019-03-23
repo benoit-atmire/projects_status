@@ -56,8 +56,9 @@
                 "tkey": tkey
             };
         }
-
-        if (!hasLabels) createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
+        console.log(t);
+        console.log((t.getContext()).board);
+        if (!hasLabels) createLabels((t, t.getContext()).board, settings.ttoken, settings.tkey);
 
         return t.set('board', 'private', 'settings',  settings)
             .then(function(){
@@ -87,8 +88,6 @@
             document.getElementById("labels").value = "yes";
         }
 
-        // TODO if has label add hidden input saying you don't need to create new labels)
-
       })
       .then(function(){
            t.sizeTo('#settings').done();
@@ -96,7 +95,7 @@
     });
 
 
-    function createLabels(board, token, key) {
+    function createLabels(t, board, token, key) {
 
         var labels = {
             "Quote": {color:"green"},
