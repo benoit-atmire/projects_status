@@ -71,7 +71,8 @@
       return t.get('board', 'private')
       .then(function(boarddata){
 
-        var settings = boarddata.settings;
+          console.log(boarddata);
+          var settings = boarddata.settings;
         var labels = boarddata.labels;
         var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
         var hasLabels = (labels != '');
@@ -88,10 +89,10 @@
             document.getElementById("labels").value = "yes";
         }
 
-      })
-      .then(function(){
+        })
+        .then(function(){
            t.sizeTo('#settings').done();
-      });
+        });
     });
 
 
