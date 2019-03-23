@@ -8,7 +8,7 @@
 
 <form id="addproject">
     <fieldset id="fields">
-        <label for="project">PM: </label><input type="text" id="project" list="w2plist"/>
+        <label for="project">Project: </label><input type="text" id="project" list="w2plist"/>
         <datalist id="W2plist"></datalist>
 
     </fieldset>
@@ -66,8 +66,8 @@
 
                 for (var i in projects) {
                     var option = document.createElement('option');
-                    option.value = projects[i].project_name + " (" + response.projects[i].company_name + ")";
-                    option.setAttribute("pid", response.projects[i].project_id);
+                    option.value = projects[i].project_name + " (" + projects[i].company_name + ")";
+                    option.setAttribute("pid", projects[i].project_id);
                     dataList.appendChild(option);
                 }
 
