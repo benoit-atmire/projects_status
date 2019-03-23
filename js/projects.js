@@ -96,8 +96,6 @@ var updateBoard = function (t, filter) {
                 updateCard(t, card[c].id, projects, settings, labels, lists);
             }
 
-            }
-
             /* For each card:
             * - update existing project
             * - store latest project details in plugin data
