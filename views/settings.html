@@ -8,8 +8,6 @@
 
 <form id="settings">
     <fieldset id="fields">
-        <label for="pm">PM: </label><input type="text" id="pm" />
-
         <label for="username">W2P username: </label><input type="text" id="username" />
 
         <label for="password">W2P password: </label><input type="password" id="password" />
@@ -50,7 +48,6 @@
         else {
             document.getElementById("error").value = "";
             var settings = {
-                "pm": pm,
                 "username": username,
                 "password": password,
                 "ttoken": ttoken,
@@ -88,7 +85,6 @@
 
         if (hasSettings) {
             settings = data.board.private.settings;
-            document.getElementById("pm").value = settings.pm;
             document.getElementById("username").value = settings.username;
             document.getElementById("password").value = settings.password;
             document.getElementById("ttoken").value = settings.ttoken;

@@ -76,7 +76,7 @@ var updateBoard = function (t, filter) {
             var settings;
             var labels;
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
-            if (data.board && data.board.private && data.board.private.labels) labels = data.board.private.labels;
+            if (data.board && data.board.shared && data.board.shared.labels) labels = data.board.shared.labels;
             return Promise.all([settings, labels, t.lists('all'), getProjects(settings.username, settings.password), t.cards('all')]);
         })
     // Then process all that info
@@ -91,6 +91,8 @@ var updateBoard = function (t, filter) {
 
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
+
+
 
             /* For each card:
             * - update existing project
@@ -365,24 +367,24 @@ function getAllBadges(t, long) {
 function getCardButtons(t) {
     return [
         // TODO: If project mapped
-        {
+        /*{
             icon: ATMIRE_ICON,
             text: "Update project info",
             callback: function(t){
                 return updateBoard(t,(t.getContext()).card);
             }
-        },
+        },*/
         // TODO: If not project mapped
         {
             icon: ATMIRE_ICON,
             text: "Map with project",
             callback: function(t){
                 return t.popup({
-                    title: "W2P Link",
-                    url: 'views/settings.html'
+                    title: "W2P Project",
+                    url: 'views/mapproject.html'
                  });
                 }
-        },
+        }/*,
         // TODO: If project mapped && type == SLA
         {
             icon: ATMIRE_ICON,
@@ -393,7 +395,7 @@ function getCardButtons(t) {
                     url: 'views/settings.html'
                 });
             }
-        }
+        }*/
     ];
 }
 
