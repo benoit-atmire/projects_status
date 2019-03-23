@@ -61,7 +61,7 @@
                 return getProjects(settings.username, settings.password);
             })
             .then(function (projects) {
-
+                console.log(projects);
                 var dataList = document.getElementById('W2plist');
 
                 for (var i in projects) {
