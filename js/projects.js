@@ -378,6 +378,12 @@ function getCardButtons(t) {
                 });
             }
 
+            buttons.push({
+                icon: ATMIRE_ICON,
+                text: "Atmire website",
+                url: "http://www.atmire.com"
+            });
+
 
            /* [
                 // TODO: If project mapped
