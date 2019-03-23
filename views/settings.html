@@ -58,7 +58,7 @@
         }
 
         if (!hasLabels) {
-            t.set('board', 'private', 'labels', createLabels((t, t.getContext()).board, settings.ttoken, settings.tkey))
+            t.set('board', 'private', 'labels', createLabels((t.getContext()).board, settings.ttoken, settings.tkey))
                 .then(function (l){
                     console.log("Labels created");
                     console.log(l);
@@ -100,7 +100,7 @@
     });
 
 
-    function createLabels(t, board, token, key) {
+    function createLabels(board, token, key) {
 
         var labels = {
             "Quote": {color:"green"},
