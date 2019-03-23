@@ -21,7 +21,7 @@
         <input type="hidden" id="labels" />
 
     </fieldset>
-    <button type="submit" class="mod-primary">Save</button>
+    <button type="submit" class="mod-primary" id="sendform">Save</button>
     <p id="error" style="color: red;"></p>
 </form>
 
@@ -30,6 +30,7 @@
     var Promise = TrelloPowerUp.Promise;
 
     document.getElementById("settings").addEventListener('submit', function(event){
+        document.getElementById("sendform").disabled = true;
         event.preventDefault();
 
 
@@ -58,13 +59,15 @@
         }
 
         if (!hasLabels) {
-            return Promise.all([createLabels((t.getContext()).board, settings.ttoken, settings.tkey), t.set('board', 'private', 'settings', settings), t.closePopup()   ])
+            return Promise.all([createLabels((t.getContext()).board, settings.ttoken, settings.tkey), t.set('board', 'private', 'settings', settings)])
                 .then(function (labels){
                     console.log(labels[0]);
+                    t.closePopup();
                     t.set('board', 'private', 'labels', labels[0]);
                 })
                 .then(function (l){
                     console.log("Labels created");
+                    console.log(l);
                 })
         }
 
