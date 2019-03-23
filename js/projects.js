@@ -107,29 +107,6 @@ function updateBoard (t, filter) {
                         })
                 }
             }
-            /* For each card:
-            * - update existing project
-            * - store latest project details in plugin data
-            * - remove from projects list
-            */
-            /*for (var c in cards) {
-                // Get project data from W2P
-                var new_project = projects[old_projects[id]] || null;
-
-                // Delete project from W2P project list to prevent double processing
-                delete projects[old_projects[id]];
-
-                if (p !== null) {
-                    t.get(old_projects[id].card_id, 'shared')
-                        .then( function (card_data) {
-                            return updateCard(t, old_projects[id].card_id, new_project, settings, labels, lists, card_data.project_id ? card_data : old_projects[id]);
-                        });
-                }
-
-                else t.remove('board', 'shared', id);
-
-            }*/
-
         });
 
 }
@@ -159,65 +136,12 @@ function getProjects(username, password){
     });
 }
 
-function createCard(t, new_project, settings, labels, lists) {
-
-    // Get old version of project, if any
-    return new Promise( function (resolve, reject){
-
-        var card = {
-            token: settings.ttoken,
-            key: settings.tkey,
-            desc: "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + new_project.project_id + ") %0D%0A",
-            name: new_project.project_name + " (" + new_project.company_name + ")",
-            idList: lists[new_project.status] ? lists[new_project.status] : lists["Other"],
-            idLabels: labels[new_project.project_type] ? labels[new_project.project_type].id : labels["Other"].id
-        };
-
-        // Add TL
-        card.idLabels += "," + labels[new_project.tl] ? labels[new_project.tl].id : labels["TBD"].id;
-
-        var action = 'POST';
-        var url = "https://api.trello.com/1/cards?";
-
-
-        for (var c in card) {
-            url += c + "=" + card[c] + "&";
-        }
-
-        url += "pos=top";
-
-        var request = new XMLHttpRequest();
-
-        request.open(action, url);
-
-        request.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
-                var response = JSON.parse(request.responseText);
-                var created = {};
-                created[new_project.project_id] = new_project;
-                created[new_project.project_id].card_id = response.id;
-                t.set('board', 'shared', created);
-                resolve(created);
-            } /*else {
-                console.log(request.statusText);
-                reject(new Error(request.statusText));
-            }*/
-        };
-
-        /*request.onerror = function () {
-            console.log("network error");
-            reject(new Error("Something went wrong with the query (network error)"));
-        }*/
-        request.send();
-    });
-}
-
 function updateCard(t, card_id, new_project, settings, labels, lists) {
     console.log(card_id);
     return t.get(card_id, 'shared') // Get old version of project, if any
         .then(function (card_data){
             console.log(card_data);
-            return new Promise( function (resolve, reject){
+            return Promise.all([t.set(card_id, 'shared', card_data), new Promise( function (resolve, reject){
 
                 var card = {
                     token: settings.ttoken,
@@ -317,11 +241,14 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
 
                 if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed price project") {
                     var percentage = new_project.worked_hours / new_project.billable_hours;
+                    var budgetrisk = false;
 
-                    if (new_project.status == "In Planning" && percentage > 0.1) idLabels_add.push(labels["Budget risk"].id);
-                    else if (new_project.status == "In Progress" && percentage > 0.6) idLabels_add.push(labels["Budget risk"].id);
-                    else if (new_project.status == "In Test" && percentage > 0.8) idLabels_add.push(labels["Budget risk"].id);
-                    else idLabels_remove.push(labels["Budget risk"].id);
+                    if (new_project.status == "In Planning" && percentage > 0.1) budgetrisk = true;
+                    if (new_project.status == "In Progress" && percentage > 0.6) budgetrisk = true;
+                    if (new_project.status == "In Test" && percentage > 0.8) budgetrisk = true;
+
+                    if (budgetrisk) idLabels_add.push(labels["Budget risk"].id);
+                    else  idLabels_remove.push(labels["Budget risk"].id);
                 }
 
 
@@ -333,11 +260,6 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 }
 
                 url += "pos=top";
-
-                // Save project data in card data
-                t.set(card_id, 'shared', card_data);
-                t.set(card_id, 'private', 'labels', )
-
 
                 // Update card list and labels
                 var request = new XMLHttpRequest();
@@ -368,7 +290,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
                 if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);
 
-            });
+            })];
         });
 }
 
