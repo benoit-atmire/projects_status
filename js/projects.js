@@ -369,7 +369,7 @@ function getCardButtons(t) {
         .then(function (data) {
             console.log(data);
             var buttons = [];
-            if (data && data.card && (!data.card.shared || !data.card.shared.pid || data.card.shared.pid == "")){
+            if (data && (!data.card || !data.card.shared || !data.card.shared.pid || data.card.shared.pid == "")){
                 console.log("Card has no pid yet");
                 buttons.push({
                     icon: ATMIRE_ICON,
