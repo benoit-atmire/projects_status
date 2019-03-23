@@ -58,10 +58,10 @@
         }
 
         if (!hasLabels) {
-            return Promise.all([createLabels((t.getContext()).board, settings.ttoken, settings.tkey), t.set('board', 'private', 'settings', settings)])
+            return Promise.all([createLabels((t.getContext()).board, settings.ttoken, settings.tkey), t.set('board', 'private', 'settings', settings), t.closePopup()   ])
                 .then(function (labels){
+                    console.log(labels[0]);
                     t.set('board', 'private', 'labels', labels[0]);
-                    t.closePopup();
                 })
                 .then(function (l){
                     console.log("Labels created");
@@ -136,8 +136,6 @@
             var l = JSON.parse(request.responseText);
             labels[label].id = l.id;
         }
-
-        console.log(labels);
 
         return labels;
     }
