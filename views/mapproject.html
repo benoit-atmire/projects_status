@@ -8,7 +8,7 @@
 
 <form id="addproject">
     <fieldset id="fields">
-        <label for="project">Project: </label><input type="text" id="project" list="w2plist"/>
+        <label for="project">Project: </label><input type="text" id="project" list="W2plist"/>
         <datalist id="W2plist"></datalist>
 
     </fieldset>
@@ -46,7 +46,7 @@
                     break;
                 }
             }
-
+            console.log("Context: " + t.getContext());
             return t.set('card', 'shared', 'pid', pid)
                 .then(function(){
                     t.closePopup();
