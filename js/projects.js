@@ -399,9 +399,10 @@ function addLabels(labels, card_id, key, token){
             }
         });
 
-        xhr.open("POST", "https://api.trello.com/1/cards/" + card_id + "/idLabels?value=" + labels[l] + "?key=" + key + "&token=" + token);
+        xhr.open("POST", "https://api.trello.com/1/cards/" + card_id + "/idLabels?value=" + labels[l] + "&key=" + key + "&token=" + token);
 
         xhr.send(null);
+        //https://api.trello.com/1/cards/5c964f9e13fc8713b15ff21f/idLabels?value=5c961ddc4862e47620a9ca26?key=f30f0a775267ab8e3ed803a4ea93659e&token=78e5c1dae23a1876e26253323ced59d0c04447037a92eb27313ac462dc63d50d
     }
 }
 
