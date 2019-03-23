@@ -18,6 +18,8 @@
 
         <label for="tkey">Trello key: </label><input type="text" id="tkey" />
 
+        <input type="hidden" id="labels" />
+
     </fieldset>
     <button type="submit" class="mod-primary">Save</button>
     <p id="error" style="color: red;"></p>
@@ -37,6 +39,7 @@
         var password = document.getElementById("password").value;
         var ttoken = document.getElementById("ttoken").value;
         var tkey = document.getElementById("tkey").value;
+        var hasLabels = (document.getElementById("labels").value == "yes");
 
         if ((pm == "") || (username == "") || (password == "") || (ttoken == "") || (tkey == "")) {
             document.getElementById("error").value = "All fields are mandatory";
@@ -46,26 +49,47 @@
         else {
             document.getElementById("error").value = "";
             var settings = {
-                "pm" : pm,
-                "username" : username,
-                "password" : password,
-                "ttoken" : ttoken,
-                "tkey" : tkey
+                "pm": pm,
+                "username": username,
+                "password": password,
+                "ttoken": ttoken,
+                "tkey": tkey
             };
+        }
 
+        if (!hasLabels) {
+
+            return Promise.all([t.set('board', 'private', 'settings',  settings), createLabels((t.getContext()).board, settings.ttoken, settings.tkey)])
+                .then(function(data){
+                    var labels = data[1];
+                    console.log("Labels created");
+                    console.log(labels);
+                    return t.set((t.getContext()).board, 'private', 'labels', labels);
+                })
+
+                .then(function(){
+                    t.closePopup();
+                });
+        }
+
+        else {
             return t.set('board', 'private', 'settings',  settings)
-            .then(function(){
-                t.closePopup();
-            });
+                .then(function(){
+                    t.closePopup();
+                });
         }
     });
 
 
     t.render(function(){
-      return t.get('board', 'private', 'settings', '')
-      .then(function(settings){
+      return t.get('board', 'private')
+      .then(function(boarddata){
 
+        var settings = boarddata.settings;
+        var labels = boarddata.labels;
         var hasSettings = (settings != '' && settings.username && settings.password && settings.pm && settings.ttoken && settings.tkey);
+        var hasLabels = (labels != '');
+        // TODO: haslabels?
 
         if (hasSettings) {
             document.getElementById("pm").value = settings.pm;
@@ -75,11 +99,53 @@
             document.getElementById("tkey").value = settings.tkey;
         }
 
+        if (hasLabels) {
+            document.getElementById("labels").value = "yes";
+        }
+
+        // TODO if has label add hidden input saying you don't need to create new labels)
+
       })
       .then(function(){
            t.sizeTo('#settings').done();
       });
     });
+
+
+    function createLabels(board, token, key) {
+
+        var labels = {
+            "Quote": {color:"green"},
+            "Fixed Price Project": {color:"blue"},
+            "Module installation": {color:"blue"},
+            "Training": {color:"lime"},
+            "Internal": {color:"lime"},
+            "SLA": {color:"sky"},
+            "Other": {color:"purple"},
+            "Date changed": {color:"orange"},
+            "Billable changed": {color:"orange"},
+            "Budget risk": {color:"red"},
+            "Timeline risk": {color:"red"},
+            "Outdated": {color:"red"},
+            "Date missing": {color:"red"},
+            "Not found": {color:"black"},
+            "TBD": {color:null}
+        };
+
+        for (var label in labels) {
+            var request = new XMLHttpRequest();
+
+            request.open("POST", "https://api.trello.com/1/boards/"+board+"/labels?name="+label+"&color="+labels[label].color+"&key="+key+"&token="+token, false);
+            request.send();
+
+            if (request.status != 200) return false;
+
+            var l = JSON.parse(request.responseText);
+            labels[label].id = l.id;
+        }
+
+        return labels;
+    }
 </script>
 </body>
 </html>

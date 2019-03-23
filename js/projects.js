@@ -30,55 +30,11 @@ TrelloPowerUp.initialize({
     },
     'card-buttons': function(t, options){
         return getCardButtons(t);
-    },
-    'on-enable': function(t, options){
-        return t.getAll()
-            .then(function(data){
-                if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
-                if (data.board && data.board.private && data.board.private.labels) return true;
-                var labels = createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
-                console.log("Labels created");
-                console.log(labels);
-                return t.set((t.getContext()).board, 'private', 'labels', labels);
-            });
     }
 });
 
 
-function createLabels(board, token, key) {
 
-        var labels = {
-            "Quote": {color:"green"},
-            "Fixed Price Project": {color:"blue"},
-            "Module installation": {color:"blue"},
-            "Training": {color:"lime"},
-            "Internal": {color:"lime"},
-            "SLA": {color:"sky"},
-            "Other": {color:"purple"},
-            "Date changed": {color:"orange"},
-            "Billable changed": {color:"orange"},
-            "Budget risk": {color:"red"},
-            "Timeline risk": {color:"red"},
-            "Outdated": {color:"red"},
-            "Date missing": {color:"red"},
-            "Not found": {color:"black"},
-            "TBD": {color:null}
-        };
-
-        for (var label in labels) {
-            var request = new XMLHttpRequest();
-
-            request.open("POST", "https://api.trello.com/1/boards/"+board+"/labels?name="+label+"&color="+labels[label].color+"&key="+key+"&token="+token, false);
-            request.send();
-
-            if (request.status != 200) return false;
-
-            var l = JSON.parse(request.responseText);
-            labels[label].id = l.id;
-        }
-
-        return labels;
-}
 
 function updateLabels(t){
     // TODO
@@ -119,7 +75,6 @@ var updateBoard = function (t, filter) {
             console.log(data);
             var settings;
             var labels;
-            var projects = {};
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
             if (data.board && data.board.private && data.board.private.labels) labels = data.board.private.labels;
             return Promise.all([settings, labels, t.lists('all'), getProjects(settings.username, settings.password), t.cards('all')]);
@@ -131,6 +86,8 @@ var updateBoard = function (t, filter) {
             var lists_table = values[2];
             var projects = values[3];
             var cards = values[4];
+
+            console.log(values);
 
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
