@@ -375,7 +375,7 @@ function getAllBadges(t, long) {
                 badges.push({
                     icon: TRACKER_ICON,
                     text: long ? 'Tracker' : null,
-                    url: "https://tracker.atmire.com/tickets" + sladata.tracker,
+                    url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
                     title: 'Tracker'
                 });
             }
@@ -466,7 +466,7 @@ function getCardBackSection(t){
                     icon: TRACKER_ICON,
                     content: {
                         type: 'iframe',
-                        url: t.signUrl('views/trackersection.html'),
+                        url: t.signUrl('views/trackersection.html'), // TODO exploit signed URLs to pass tracker info
                         height: 230
                     }
                 }
