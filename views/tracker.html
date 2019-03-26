@@ -79,7 +79,21 @@
     function getTrackers(){
 
         return new Promise(function (resolve, reject){
-            resolve([]);
+            var url = 'https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec';
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", url);
+            xmlhttp.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    var trackers = JSON.parse(xmlhttp.responseText);
+                    console.log("----- Trackers response: -----");
+                    console.log(xmlhttp.responseText);
+                    console.log("----- Parsed: -----");
+                    console.log(trackers);
+                    resolve(trackers);
+
+                }
+            };
+            xmlhttp.send();
         });
     }
 
