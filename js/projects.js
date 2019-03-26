@@ -93,6 +93,7 @@ function updateBoard (t, filter) {
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
 
             if (filter){
+                console.log("Filter detected: " + filter);
                 t.get(cards[filter].id, 'private')
                     .then(function (cardinfo){
                         updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
