@@ -49,7 +49,7 @@
             //console.log("Context: " + t.getContext().card);
 
             var card_data = {
-                tracker : tracker // TODO: replace with tracker_id once datalist is implemented
+                tracker : tracker_id // TODO: replace with tracker_id once datalist is implemented
             }
             return t.set('card', 'shared', 'sla', card_data)
                 .then(function(){
@@ -65,10 +65,10 @@
                 console.log(trackers);
                 var dataList = document.getElementById('trackerlist');
 
-                for (var i in trackers) {
+                for (var tracker in trackers) {
                     var option = document.createElement('option');
-                    option.value = trackers[i].project_name + " (" + trackers[i].company_name + ")";
-                    option.setAttribute("trackername", trackers[i].project_id);
+                    option.value = trackers[tracker].project_name + " (" + trackers[tracker].company_name + ")";
+                    option.setAttribute("trackername", tracker);
                     dataList.appendChild(option);
                 }
 
