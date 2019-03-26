@@ -94,7 +94,7 @@ function updateBoard (t, filter) {
 
             if (filter){
                 console.log("Filter detected: " + filter);
-                t.get(cards[filter].id, 'private')
+                t.get(filter, 'private')
                     .then(function (cardinfo){
                         updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
                         t.set(cardinfo.id, 'shared', 'project', projects[cardinfo.pid]);
