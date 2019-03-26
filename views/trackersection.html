@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+</head>
+<body id="slasection">
+<div id="consumption_table">
+
+</div>
+<div>
+    <p>In case some credits were charged for projects that have been managed as separate fixed price projects, enter the corresponding amount of credits here.</p>
+    <div id="fixed_price_projects"></div>
+    <form id="add_credits">
+        <fieldset>
+            <label for="fixed_price_credits">Credits: </label><input type="text" id="fixed_price_credits" />
+            <label for="fixed_price_label">Credits: </label><input type="text" id="fixed_price_label" />
+            <input type="hidden" id="old_projects" />
+        </fieldset>
+        <button type="submit" class="mod-primary" id="sendcreditsform">Discard credits</button>
+    </form>
+
+</div>
+
+<div id="controls">
+    <form id="refresh">
+        <button type="submit" class="mod-primary">Refresh data</button>
+    </form>
+</div>
+
+<div>
+    <p id="error" style="color: red;"></p>
+</div>
+
+<script>
+    var t = TrelloPowerUp.iframe();
+    var Promise = TrelloPowerUp.Promise;
+
+    document.getElementById("add_credits").addEventListener('submit', function(event){
+        document.getElementById("sendcreditsform").disabled = true;
+        document.getElementById("sendcreditsform").value = "Please wait..."
+        event.preventDefault();
+
+        var credits = document.getElementById("fixed_price_credits").value;
+        var project_label = document.getElementById("fixed_price_label").value;
+        var old_projects = JSON.parse(document.getElementById("old_projects"));
+
+        if (credits == "" || project_label == "") document.getElementById("error").value = "Both fields are mandatory";
+        else document.getElementById("error").value = "";
+
+
+
+    });
+
+
+    t.render(function(){
+      return t.getAll()
+          .then(function(data){
+              return Promise.all(getCreditsCount(data.card.shared.sla.tracker), data.card.shared.sla.projects);
+          })
+          .then(function(sladata){
+              var tracker_details = sladata[0];
+              var projects_list = sladata[1];
+
+              document.getElementById("old_projects").value = JSON.stringify(projects_list);
+
+              var projects_html = "";
+
+              for (var project in projects_list){
+                  projects_html += "<p><span>" + projects_list[project].label + " - </span><span>" + projects_list[project].label + "credits</span></p>";
+              }
+
+              document.getElementById("fixed_price_projects").innerHTML = projects_html;
+
+              return true;
+
+          })
+        .then(function(){
+           t.sizeTo('#slasection').done();
+        });
+    });
+
+    function getCreditsCount(tracker) {
+        return new Promise(function (resolve, reject) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec?tracker=" + tracker);
+            xmlhttp.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    resolve(JSON.parse(xmlhttp.responseText));
+                }
+            };
+            xmlhttp.send();
+        });
+    }
+</script>
+</body>
+</html>

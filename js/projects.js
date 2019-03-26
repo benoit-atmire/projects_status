@@ -27,7 +27,6 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': function(t, options) {
-        updateLabels(t);
         return getAllBadges(t, false);
     },
     'card-detail-badges': function(t, options) {
@@ -35,29 +34,11 @@ TrelloPowerUp.initialize({
     },
     'card-buttons': function(t, options){
         return getCardButtons(t);
+    },
+    'card-back-section': function(t, options){
+        return getCardBackSection(t);
     }
 });
-
-
-
-
-function updateLabels(t){
-    // TODO
-
-    // For current card
-
-    // Get addon data
-
-    // Get fields "warnings" and "messages"
-
-    // For each of these values, add corresponding label
-
-    // Send POST request to card to add labels
-
-    // Delete "messages" field from plugin data
-}
-
-
 
 function updateBoard (t, filter) {
 
@@ -469,21 +450,27 @@ function getCardButtons(t) {
         });
 }
 
-function getAllSLACreditsBalances() {
-    return new Promise(function (resolve, reject) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec");
-        xmlhttp.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
-                resolve(JSON.parse(xmlhttp.responseText));
 
-            } /*else {
-                reject(Error(xmlhttp.statusText));
-            }*/
-        };
-        /*xmlhttp.onerror = function () {
-            reject(Error("Something went wrong with the query (network error)"));
-        }*/
-        xmlhttp.send();
+
+function getCardBackSection(t){
+
+    return t.getAll()
+        .then(function (plugindata){
+            var settings = plugindata.board.private.settings;
+            var projectdata = plugindata.card.shared.project || {};
+            var sladata = plugindata.card.shared.sla || {};
+
+            if (sladata.tracker && sladata.tracker != "") {
+                return {
+                    title: 'Tracker consumption overview',
+                    icon: TRACKER_ICON,
+                    content: {
+                        type: 'iframe',
+                        url: t.signUrl('views/trackersection.html'),
+                        height: 230
+                    }
+                }
+            }
+
     });
 }

@@ -85,12 +85,7 @@
             xmlhttp.onload = function () {
                 if (this.status >= 200 && this.status < 300) {
                     var trackers = JSON.parse(xmlhttp.responseText);
-                    console.log("----- Trackers response: -----");
-                    console.log(xmlhttp.responseText);
-                    console.log("----- Parsed: -----");
-                    console.log(trackers);
                     resolve(trackers);
-
                 }
             };
             xmlhttp.send();
