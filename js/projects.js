@@ -452,7 +452,7 @@ function getCardButtons(t) {
                         url: "https://www.atmire.com",
                         condition: 'admin'
                     });
-                    if (data.card.shared.sla && data.card.shared.sla.tracker && data.card.shared.sla.tracker != ""){
+                    if (!data.card.shared.sla || !data.card.shared.sla.tracker || data.card.shared.sla.tracker == ""){
                         buttons.push({
                             icon: ATMIRE_ICON,
                             text: "Link tracker",
