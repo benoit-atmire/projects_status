@@ -1,4 +1,9 @@
 var ATMIRE_ICON = 'https://benoit-atmire.github.io/projects_status/img/logo_white.svg';
+var CLOCK_ICON = 'https://benoit-atmire.github.io/projects_status/img/clock.svg';
+var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/clock_white.svg';
+var W2P_ICON = 'https://benoit-atmire.github.io/projects_status/img/w2p.png';
+var TRACKER_ICON = 'https://benoit-atmire.github.io/projects_status/img/tracker.svg';
+
 var Promise = TrelloPowerUp.Promise;
 
 
@@ -10,7 +15,7 @@ TrelloPowerUp.initialize({
             callback: function(t){
                 return updateBoard(t, false);
             },
-            condition: 'edit'
+            condition: 'admin'
         }];
     },
     'show-settings': function(t, options){
@@ -21,13 +26,13 @@ TrelloPowerUp.initialize({
             width: 600
       });
     },
-    /*'card-badges': function(t, options) {
+    'card-badges': function(t, options) {
         updateLabels(t);
         return getAllBadges(t, false);
     },
     'card-detail-badges': function(t, options) {
         return getAllBadges(t, true);
-    },*/
+    },
     'card-buttons': function(t, options){
         return getCardButtons(t);
     }
@@ -72,7 +77,7 @@ function updateBoard (t, filter) {
 
     return t.getAll()
         .then(function (data) {
-            console.log(data);
+            //console.log(data);
             var settings;
             var labels;
             if (data.board.private && data.board.private.settings) settings = data.board.private.settings;
@@ -87,13 +92,13 @@ function updateBoard (t, filter) {
             var projects = values[3];
             var cards = values[4];
 
-            console.log(values);
+            //console.log(values);
 
             var lists = {};
             for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
 
             if (filter){
-                console.log("Filter detected: " + filter);
+                //console.log("Filter detected: " + filter);
                 t.get(filter, 'private')
                     .then(function (cardinfo){
                         updateCard(t, cardinfo.id, projects[cardinfo.pid], settings, labels, lists);
@@ -145,7 +150,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
     console.log(card_id);
     return t.get(card_id, 'shared') // Get old version of project, if any
         .then(function (data){
-            console.log(data);
+            //console.log(data);
             return new Promise( function (resolve, reject){
                 var card_data = data.project || {};
 
@@ -316,12 +321,12 @@ function createComment(card_id, text, key, token) {
 function addLabels(labels, card_id, key, token){
 
     for (var l in labels) {
-        console.log("Adding label " + labels[l]);
+        //console.log("Adding label " + labels[l]);
         var xhr = new XMLHttpRequest();
 
         xhr.addEventListener("readystatechange", function () {
             if (this.readyState === this.DONE) {
-                console.log(this.responseText);
+                //console.log(this.responseText);
             }
         });
 
@@ -333,12 +338,12 @@ function addLabels(labels, card_id, key, token){
 
 function removeLabels(labels, card_id, key, token){
     for (var l in labels){
-        console.log("Removing label " + labels[l]);
+        //console.log("Removing label " + labels[l]);
         var xhr = new XMLHttpRequest();
 
         xhr.addEventListener("readystatechange", function () {
             if (this.readyState === this.DONE) {
-                console.log(this.responseText);
+                //console.log(this.responseText);
             }
         });
 
@@ -350,13 +355,58 @@ function removeLabels(labels, card_id, key, token){
 }
 
 function getAllBadges(t, long) {
-    // TODO: badge with end date for current phase
 
-    // TODO/ badge with activity level (based on time worked last week) ?
+    return t.getAll()
+        .then(function (plugindata) {
+            var settings = plugindata.board.private.settings;
+            var projectdata = plugindata.card.shared.project || {};
+            var sladata = plugindata.card.shared.sla || {};
+
+            var endphase;
+
+            if (projectdata.status == "In Planning" || projectdata.status == "In Progress") endphase = projectdata.end_impl;
+            else endphase = projectdata.end_date;
+
+            var endphase_dt = new Date(endphase);
+            var today = new Date();
+
+            var daysleft = Math.floor((endphase_dt - today) / (1000 * 60 * 60 * 24));
+
+            var badges = [];
+
+            if (daysleft >= 0) badges.push({
+                icon: daysleft < 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
+                text: daysleft + (long ? " day" + (daysleft < 2 ? "" : "s") : ""),
+                color: daysleft < 15 ? null : 'red',
+                title: 'Days before next phase'
+            });
+
+            if (projectdata && projectdata.project_id && projectdata.project_id != "") {
+                badges.push({
+                    icon: W2P_ICON,
+                    text: long ? 'W2P' : null,
+                    url: "https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + projectdata.project_id,
+                    title: 'Project'
+                });
+            }
+
+            if (sladata && sladata.tracker && sladata.tracker != ""){
+                badges.push({
+                    icon: TRACKER_ICON,
+                    text: long ? 'Tracker' : null,
+                    url: "tracker.atmire.com/tickets" + sladata.tracker,
+                    title: 'Tracker'
+                });
+            }
+
+            return badges;
+
+        });
+
+    // TODO: badge with activity level (based on time worked last week) ?
 
     // TODO: badge for ?
 
-    return {};
 
 }
 
@@ -375,7 +425,8 @@ function getCardButtons(t) {
                             url: 'views/mapproject.html'
                         })
 
-                    }
+                    },
+                    condition: 'edit'
                 });
             }
 
@@ -385,7 +436,8 @@ function getCardButtons(t) {
                     text: "Update project info",
                     callback: function(t){
                         return updateBoard(t,t.getContext().card);
-                    }
+                    },
+                    condition: 'admin'
                 });
 
                 if (data.card.shared && data.card.shared.project_type && data.card.shared.project_type == "SLA"){
@@ -397,7 +449,8 @@ function getCardButtons(t) {
                                 title: "W2P Link",
                                 url: 'views/settings.html'
                             });*/
-                        url: "https://www.atmire.com"
+                        url: "https://www.atmire.com",
+                        condition: 'admin'
                     });
                 }
             }
