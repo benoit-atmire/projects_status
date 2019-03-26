@@ -394,7 +394,7 @@ function getAllBadges(t, long) {
                 badges.push({
                     icon: TRACKER_ICON,
                     text: long ? 'Tracker' : null,
-                    url: "tracker.atmire.com/tickets" + sladata.tracker,
+                    url: "https://tracker.atmire.com/tickets" + sladata.tracker,
                     title: 'Tracker'
                 });
             }
@@ -402,12 +402,6 @@ function getAllBadges(t, long) {
             return badges;
 
         });
-
-    // TODO: badge with activity level (based on time worked last week) ?
-
-    // TODO: badge for ?
-
-
 }
 
 function getCardButtons(t) {

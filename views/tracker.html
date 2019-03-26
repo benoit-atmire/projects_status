@@ -49,7 +49,7 @@
             //console.log("Context: " + t.getContext().card);
 
             var card_data = {
-                tracker : tracker_id // TODO: replace with tracker_id once datalist is implemented
+                tracker : tracker_id
             }
             return t.set('card', 'shared', 'sla', card_data)
                 .then(function(){
