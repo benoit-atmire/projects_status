@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+</head>
+<body>
+
+<form id="addtracker">
+    <fieldset id="fields">
+        <label for="tracker">Tracker: </label><input type="text" id="tracker" list="trackerlist"/>
+        <datalist id="trackerlist"></datalist>
+
+    </fieldset>
+    <button id="submit" type="submit" class="mod-primary">Add</button>
+    <p id="error" style="color: red;"></p>
+</form>
+
+<script>
+    var t = TrelloPowerUp.iframe();
+    var Promise = TrelloPowerUp.Promise;
+
+    document.getElementById("addtracker").addEventListener('submit', function(event){
+        event.preventDefault();
+
+
+
+        var tracker = document.getElementById("tracker").value;
+
+        if (tracker == "") {
+            document.getElementById("error").value = "Please fill in a tracker";
+            document.getElementById("submit").disabled = false;
+            return false;
+        }
+
+        else {
+            document.getElementById("error").value = "";
+            document.getElementById("submit").disabled = true;
+            document.getElementById("submit").value = "Processing...";
+
+            var options = document.querySelectorAll('#trackerlist option');
+            var tracker_id;
+            for (var i = 0 ; i < options.length ; i++){
+                if (options[i].value == tracker){
+                    tracker_id = options[i].getAttribute('trackername');
+                    break;
+                }
+            }
+            //console.log("Context: " + t.getContext().card);
+
+            var card_data = {
+                tracker : tracker // TODO: replace with tracker_id once datalist is implemented
+            }
+            return t.set('card', 'shared', 'sla', card_data)
+                .then(function(){
+                    t.closePopup();
+                });
+        }
+    });
+
+
+    t.render(function(){
+        return getTrackers()
+            .then(function (trackers) {
+                console.log(trackers);
+                var dataList = document.getElementById('trackerlist');
+
+                for (var i in trackers) {
+                    var option = document.createElement('option');
+                    option.value = trackers[i].project_name + " (" + trackers[i].company_name + ")";
+                    option.setAttribute("trackername", trackers[i].project_id);
+                    dataList.appendChild(option);
+                }
+
+                t.sizeTo('#addtracker').done();
+            });
+    });
+
+    function getTrackers(){
+
+        return new Promise(function (resolve, reject){
+            resolve([]);
+        });
+    }
+
+
+
+
+</script>
+</body>
+</html>

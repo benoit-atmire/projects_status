@@ -375,9 +375,9 @@ function getAllBadges(t, long) {
             var badges = [];
 
             if (daysleft >= 0) badges.push({
-                icon: daysleft < 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
+                icon: daysleft > 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
                 text: daysleft + (long ? " day" + (daysleft < 2 ? "" : "s") : ""),
-                color: daysleft < 15 ? null : 'red',
+                color: daysleft > 15 ? null : 'red',
                 title: 'Days before next phase'
             });
 
@@ -440,7 +440,7 @@ function getCardButtons(t) {
                     condition: 'admin'
                 });
 
-                if (data.card.shared && data.card.shared.project_type && data.card.shared.project_type == "SLA"){
+                if (data.card.shared && data.card.shared.project && data.card.shared.project.project_type && data.card.shared.project.project_type == "SLA"){
                     buttons.push({
                         icon: ATMIRE_ICON,
                         text: "Add fixed price credits",
@@ -452,6 +452,21 @@ function getCardButtons(t) {
                         url: "https://www.atmire.com",
                         condition: 'admin'
                     });
+                    if (data.card.shared.sla && data.card.shared.sla.tracker && data.card.shared.sla.tracker != ""){
+                        buttons.push({
+                            icon: ATMIRE_ICON,
+                            text: "Link tracker",
+                            callback: function (t) {
+                                return t.popup({
+                                    title: "Tracker ID",
+                                    url: 'views/tracker.html'
+                                })
+
+                            },
+                            condition: 'edit'
+                        });
+                    }
+
                 }
             }
 
