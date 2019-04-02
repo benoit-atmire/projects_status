@@ -55,7 +55,7 @@
           .then(function(data){
               console.log("rendering 2");
 
-              return Promise.all(getCreditsCount(data.card.shared.sla.tracker), data.card.shared.sla_projects);
+              return Promise.all([getCreditsCount(data.card.shared.sla.tracker), data.card.shared.sla_projects]);
           })
           .then(function(sladata){
               console.log("rendering 3");
