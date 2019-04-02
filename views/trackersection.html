@@ -10,22 +10,13 @@
 </div>
 <div>
     <p>In case some credits were charged for projects that have been managed as separate fixed price projects, enter the corresponding amount of credits here.</p>
-    <div id="fixed_price_projects"></div>
-    <form id="add_credits">
-        <fieldset>
-            <label for="fixed_price_credits">Credits: </label><input type="text" id="fixed_price_credits" />
-            <label for="fixed_price_label">Project: </label><input type="text" id="fixed_price_label" />
-            <input type="hidden" id="old_projects" />
-        </fieldset>
-        <button type="submit" class="mod-primary" id="sendcreditsform">Discard credits</button>
-    </form>
+    <div>
+        <form id="add_credits">
+            <table id="fixed_price_projects" style="width: 100%;"></table>
+            <input type="hidden" id="old_projects" /></td>
+        </form>
+    </div>
 
-</div>
-
-<div id="controls">
-    <form id="refresh">
-        <button type="submit" class="mod-primary">Refresh data</button>
-    </form>
 </div>
 
 <div>
@@ -68,11 +59,21 @@
 
               document.getElementById("old_projects").value = JSON.stringify(projects_list);
 
-              var projects_html = "";
+              var projects_html = "  <tr>" +
+                  "    <th>Project</th>" +
+                  "    <th>Credits</th> " +
+                  "    <th></th>" +
+                  "  </tr>";
 
               for (var project in projects_list){
-                  projects_html += "<p><span>" + projects_list[project].label + " - </span><span>" + projects_list[project].credits + "credits</span></p>";
+                  projects_html += "<tr><td>" + projects_list[project].label + "</td><td>" + projects_list[project].credits + "credits</td><td></td><td></td></tr>";
               }
+
+              projects_html += "        <tr>\n" +
+                  "            <td><input type=\"text\" id=\"fixed_price_credits\" /></td>\n" +
+                  "            <td><input type=\"text\" id=\"fixed_price_label\" /></td>\n" +
+                  "            <td><button type=\"submit\" class=\"mod-primary\" id=\"sendcreditsform\">Discard credits</button></td>\n" +
+                  "        </tr>";
 
               document.getElementById("fixed_price_projects").innerHTML = projects_html;
 
