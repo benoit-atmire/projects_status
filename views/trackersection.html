@@ -49,14 +49,16 @@
         }
 
         if (credits == "" || project_label == "") {
-            t.render(function(){document.getElementById("error").value = "Both fields are mandatory";});
+            document.getElementById("error").value = "Both fields are mandatory";
         }
+
         else {
             document.getElementById("error").value = "";
             old_projects.push({label: project_label, credits: credits});
-
-            return t.set(t.getContext().card, 'shared', 'sla_projects', old_projects);
         }
+
+        return t.set(t.getContext().card, 'shared', 'sla_projects', old_projects);
+
 
 
 
