@@ -14,7 +14,7 @@
     <form id="add_credits">
         <fieldset>
             <label for="fixed_price_credits">Credits: </label><input type="text" id="fixed_price_credits" />
-            <label for="fixed_price_label">Credits: </label><input type="text" id="fixed_price_label" />
+            <label for="fixed_price_label">Project: </label><input type="text" id="fixed_price_label" />
             <input type="hidden" id="old_projects" />
         </fieldset>
         <button type="submit" class="mod-primary" id="sendcreditsform">Discard credits</button>
@@ -53,7 +53,9 @@
         if (credits == "" || project_label == "") document.getElementById("error").value = "Both fields are mandatory";
         else document.getElementById("error").value = "";
 
+        old_projects.push([{label: project_label, credits: credits}]);
 
+        return t.set(t.getContext().card, 'shared', 'sla_projects', old_projects);
 
     });
 
@@ -61,7 +63,7 @@
     t.render(function(){
       return t.getAll()
           .then(function(data){
-              return Promise.all(getCreditsCount(data.card.shared.sla.tracker), data.card.shared.sla.projects);
+              return Promise.all(getCreditsCount(data.card.shared.sla.tracker), data.card.shared.sla_projects);
           })
           .then(function(sladata){
               var tracker_details = sladata[0];
@@ -72,7 +74,7 @@
               var projects_html = "";
 
               for (var project in projects_list){
-                  projects_html += "<p><span>" + projects_list[project].label + " - </span><span>" + projects_list[project].label + "credits</span></p>";
+                  projects_html += "<p><span>" + projects_list[project].label + " - </span><span>" + projects_list[project].credits + "credits</span></p>";
               }
 
               document.getElementById("fixed_price_projects").innerHTML = projects_html;
