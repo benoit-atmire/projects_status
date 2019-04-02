@@ -3,6 +3,12 @@
 <head>
     <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
+    <style>
+        .slatable {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
 </head>
 <body id="slasection">
 <div id="consumption_table">
@@ -29,7 +35,7 @@
 
 
     document.getElementById("add_credits").addEventListener('submit', function(event){
-        document.getElementById("sendcreditsform").innerHTML = "Please wait...";
+        document.getElementById("sendcreditsform").innerHTML = "Wait...";
         document.getElementById("sendcreditsform").disabled = true;
 
         event.preventDefault();
@@ -68,9 +74,9 @@
               document.getElementById("old_projects").value = JSON.stringify(sla_projects);
 
               var projects_html = "  <tr>" +
-                  "    <th>Project</th>" +
-                  "    <th>Credits</th> " +
-                  "    <th></th>" +
+                  "    <th style='width: 70%;'>Project</th>" +
+                  "    <th style='width: 20%;'>Credits</th> " +
+                  "    <th style='width: 10%;'></th>" +
                   "  </tr>";
 
               for (var project in sla_projects){
@@ -79,9 +85,9 @@
               }
 
               projects_html += "<tr>" +
-                  "<td><input type=\"text\" id=\"fixed_price_label\" /></td>" +
-                  "<td><input type=\"text\" id=\"fixed_price_credits\" /></td>" +
-                  "<td><button type=\"submit\" class=\"mod-primary\" id=\"sendcreditsform\">Discard credits</button></td>" +
+                  "<td><input class=\"slatable\" type=\"text\" id=\"fixed_price_label\" /></td>" +
+                  "<td><input class=\"slatable\" type=\"text\" id=\"fixed_price_credits\" /></td>" +
+                  "<td><button class=\"slatable\" type=\"submit\" class=\"mod-primary\" id=\"sendcreditsform\">Save</button></td>" +
                   "</tr>";
 
               document.getElementById("fixed_price_projects").innerHTML = projects_html;
