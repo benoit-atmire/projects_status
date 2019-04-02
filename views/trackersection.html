@@ -90,8 +90,9 @@
             xmlhttp.open("GET", "https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec?tracker=" + tracker);
             xmlhttp.onload = function () {
                 if (this.status >= 200 && this.status < 300) {
-                    console.log(xmlhttp.responseText);
                     var response = JSON.parse(xmlhttp.responseText);
+                    console.log(response[tracker]);
+
                     resolve(response[tracker]);
                     //resolve(JSON.parse(xmlhttp.responseText));
                 }
