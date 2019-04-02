@@ -36,7 +36,7 @@
 
         var credits = document.getElementById("fixed_price_credits").value;
         var project_label = document.getElementById("fixed_price_label").value;
-        var old_projects = JSON.parse(document.getElementById("old_projects").value);
+        var old_projects = document.getElementById("old_projects").value ? JSON.parse(document.getElementById("old_projects").value) || [];
 
         if (credits == "" || project_label == "") document.getElementById("error").value = "Both fields are mandatory";
         else document.getElementById("error").value = "";
