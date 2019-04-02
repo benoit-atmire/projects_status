@@ -75,7 +75,7 @@
 
               for (var project in sla_projects){
                   console.log("sla_projects[" + project + "] == " + sla_projects[project]);
-                  projects_html += "<tr><td>" + sla_projects[project].label + "</td><td>" + sla_projects[project].credits + "credits</td><td></td><td></td></tr>";
+                  projects_html += "<tr><td>" + sla_projects[project]['label'] + "</td><td>" + sla_projects[project]['credits'] + " credits</td><td></td></tr>";
               }
 
               projects_html += "<tr>" +
