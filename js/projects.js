@@ -474,6 +474,7 @@ function getCardBackSection(t){
             console.log("Card back section: available data: ");
             console.log(sladata.tracker);
             if (sladata.tracker && sladata.tracker != "") {
+                console.log("check if we get in the condition");
                 return {
                     title: 'Tracker consumption overview',
                     icon: TRACKER_ICON,
@@ -484,6 +485,8 @@ function getCardBackSection(t){
                     }
                 }
             }
+
+            else return {};
 
     });
 }
