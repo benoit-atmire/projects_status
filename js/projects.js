@@ -480,8 +480,7 @@ function getCardBackSection(t){
                     icon: TRACKER_ICON,
                     content: {
                         type: 'iframe',
-                        //url: 'views/trackersection.html',
-                        url: 'https://www.atmire.com',
+                        url: 'views/trackersection.html',
                         height: 230
                     }
                 }
