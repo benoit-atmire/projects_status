@@ -428,17 +428,16 @@ function getCardButtons(t) {
                 });
 
                 if (data.card.shared && data.card.shared.project && data.card.shared.project.project_type && data.card.shared.project.project_type == "SLA"){
-                    buttons.push({
+                    /*buttons.push({
                         icon: MONEY_ICON,
                         text: "Add fixed price credits",
-                        /*callback: function(t){
+                        callback: function(t){
                             return t.popup({
                                 title: "W2P Link",
                                 url: 'views/settings.html'
-                            });*/
-                        url: "https://www.atmire.com",
+                            }),
                         condition: 'admin'
-                    });
+                    });*/
                     if (!data.card.shared.sla || !data.card.shared.sla.tracker || data.card.shared.sla.tracker == ""){
                         buttons.push({
                             icon: TRACKER_ICON,

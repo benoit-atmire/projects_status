@@ -69,11 +69,11 @@
                   projects_html += "<tr><td>" + projects_list[project].label + "</td><td>" + projects_list[project].credits + "credits</td><td></td><td></td></tr>";
               }
 
-              projects_html += "        <tr>\n" +
-                  "            <td><input type=\"text\" id=\"fixed_price_credits\" /></td>\n" +
-                  "            <td><input type=\"text\" id=\"fixed_price_label\" /></td>\n" +
-                  "            <td><button type=\"submit\" class=\"mod-primary\" id=\"sendcreditsform\">Discard credits</button></td>\n" +
-                  "        </tr>";
+              projects_html += "<tr>" +
+                  "<td><input type=\"text\" id=\"fixed_price_credits\" /></td>" +
+                  "<td><input type=\"text\" id=\"fixed_price_label\" /></td>" +
+                  "<td><button type=\"submit\" class=\"mod-primary\" id=\"sendcreditsform\">Discard credits</button></td>" +
+                  "</tr>";
 
               document.getElementById("fixed_price_projects").innerHTML = projects_html;
 
