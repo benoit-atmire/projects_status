@@ -42,8 +42,9 @@
    //console.log("t.arg tracker == "  + tracker);
 
     document.getElementById("add_credits").addEventListener('submit', function(event){
+        document.getElementById("sendcreditsform").value = "Please wait...";
         document.getElementById("sendcreditsform").disabled = true;
-        document.getElementById("sendcreditsform").value = "Please wait..."
+
         event.preventDefault();
 
         var credits = document.getElementById("fixed_price_credits").value;
