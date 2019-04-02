@@ -383,14 +383,14 @@ function getAllBadges(t, long) {
                     title: 'Tracker'
                 });
 
-                var balance = -Math.round(sladata.all_time_diff);
+                /*var balance = -Math.round(sladata.all_time_diff * 4);
 
                 badges.push({
                     icon: MONEY_ICON,
                     title: 'Balance',
                     text: balance + (long ? " credits" : ""),
                     color: balance < 0 ? "red" : null
-                });
+                });*/
             }
 
             return badges;
@@ -474,17 +474,14 @@ function getCardButtons(t) {
 
 
 function getCardBackSection(t){
-    console.log("Start debugging card back section");
     return t.getAll()
         .then(function (plugindata){
             var settings = plugindata.board.private.settings;
             var projectdata = plugindata.card.shared.project || {};
             var sladata = plugindata.card.shared.sla || {};
-            console.log("Card back section: available data: ");
-            console.log(sladata.tracker);
+
             if (sladata.tracker && sladata.tracker != "") {
-                console.log("check if we get in the condition");
-                return {
+                /*return {
                     title: 'Tracker consumption overview',
                     icon: TRACKER_ICON,
                     content: {
@@ -492,7 +489,7 @@ function getCardBackSection(t){
                         url: t.signUrl('./views/trackersection.html'),
                         height: 230
                     }
-                }
+                }*/
             }
 
             else return {};
