@@ -141,7 +141,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 var card = {
                     token: settings.ttoken,
                     key: settings.tkey,
-                    desc: "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + new_project.project_id + ") %0D%0A",
+                    desc: "[W2P](https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + new_project.project_id + ") %0D%0A",
                     name: new_project.project_name + " (" + new_project.company_name + ")",
                     idList: lists[new_project.status] ? lists[new_project.status] : lists["Other"]
                 };
