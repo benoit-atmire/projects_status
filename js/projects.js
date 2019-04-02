@@ -480,7 +480,7 @@ function getCardBackSection(t){
                     icon: TRACKER_ICON,
                     content: {
                         type: 'iframe',
-                        url: 'views/settings.html',
+                        url: t.signUrl('views/settings.html'),
                         height: 230
                     }
                 }
