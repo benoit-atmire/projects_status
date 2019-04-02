@@ -12,7 +12,7 @@
     <p>In case some credits were charged for projects that have been managed as separate fixed price projects, enter the corresponding amount of credits here.</p>
     <div>
         <form id="add_credits">
-            <table id="fixed_price_projects" style="width: 100%;"></table>
+            <table id="fixed_price_projects"></table>
             <input type="hidden" id="old_projects" /></td>
         </form>
     </div>
@@ -78,11 +78,7 @@
               document.getElementById("fixed_price_projects").innerHTML = projects_html;
 
               return true;
-
           })
-        .then(function(){
-           t.sizeTo('#slasection').done();
-        });
     });
 
     function getCreditsCount(tracker) {
