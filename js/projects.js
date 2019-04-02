@@ -479,7 +479,7 @@ function getCardBackSection(t){
                     icon: TRACKER_ICON,
                     content: {
                         type: 'iframe',
-                        url: t.signUrl('views/trackersection.html'), // TODO exploit signed URLs to pass tracker info
+                        url: t.signUrl('views/trackersection.html', { tracker: sladata.tracker }), // TODO exploit signed URLs to pass tracker info
                         height: 230
                     }
                 }
