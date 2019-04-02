@@ -48,7 +48,9 @@
             old_projects = JSON.parse(document.getElementById("old_projects").value);
         }
 
-        if (credits == "" || project_label == "") document.getElementById("error").value = "Both fields are mandatory";
+        if (credits == "" || project_label == "") {
+            t.render(function(){document.getElementById("error").value = "Both fields are mandatory";});
+        }
         else {
             document.getElementById("error").value = "";
             old_projects.push({label: project_label, credits: credits});
