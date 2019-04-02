@@ -53,21 +53,19 @@
 
 
     t.render(function(){
-        console.log("rendering");
 
         return t.getAll()
           .then(function(data){
-              console.log("rendering 2");
-
               return Promise.all([getCreditsCount(data.card.shared.sla.tracker), data.card.shared.sla_projects]);
           })
           .then(function(sladata){
-              console.log("rendering 3");
 
               var tracker_details = sladata[0];
-              var projects_list = sladata[1];
+              var sla_projects = sladata[1];
 
-              document.getElementById("old_projects").value = JSON.stringify(projects_list);
+              console.log(sla_projects);
+
+              document.getElementById("old_projects").value = JSON.stringify(sla_projects);
 
               var projects_html = "  <tr>" +
                   "    <th>Project</th>" +
@@ -75,13 +73,14 @@
                   "    <th></th>" +
                   "  </tr>";
 
-              for (var project in projects_list){
-                  projects_html += "<tr><td>" + projects_list[project].label + "</td><td>" + projects_list[project].credits + "credits</td><td></td><td></td></tr>";
+              for (var project in sla_projects){
+                  console.log("sla_projects[" + project + "] == " + sla_projects[project]);
+                  projects_html += "<tr><td>" + sla_projects[project].label + "</td><td>" + sla_projects[project].credits + "credits</td><td></td><td></td></tr>";
               }
 
               projects_html += "<tr>" +
-                  "<td><input type=\"text\" id=\"fixed_price_credits\" /></td>" +
                   "<td><input type=\"text\" id=\"fixed_price_label\" /></td>" +
+                  "<td><input type=\"text\" id=\"fixed_price_credits\" /></td>" +
                   "<td><button type=\"submit\" class=\"mod-primary\" id=\"sendcreditsform\">Discard credits</button></td>" +
                   "</tr>";
 
