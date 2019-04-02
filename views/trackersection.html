@@ -36,10 +36,6 @@
     var t = TrelloPowerUp.iframe();
     var Promise = TrelloPowerUp.Promise;
 
-    console.log("iframe loaded");
-
-    //var tracker = t.arg('tracker');
-   //console.log("t.arg tracker == "  + tracker);
 
     document.getElementById("add_credits").addEventListener('submit', function(event){
         document.getElementById("sendcreditsform").value = "Please wait...";
@@ -95,7 +91,9 @@
             xmlhttp.onload = function () {
                 if (this.status >= 200 && this.status < 300) {
                     console.log(xmlhttp.responseText);
-                    resolve(JSON.parse(xmlhttp.responseText));
+                    var response = JSON.parse(xmlhttp.responseText);
+                    resolve(response[tracker]);
+                    //resolve(JSON.parse(xmlhttp.responseText));
                 }
             };
             xmlhttp.send();
