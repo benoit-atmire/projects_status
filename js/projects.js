@@ -3,6 +3,9 @@ var CLOCK_ICON = 'https://benoit-atmire.github.io/projects_status/img/clock.svg'
 var CLOCK_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/clock_white.svg';
 var W2P_ICON = 'https://benoit-atmire.github.io/projects_status/img/w2p.png';
 var TRACKER_ICON = 'https://benoit-atmire.github.io/projects_status/img/tracker.svg';
+var REFRESH_ICON = 'https://benoit-atmire.github.io/projects_status/img/refresh.svg';
+var MONEY_ICON = 'https://benoit-atmire.github.io/projects_status/img/money.svg';
+
 
 var Promise = TrelloPowerUp.Promise;
 
@@ -392,7 +395,7 @@ function getCardButtons(t) {
             var buttons = [];
             if (data && (!data.card || !data.card.private || !data.card.private.pid || data.card.private.pid == "")){
                 buttons.push({
-                    icon: ATMIRE_ICON,
+                    icon: W2P_ICON,
                     text: "Map with project",
                     callback: function (t) {
                         return t.popup({
@@ -407,17 +410,26 @@ function getCardButtons(t) {
 
             else {
                 buttons.push({
-                    icon: ATMIRE_ICON,
-                    text: "Update project info",
+                    icon: REFRESH_ICON,
+                    text: "Update project",
                     callback: function(t){
                         return updateBoard(t,t.getContext().card);
                     },
                     condition: 'admin'
                 });
 
+                buttons.push({
+                    icon: W2P_ICON,
+                    text: "Unmap project",
+                    callback: function(t){
+                        return t.remove(t.getContext().card, 'private', 'pid');
+                    },
+                    condition: 'admin'
+                });
+
                 if (data.card.shared && data.card.shared.project && data.card.shared.project.project_type && data.card.shared.project.project_type == "SLA"){
                     buttons.push({
-                        icon: ATMIRE_ICON,
+                        icon: MONEY_ICON,
                         text: "Add fixed price credits",
                         /*callback: function(t){
                             return t.popup({
@@ -429,7 +441,7 @@ function getCardButtons(t) {
                     });
                     if (!data.card.shared.sla || !data.card.shared.sla.tracker || data.card.shared.sla.tracker == ""){
                         buttons.push({
-                            icon: ATMIRE_ICON,
+                            icon: TRACKER_ICON,
                             text: "Link tracker",
                             callback: function (t) {
                                 return t.popup({
