@@ -345,6 +345,7 @@ function getAllBadges(t, long) {
             var settings = plugindata.board.private.settings;
             var projectdata = plugindata.card.shared.project || {};
             var sladata = plugindata.card.shared.sla || {};
+            var sla_projects = plugindata.card.shared.sla_projects || [];
 
             var endphase;
 
@@ -380,6 +381,21 @@ function getAllBadges(t, long) {
                     text: long ? 'Tracker' : null,
                     url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
                     title: 'Tracker'
+                });
+
+                var all_time_credits = sladata.all_time_credits;
+
+                for (var p in sla_projects) all_time_credits -= sla_projects[p]['credits'];
+
+                var worked = Math.round(projectdata.worked_hours * 4);
+
+                var balance = all_time_credits - worked;
+
+                badges.push({
+                    icon: MONEY_ICON,
+                    title: 'Balance',
+                    text: balance + (long ? " credits" : ""),
+                    color: balance < 0 ? "red" : null
                 });
             }
 

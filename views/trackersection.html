@@ -104,7 +104,7 @@
 
               console.log(projects_html);
 
-              return true;
+              return t.set('card', 'shared', 'sla', sla_projects);
           })
     });
 
@@ -115,10 +115,9 @@
             xmlhttp.onload = function () {
                 if (this.status >= 200 && this.status < 300) {
                     var response = JSON.parse(xmlhttp.responseText);
-                    console.log(response[tracker]);
-
-                    resolve(response[tracker]);
-                    //resolve(JSON.parse(xmlhttp.responseText));
+                    var t = response[tracker];
+                    t.tracker = tracker;
+                    resolve(t);
                 }
             };
             xmlhttp.send();
