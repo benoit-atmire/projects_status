@@ -5,8 +5,8 @@
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
     <style>
         .slatable {
-            margin: 0px;
-            padding: 0px;
+            margin: 0px !important;
+            padding: 0px !important;
         }
     </style>
 </head>
@@ -87,7 +87,7 @@
               projects_html += "<tr>" +
                   "<td><input class=\"slatable\" type=\"text\" id=\"fixed_price_label\" /></td>" +
                   "<td><input class=\"slatable\" type=\"text\" id=\"fixed_price_credits\" /></td>" +
-                  "<td><button class=\"slatable\" type=\"submit\" class=\"mod-primary\" id=\"sendcreditsform\">Save</button></td>" +
+                  "<td><button type=\"submit\" class=\"mod-primary slatable\" id=\"sendcreditsform\">Save</button></td>" +
                   "</tr>";
 
               document.getElementById("fixed_price_projects").innerHTML = projects_html;
