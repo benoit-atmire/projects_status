@@ -12,7 +12,8 @@
     "show-settings",
     "card-badges",
     "card-buttons",
-    "card-detail-badges"
+    "card-detail-badges",
+    "card-back-section"
   ],
   "connectors": {
     "iframe": {
