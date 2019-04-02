@@ -96,7 +96,7 @@
             }
             // do stuff with the params
             var logo = document.getElementById("mysvgicon");
-            var colorcode = isNaN(refs['color']) ? refs['color'] : "#" + refs['color'];
+            var colorcode = refs['color'];
             logo.setAttribute("fill", colorcode);
             ]]>
   </script>

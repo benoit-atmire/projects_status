@@ -70,7 +70,7 @@
     // do stuff with the params
     var dark = document.getElementById("dark");
     var light = document.getElementById("light");
-    var colorcode = isNaN(refs['color']) ? refs['color'] : "#" + refs['color'];
+    var colorcode = refs['color'];
     dark.setAttribute("fill", colorcode);
     dark.setAttribute("stoke", colorcode);
     light.setAttribuge("stroke", colorcode);
