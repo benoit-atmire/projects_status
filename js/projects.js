@@ -383,13 +383,7 @@ function getAllBadges(t, long) {
                     title: 'Tracker'
                 });
 
-                var all_time_credits = sladata.all_time_credits;
-
-                for (var p in sla_projects) all_time_credits -= sla_projects[p]['credits'];
-
-                var worked = Math.round(projectdata.worked_hours * 4);
-
-                var balance = all_time_credits - worked;
+                var balance = -Math.round(sladata.all_time_diff);
 
                 badges.push({
                     icon: MONEY_ICON,
