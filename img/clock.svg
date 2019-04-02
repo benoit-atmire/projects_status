@@ -7,7 +7,7 @@
      viewBox="0 0 200 200">
 
          <title>clock</title>
-  <path id="Sélection"
+  <path id="mysvgicon"
         fill="#999" stroke="none" stroke-width="1"
         d="M 105.00,15.22
            C 114.97,15.12 127.08,18.37 136.00,22.76
@@ -82,4 +82,28 @@
              96.00,151.00 102.00,151.00 102.00,151.00 Z" />
 
              <script type="text/ecmascript" xlink:href="param.js" />
+
+    <script type="application/ecmascript">
+        <![CDATA[
+    // when used as an object, we'll allow attributes to be changed by params passed in the query string
+    var paramList = ['color'];
+    var refs = [];
+    var href = document.defaultView.location.href;
+    if (-1 != href.indexOf("?")) {
+      var paramList = href.split("?")[1].split(/&|;/);
+      for (var p = 0, pLen = paramList.length; pLen > p; p++) {
+        var eachParam = paramList[p];
+        var valList = eachParam.split("=");
+        var name = unescape(valList[0]);
+        var value = unescape(valList[1]);
+        refs[name] = value;
+      }
+    }
+    // do stuff with the params
+    var logo = document.getElementById("mysvgicon");
+    var colorcode = isNaN(refs['color']) ? refs['color'] : "#" + refs['color'];
+    logo.setAttribute("fill", colorcode);
+
+    ]]>
+    </script>
 </svg>

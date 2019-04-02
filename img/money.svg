@@ -5,7 +5,7 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      width="6.20833in" height="6.25in"
      viewBox="0 0 447 450">
-  <path id="Sélection"
+  <path id="mysvgicon"
         fill="#999" stroke="#999" stroke-width="5"
         d="M 31.32,52.00
            C 27.60,44.00 25.95,34.66 34.04,28.65
@@ -251,4 +251,28 @@
              151.02,299.00 144.12,298.02 136.00,298.00
              136.00,298.00 147.00,356.00 147.00,356.00
              155.85,352.40 163.29,348.52 168.39,340.00 Z" />
+
+  <script type="application/ecmascript">
+    <![CDATA[
+            // when used as an object, we'll allow attributes to be changed by params passed in the query string
+            var paramList = ['color'];
+            var refs = [];
+            var href = document.defaultView.location.href;
+            if (-1 != href.indexOf("?")) {
+              var paramList = href.split("?")[1].split(/&|;/);
+              for (var p = 0, pLen = paramList.length; pLen > p; p++) {
+                var eachParam = paramList[p];
+                var valList = eachParam.split("=");
+                var name = unescape(valList[0]);
+                var value = unescape(valList[1]);
+                refs[name] = value;
+              }
+            }
+            // do stuff with the params
+            var logo = document.getElementById("mysvgicon");
+            var colorcode = isNaN(refs['color']) ? refs['color'] : "#" + refs['color'];
+            logo.setAttribute("fill", colorcode);
+            logo.setAttribute("stroke", colorcode);
+            ]]>
+  </script>
 </svg>

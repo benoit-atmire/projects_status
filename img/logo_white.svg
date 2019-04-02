@@ -49,5 +49,32 @@
              91.69,178.00 135.14,85.00 135.14,85.00
              135.14,85.00 141.43,69.00 141.43,69.00
              141.43,69.00 158.00,32.00 158.00,32.00
-             158.00,32.00 160.00,32.00 160.00,32.00 Z" />             
+             158.00,32.00 160.00,32.00 160.00,32.00 Z" />
+
+  <script type="application/ecmascript">
+    <![CDATA[
+    // when used as an object, we'll allow attributes to be changed by params passed in the query string
+    var paramList = ['color'];
+    var refs = [];
+    var href = document.defaultView.location.href;
+    if (-1 != href.indexOf("?")) {
+      var paramList = href.split("?")[1].split(/&|;/);
+      for (var p = 0, pLen = paramList.length; pLen > p; p++) {
+        var eachParam = paramList[p];
+        var valList = eachParam.split("=");
+        var name = unescape(valList[0]);
+        var value = unescape(valList[1]);
+        refs[name] = value;
+      }
+    }
+    // do stuff with the params
+    var dark = document.getElementById("dark");
+    var light = document.getElementById("light");
+    var colorcode = isNaN(refs['color']) ? refs['color'] : "#" + refs['color'];
+    dark.setAttribute("fill", colorcode);
+    dark.setAttribute("stoke", colorcode);
+    light.setAttribuge("stroke", colorcode);
+
+    ]]>
+  </script>
 </svg>
