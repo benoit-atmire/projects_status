@@ -369,7 +369,7 @@ function getAllBadges(t, long) {
                 badges.push({
                     icon: W2P_ICON,
                     text: long ? 'W2P' : null,
-                    url: "https://web2project.atmire.com/web2project/index.php?m=projects%26a=view%26project_id=" + projectdata.project_id,
+                    url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.project_id,
                     title: 'Project'
                 });
             }
@@ -391,7 +391,7 @@ function getAllBadges(t, long) {
 function getCardButtons(t) {
     return t.getAll()
         .then(function (data) {
-            console.log(data);
+            //console.log(data);
             var buttons = [];
             if (data && (!data.card || !data.card.private || !data.card.private.pid || data.card.private.pid == "")){
                 buttons.push({
@@ -465,13 +465,14 @@ function getCardButtons(t) {
 
 
 function getCardBackSection(t){
-
+    console.log("Start debugging card back section");
     return t.getAll()
         .then(function (plugindata){
             var settings = plugindata.board.private.settings;
             var projectdata = plugindata.card.shared.project || {};
             var sladata = plugindata.card.shared.sla || {};
-
+            console.log("Card back section: available data: ");
+            console.log(sladata.tracker);
             if (sladata.tracker && sladata.tracker != "") {
                 return {
                     title: 'Tracker consumption overview',
