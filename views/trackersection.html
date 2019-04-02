@@ -53,9 +53,13 @@
 
         return t.getAll()
           .then(function(data){
+              console.log("rendering 2");
+
               return Promise.all(getCreditsCount(data.card.shared.sla.tracker), data.card.shared.sla_projects);
           })
           .then(function(sladata){
+              console.log("rendering 3");
+
               var tracker_details = sladata[0];
               var projects_list = sladata[1];
 
