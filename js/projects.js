@@ -12,6 +12,8 @@ var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
+        getProjectMapping(t).then(function (mapping) {t.set('board', 'shared', 'project_mapping', mapping)});
+        getSLAMapping(t).then(function (mapping) {t.set('board', 'shared', 'sla_mapping', mapping)});
         return [{
             icon: ATMIRE_ICON,
             text: 'Schedule meeting today',
@@ -42,6 +44,46 @@ TrelloPowerUp.initialize({
         return getCardBackSection(t);
     }
 });
+
+function getProjectMapping(t) {
+    return t.get('board', 'private', 'settings')
+        .then(function (settings){
+            return new Promise(function (resolve, reject){
+                var xmlhttp = new XMLHttpRequest();
+                var projects = [];
+                xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + settings.username + "&password=" + settings.password + "&report_type=projects_overview");
+                xmlhttp.onload = function () {
+                    if (this.status >= 200 && this.status < 300) {
+                        var response = JSON.parse(xmlhttp.responseText);
+                        var p = response.projects;
+                        for (var i in p) {projects.push({
+                            project_id : p[i].project_id,
+                            company_name : p[i].company_name,
+                            project_name : p[i].project_name
+                            });
+                        }
+                        resolve(projects);
+                    }
+                };
+                xmlhttp.send();
+            });
+        });
+}
+
+function getSLAMapping(t) {
+    return new Promise(function (resolve, reject){
+        var url = 'https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec';
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", url);
+        xmlhttp.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                var trackers = JSON.parse(xmlhttp.responseText);
+                resolve(trackers);
+            }
+        };
+        xmlhttp.send();
+    });
+}
 
 function updateBoard (t, filter) {
 
