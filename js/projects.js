@@ -383,14 +383,14 @@ function getAllBadges(t, long) {
                     title: 'Tracker'
                 });
 
-                /*var balance = -Math.round(sladata.all_time_diff * 4);
+                var balance = -Math.round(sladata.all_time_diff * 4);
 
                 badges.push({
                     icon: MONEY_ICON,
                     title: 'Balance',
                     text: balance + (long ? " credits" : ""),
                     color: balance < 0 ? "red" : null
-                });*/
+                });
             }
 
             return badges;
