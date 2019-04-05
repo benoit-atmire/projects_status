@@ -445,7 +445,7 @@ function getCardButtons(t) {
                             return t.popup({
                                 title: "W2P Link",
                                 url: 'views/settings.html'
-                            }),
+                            })},
                         condition: 'admin'
                     });
                     if (!data.card.shared.sla || !data.card.shared.sla.tracker || data.card.shared.sla.tracker == ""){
