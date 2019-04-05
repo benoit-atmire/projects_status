@@ -12,8 +12,6 @@ var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
-        getProjectMapping(t).then(function (mapping) {t.set('board', 'shared', 'project_mapping', mapping)});
-        getSLAMapping(t).then(function (mapping) {t.set('board', 'shared', 'sla_mapping', mapping)});
         return [{
             icon: ATMIRE_ICON,
             text: 'Schedule meeting today',
@@ -44,46 +42,6 @@ TrelloPowerUp.initialize({
         return getCardBackSection(t);
     }
 });
-
-function getProjectMapping(t) {
-    return t.get('board', 'private', 'settings')
-        .then(function (settings){
-            return new Promise(function (resolve, reject){
-                var xmlhttp = new XMLHttpRequest();
-                var projects = [];
-                xmlhttp.open("GET", "https://atmire.com/w2p-api/reports?username=" + settings.username + "&password=" + settings.password + "&report_type=projects_overview");
-                xmlhttp.onload = function () {
-                    if (this.status >= 200 && this.status < 300) {
-                        var response = JSON.parse(xmlhttp.responseText);
-                        var p = response.projects;
-                        for (var i in p) {projects.push({
-                            project_id : p[i].project_id,
-                            company_name : p[i].company_name,
-                            project_name : p[i].project_name
-                            });
-                        }
-                        resolve(projects);
-                    }
-                };
-                xmlhttp.send();
-            });
-        });
-}
-
-function getSLAMapping(t) {
-    return new Promise(function (resolve, reject){
-        var url = 'https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec';
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", url);
-        xmlhttp.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
-                var trackers = JSON.parse(xmlhttp.responseText);
-                resolve(trackers);
-            }
-        };
-        xmlhttp.send();
-    });
-}
 
 function updateBoard (t, filter) {
 
@@ -480,7 +438,7 @@ function getCardButtons(t) {
                 });
 
                 if (data.card.shared && data.card.shared.project && data.card.shared.project.project_type && data.card.shared.project.project_type == "SLA"){
-                    /*buttons.push({
+                    buttons.push({
                         icon: MONEY_ICON,
                         text: "Add fixed price credits",
                         callback: function(t){
@@ -489,7 +447,7 @@ function getCardButtons(t) {
                                 url: 'views/settings.html'
                             }),
                         condition: 'admin'
-                    });*/
+                    });
                     if (!data.card.shared.sla || !data.card.shared.sla.tracker || data.card.shared.sla.tracker == ""){
                         buttons.push({
                             icon: TRACKER_ICON,
@@ -523,7 +481,7 @@ function getCardBackSection(t){
             var sladata = plugindata.card.shared.sla || {};
 
             if (sladata.tracker && sladata.tracker != "") {
-                /*return {
+                return {
                     title: 'Tracker consumption overview',
                     icon: TRACKER_ICON,
                     content: {
@@ -531,7 +489,7 @@ function getCardBackSection(t){
                         url: t.signUrl('./views/trackersection.html'),
                         height: 230
                     }
-                }*/
+                }
             }
 
             else return {};
