@@ -383,7 +383,7 @@ function getAllBadges(t, long) {
                     title: 'Tracker'
                 });
 
-                var balance = -Math.round(sladata.all_time_diff * 4);
+                var balance = -Math.round(sladata.all_time_diff);
 
                 badges.push({
                     icon: MONEY_ICON,
