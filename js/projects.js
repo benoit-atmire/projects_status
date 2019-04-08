@@ -5,6 +5,7 @@ var W2P_ICON = 'https://benoit-atmire.github.io/projects_status/img/w2p.png';
 var TRACKER_ICON = 'https://benoit-atmire.github.io/projects_status/img/tracker.svg';
 var REFRESH_ICON = 'https://benoit-atmire.github.io/projects_status/img/refresh.svg';
 var MONEY_ICON = 'https://benoit-atmire.github.io/projects_status/img/money.svg';
+var MONEY_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/money-white.svg';
 
 
 var Promise = TrelloPowerUp.Promise;
@@ -386,7 +387,7 @@ function getAllBadges(t, long) {
                 var balance = -Math.round(sladata.all_time_diff);
 
                 badges.push({
-                    icon: MONEY_ICON,
+                    icon: balance < 0 ? MONEY_ICON_WHITE : MONEY_ICON,
                     title: 'Margin',
                     text: balance + (long ? " credits" : ""),
                     color: balance < 0 ? "red" : null
