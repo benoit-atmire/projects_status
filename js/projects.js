@@ -387,7 +387,7 @@ function getAllBadges(t, long) {
 
                 badges.push({
                     icon: MONEY_ICON,
-                    title: 'Balance',
+                    title: 'Margin',
                     text: balance + (long ? " credits" : ""),
                     color: balance < 0 ? "red" : null
                 });
