@@ -481,7 +481,7 @@ function getCardBackSection(t){
             var sladata = plugindata.card.shared.sla || {};
 
             if (sladata.tracker && sladata.tracker != "") {
-                return {
+                /*return {
                     title: 'Tracker consumption overview',
                     icon: TRACKER_ICON,
                     content: {
@@ -489,7 +489,7 @@ function getCardBackSection(t){
                         url: t.signUrl('./views/trackersection.html'),
                         height: 230
                     }
-                }
+                }*/
             }
 
             else return {};
