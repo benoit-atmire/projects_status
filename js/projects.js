@@ -210,7 +210,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
                 }
 
                 if (datechanged) idLabels_add.push(labels["Date changed"].id);
-                if (datemissing) idLabels_add.push(labels["Date missing"].id);
+                if (datemissing && new_project.project_type != "SLA") idLabels_add.push(labels["Date missing"].id);
                 else idLabels_remove.push(labels["Date missing"].id);
 
                 if (!datemissing) {
@@ -234,7 +234,7 @@ function updateCard(t, card_id, new_project, settings, labels, lists) {
 
                 if (card_data.worked_hours) comment += (new_project.worked_hours - card_data.worked_hours) + " hour(s) worked since last log.";
 
-                if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed price project") {
+                if (new_project.project_type == "Module installation" || new_project.project_type == "Fixed Price Project") {
                     var percentage = new_project.worked_hours / new_project.billable_hours;
                     var budgetrisk = false;
 
