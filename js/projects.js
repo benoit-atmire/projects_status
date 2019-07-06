@@ -350,7 +350,7 @@ function getCardButtons(t) {
         .then(function (data) {
             //console.log(data);
             var buttons = [];
-            if (data && (!data.card || !data.card.private || !data.card.private.pid || data.card.private.pid == "")){
+            if (data && (!data.card || !data.card.shared || !data.card.shared.pid || !data.card.private.pid.value || data.card.private.pid.value == "")){
                 buttons.push({
                     icon: W2P_ICON,
                     text: "Map with project",
