@@ -60,15 +60,15 @@
 
 
     t.render(function(){
-        return getTrackers()
+        return getUnmappedTrackers()
             .then(function (trackers) {
                 console.log(trackers);
                 var dataList = document.getElementById('trackerlist');
 
-                for (var tracker in trackers) {
+                for (var i = 0 ; i < trackers.length ; i++) {
                     var option = document.createElement('option');
-                    option.value = trackers[tracker].project_name + " (" + trackers[tracker].company_name + ")";
-                    option.setAttribute("trackername", tracker);
+                    option.value = trackers[i].name;
+                    option.setAttribute("trackername", trackers[i].link);
                     dataList.appendChild(option);
                 }
 
@@ -76,10 +76,9 @@
             });
     });
 
-    function getTrackers(){
-
+    function getUnmappedTrackers(){
         return new Promise(function (resolve, reject){
-            var url = 'https://script.google.com/macros/s/AKfycbwAd7QSzVkRIxni-pv30PDjJYH-Zzp2X7PPuvJBSST3p3LmJs3B/exec';
+            var url = 'http://reports.atmi.re/slas/unmapped';
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("GET", url);
             xmlhttp.onload = function () {

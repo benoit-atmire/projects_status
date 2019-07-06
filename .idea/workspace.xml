@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f1a18301-391c-485a-9332-589bbabb8535" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1073935135">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="10" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.10" value="2" />
+          <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.open.time.9" value="3" />
+          <entry key="project.opened" value="10" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="html" value="9" />
+          <entry key="js" value="1" />
+          <entry key="json" value="1" />
+          <entry key="png" value="2" />
+          <entry key="svg" value="19" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="HTML" value="9" />
+          <entry key="Image" value="2" />
+          <entry key="JSON" value="1" />
+          <entry key="JavaScript" value="1" />
+          <entry key="SVG" value="19" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="html" value="5635" />
+          <entry key="js" value="10966" />
+          <entry key="json" value="23" />
+          <entry key="svg" value="235" />
+          <entry key="txt" value="825" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="HTML" value="5635" />
+          <entry key="JSON" value="23" />
+          <entry key="JavaScript" value="10966" />
+          <entry key="PLAIN_TEXT" value="825" />
+          <entry key="SVG" value="235" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages">
+        <counts>
+          <entry key="git.branch.checkout.with.rebase" value="1" />
+          <entry key="git.branch.create.new" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/projects.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="708">
+              <caret line="393" column="19" selection-start-line="393" selection-start-column="19" selection-end-line="393" selection-end-column="19" />
+              <folding>
+                <element signature="n#!!block;n#getProjects#0" />
+                <element signature="n#!!block;n#createComment#0" />
+                <element signature="n#!!block;n#addLabels#0" />
+                <element signature="n#!!block;n#removeLabels#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/tracker.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1365">
+              <caret line="91" column="11" selection-start-line="91" selection-start-column="11" selection-end-line="91" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/mapproject.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1500">
+              <caret line="100" column="26" selection-start-line="100" selection-start-column="26" selection-end-line="100" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/settings.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1950">
+              <caret line="130" column="10" selection-start-line="130" selection-start-column="10" selection-end-line="130" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manifest.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/trackersection.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1590">
+              <caret line="106" column="67" selection-start-line="106" selection-start-column="67" selection-end-line="106" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/img/logo_white.svg">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>pm</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/views</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/views/addproject.html" />
+        <option value="$PROJECT_DIR$/views/mapproject.html" />
+        <option value="$PROJECT_DIR$/views/settings.html" />
+        <option value="$PROJECT_DIR$/views/tracker.html" />
+        <option value="$PROJECT_DIR$/img/clock_white.svg" />
+        <option value="$PROJECT_DIR$/img/clock.svg" />
+        <option value="$PROJECT_DIR$/img/money.svg" />
+        <option value="$PROJECT_DIR$/img/refresh.svg" />
+        <option value="$PROJECT_DIR$/img/tracker.svg" />
+        <option value="$PROJECT_DIR$/img/logo_white.svg" />
+        <option value="$PROJECT_DIR$/manifest.json" />
+        <option value="$PROJECT_DIR$/views/trackersection.html" />
+        <option value="$PROJECT_DIR$/img/money-white.svg" />
+        <option value="$PROJECT_DIR$/js/projects.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-12" />
+    <option name="y" value="99" />
+    <option name="width" value="1440" />
+    <option name="height" value="877" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="projects_status" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projects_status" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="projects_status" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projects_status" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="projects_status" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projects_status" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="projects_status" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projects_status" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554909463917" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/img" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/img" />
+      <recent name="$PROJECT_DIR$/views" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f1a18301-391c-485a-9332-589bbabb8535" name="Default Changelist" comment="" />
+      <created>1551900581864</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1551900581864</updated>
+      <workItem from="1551900583208" duration="27780000" />
+      <workItem from="1552941464478" duration="2471000" />
+      <workItem from="1552994479303" duration="37855000" />
+      <workItem from="1553595876487" duration="14954000" />
+      <workItem from="1554108964855" duration="94000" />
+      <workItem from="1554200202612" duration="5586000" />
+      <workItem from="1554213084718" duration="28383000" />
+      <workItem from="1555674957434" duration="1204000" />
+      <workItem from="1556717178966" duration="793000" />
+      <workItem from="1557487222954" duration="27000" />
+    </task>
+    <task id="LOCAL-00104" summary="card back section attempt without signURL">
+      <created>1554227176436</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1554227176436</updated>
+    </task>
+    <task id="LOCAL-00105" summary="card back section attempt without signURL">
+      <created>1554227348469</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1554227348469</updated>
+    </task>
+    <task id="LOCAL-00106" summary="card back section attempt without signURL">
+      <created>1554227509565</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1554227509565</updated>
+    </task>
+    <task id="LOCAL-00107" summary="card back section attempt without signURL">
+      <created>1554227926615</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1554227926615</updated>
+    </task>
+    <task id="LOCAL-00108" summary="card back section attempt without signURL">
+      <created>1554228434194</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1554228434194</updated>
+    </task>
+    <task id="LOCAL-00109" summary="card back section attempt without signURL">
+      <created>1554228492616</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1554228492616</updated>
+    </task>
+    <task id="LOCAL-00110" summary="card back section attempt without signURL">
+      <created>1554229091770</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1554229091770</updated>
+    </task>
+    <task id="LOCAL-00111" summary="card back section attempt without signURL">
+      <created>1554229153568</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1554229153568</updated>
+    </task>
+    <task id="LOCAL-00112" summary="card back section attempt without signURL">
+      <created>1554229302630</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1554229302630</updated>
+    </task>
+    <task id="LOCAL-00113" summary="card back section attempt without signURL">
+      <created>1554229731749</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1554229731749</updated>
+    </task>
+    <task id="LOCAL-00114" summary="card back section attempt without signURL">
+      <created>1554229820498</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1554229820498</updated>
+    </task>
+    <task id="LOCAL-00115" summary="card back section attempt without signURL">
+      <created>1554230059644</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1554230059644</updated>
+    </task>
+    <task id="LOCAL-00116" summary="card back section attempt without signURL">
+      <created>1554230308786</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1554230308786</updated>
+    </task>
+    <task id="LOCAL-00117" summary="card back section attempt without signURL">
+      <created>1554230665882</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1554230665883</updated>
+    </task>
+    <task id="LOCAL-00118" summary="card back section attempt without signURL">
+      <created>1554232216902</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1554232216902</updated>
+    </task>
+    <task id="LOCAL-00119" summary="card back section attempt without signURL">
+      <created>1554232675236</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1554232675236</updated>
+    </task>
+    <task id="LOCAL-00120" summary="card back section attempt without signURL">
+      <created>1554233355899</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1554233355899</updated>
+    </task>
+    <task id="LOCAL-00121" summary="card back section attempt without signURL">
+      <created>1554233523262</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1554233523262</updated>
+    </task>
+    <task id="LOCAL-00122" summary="card back section attempt without signURL">
+      <created>1554234693575</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1554234693575</updated>
+    </task>
+    <task id="LOCAL-00123" summary="card back section attempt without signURL">
+      <created>1554234840803</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1554234840803</updated>
+    </task>
+    <task id="LOCAL-00124" summary="card back section attempt without signURL">
+      <created>1554235450156</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1554235450156</updated>
+    </task>
+    <task id="LOCAL-00125" summary="card back section attempt without signURL">
+      <created>1554235533394</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1554235533394</updated>
+    </task>
+    <task id="LOCAL-00126" summary="card back section attempt without signURL">
+      <created>1554235807995</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1554235807995</updated>
+    </task>
+    <task id="LOCAL-00127" summary="card back section attempt without signURL">
+      <created>1554235895102</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1554235895102</updated>
+    </task>
+    <task id="LOCAL-00128" summary="card back section attempt without signURL">
+      <created>1554236181725</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1554236181725</updated>
+    </task>
+    <task id="LOCAL-00129" summary="card back section attempt without signURL">
+      <created>1554236476923</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1554236476924</updated>
+    </task>
+    <task id="LOCAL-00130" summary="card back section attempt without signURL">
+      <created>1554237138907</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1554237138907</updated>
+    </task>
+    <task id="LOCAL-00131" summary="card back section attempt without signURL">
+      <created>1554237231854</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1554237231854</updated>
+    </task>
+    <task id="LOCAL-00132" summary="card back section attempt without signURL">
+      <created>1554237764244</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1554237764244</updated>
+    </task>
+    <task id="LOCAL-00133" summary="card back section attempt without signURL">
+      <created>1554237874017</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1554237874017</updated>
+    </task>
+    <task id="LOCAL-00134" summary="card back section attempt without signURL">
+      <created>1554238045978</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1554238045978</updated>
+    </task>
+    <task id="LOCAL-00135" summary="card back section attempt without signURL">
+      <created>1554238149666</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1554238149666</updated>
+    </task>
+    <task id="LOCAL-00136" summary="card back section attempt without signURL">
+      <created>1554238297468</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1554238297468</updated>
+    </task>
+    <task id="LOCAL-00137" summary="card back section attempt without signURL">
+      <created>1554238471185</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1554238471185</updated>
+    </task>
+    <task id="LOCAL-00138" summary="card back section attempt without signURL">
+      <created>1554238812474</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1554238812474</updated>
+    </task>
+    <task id="LOCAL-00139" summary="card back section attempt without signURL">
+      <created>1554239160036</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1554239160036</updated>
+    </task>
+    <task id="LOCAL-00140" summary="card back section attempt without signURL">
+      <created>1554240383447</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1554240383447</updated>
+    </task>
+    <task id="LOCAL-00141" summary="card back section attempt without signURL">
+      <created>1554240520184</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1554240520184</updated>
+    </task>
+    <task id="LOCAL-00142" summary="card back section attempt without signURL">
+      <created>1554241140610</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1554241140610</updated>
+    </task>
+    <task id="LOCAL-00143" summary="card back section attempt without signURL">
+      <created>1554242081242</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1554242081242</updated>
+    </task>
+    <task id="LOCAL-00144" summary="attempt to cache mappings in board data">
+      <created>1554322036430</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1554322036430</updated>
+    </task>
+    <task id="LOCAL-00145" summary="attempt to cache mappings in board data">
+      <created>1554470045593</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1554470045594</updated>
+    </task>
+    <task id="LOCAL-00146" summary="attempt to cache mappings in board data">
+      <created>1554470275260</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1554470275260</updated>
+    </task>
+    <task id="LOCAL-00147" summary="attempt to cache mappings in board data">
+      <created>1554470348379</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1554470348379</updated>
+    </task>
+    <task id="LOCAL-00148" summary="attempt to cache mappings in board data">
+      <created>1554705538314</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1554705538314</updated>
+    </task>
+    <task id="LOCAL-00149" summary="typo in project type (capitalization)">
+      <created>1554706603348</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1554706603348</updated>
+    </task>
+    <task id="LOCAL-00150" summary="typo in project type (capitalization)">
+      <created>1554708094668</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1554708094668</updated>
+    </task>
+    <task id="LOCAL-00151" summary="typo in project type (capitalization)">
+      <created>1554708222191</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1554708222191</updated>
+    </task>
+    <task id="LOCAL-00152" summary="fix icon color for sla margin when negative">
+      <created>1554708409940</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1554708409940</updated>
+    </task>
+    <option name="localTasksCounter" value="153" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="119147000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-12" y="99" width="1440" height="877" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.3299363" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Maven Projects" order="8" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2274678" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Maven Projects" order="8" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="missing  check on existance of old project" />
+    <MESSAGE value="rework dates and api request" />
+    <MESSAGE value="add project link" />
+    <MESSAGE value="error mgmt + url encoding" />
+    <MESSAGE value="disable rejection" />
+    <MESSAGE value="new approach, card-based" />
+    <MESSAGE value="moved label creations to settings" />
+    <MESSAGE value="card buttons" />
+    <MESSAGE value="mapproject view" />
+    <MESSAGE value="updateCard test" />
+    <MESSAGE value="badges" />
+    <MESSAGE value="sla support" />
+    <MESSAGE value="sla back card section" />
+    <MESSAGE value="fix tracker url" />
+    <MESSAGE value="add unmap button + some more icons" />
+    <MESSAGE value="remove filter on belgian projects to prevent missing non-assigned projects" />
+    <MESSAGE value="recoloring icons" />
+    <MESSAGE value="fix project URL (encoding)" />
+    <MESSAGE value="enable card back section in manifest" />
+    <MESSAGE value="card back section debug logs" />
+    <MESSAGE value="card back section attempt with signURL" />
+    <MESSAGE value="card back section attempt without signURL" />
+    <MESSAGE value="attempt to cache mappings in board data" />
+    <MESSAGE value="typo in project type (capitalization)" />
+    <MESSAGE value="fix icon color for sla margin when negative" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix icon color for sla margin when negative" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/img/w2p.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/refresh.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/tracker.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/money.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/clock_white.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/clock.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/money-white.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/projects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="708">
+          <caret line="393" column="19" selection-start-line="393" selection-start-column="19" selection-end-line="393" selection-end-column="19" />
+          <folding>
+            <element signature="n#!!block;n#getProjects#0" />
+            <element signature="n#!!block;n#createComment#0" />
+            <element signature="n#!!block;n#addLabels#0" />
+            <element signature="n#!!block;n#removeLabels#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/tracker.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1365">
+          <caret line="91" column="11" selection-start-line="91" selection-start-column="11" selection-end-line="91" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/mapproject.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1500">
+          <caret line="100" column="26" selection-start-line="100" selection-start-column="26" selection-end-line="100" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/settings.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1950">
+          <caret line="130" column="10" selection-start-line="130" selection-start-column="10" selection-end-line="130" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/trackersection.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1590">
+          <caret line="106" column="67" selection-start-line="106" selection-start-column="67" selection-end-line="106" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/img/logo_white.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
