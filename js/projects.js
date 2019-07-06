@@ -42,8 +42,9 @@ function getBadges(t, detailed){
             // Plugindata contains all stored values in the card
 
             var settings = plugindata.board.shared.settings; // Shared settings to get data from the API
-            var projectdata = plugindata.card.shared ? plugindata.card.shared.project : {}; // Shared data that replicates and stores the content from the API
-            var sladata = plugindata.card.shared ? plugindata.card.shared.sla : {}; // Shared data that contains the SLA details
+            var carddata = plugindata.card.shared || {};
+            var projectdata = carddat.project || {}; // Shared data that replicates and stores the content from the API
+            var sladata = carddata.sla || {}; // Shared data that contains the SLA details
 
             var badges = []; // Initialise the array of badges we want to see
 
