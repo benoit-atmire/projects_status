@@ -61,7 +61,7 @@
 
 
     t.render(function(){
-        return t.get('board', 'private', 'settings', '')
+        return t.get('board', 'shared', 'settings', '')
             .then(function(settings) {
                 return getProjects(settings.apitoken);
             })
