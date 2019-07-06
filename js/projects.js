@@ -445,7 +445,7 @@ function getCardBackSection(t){
 
 function getProjectData(pid, apitoken){
     return new Promise(function (resolve, reject){
-        var url = 'http://reports.atmi.re/projects/' + pid;
+        var url = 'https://reports.atmi.re/projects/' + pid;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", url);
         xmlhttp.onload = function () {

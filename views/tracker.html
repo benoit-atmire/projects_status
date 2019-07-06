@@ -78,7 +78,7 @@
 
     function getUnmappedTrackers(){
         return new Promise(function (resolve, reject){
-            var url = 'http://reports.atmi.re/slas/unmapped';
+            var url = 'https://reports.atmi.re/slas/unmapped';
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("GET", url);
             xmlhttp.onload = function () {

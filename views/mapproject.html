@@ -85,7 +85,7 @@
         return new Promise(function (resolve, reject) {
             var xmlhttp = new XMLHttpRequest();
             var projects = {};
-            xmlhttp.open("GET", 'http://reports.atmi.re/projects');
+            xmlhttp.open("GET", 'https://reports.atmi.re/projects');
             xmlhttp.onload = function () {
                 if (this.status >= 200 && this.status < 300) {
                     var projects = JSON.parse(xmlhttp.responseText);
