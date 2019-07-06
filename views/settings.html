@@ -73,8 +73,8 @@
       .then(function(data){
         console.log(data);
         var settings;
-        var hasSettings = (data.board.shared.settings && data.board.shared.settings != '' && data.board.shared.settings.apitoken && data.board.shared.settings.ttoken && data.board.shared.settings.tkey);
-        var hasLabels = (data.board.shared.labels && data.board.shared.labels != '');
+        var hasSettings = (data.board && data.board.shared && data.board.shared.settings && data.board.shared.settings != '' && data.board.shared.settings.apitoken && data.board.shared.settings.ttoken && data.board.shared.settings.tkey);
+        var hasLabels = (data.board && data.board.shared && data.board.shared.labels && data.board.shared.labels != '');
 
         if (hasSettings) {
             settings = data.board.shared.settings;
