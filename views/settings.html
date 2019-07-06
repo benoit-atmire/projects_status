@@ -52,7 +52,11 @@
         if (!hasLabels) {
 
             var labels = createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
-            return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'shared', 'settings', settings)])
+            var boarddata = {
+                "settings" : settings,
+                "labels" : labels
+            };
+            return t.set('board', 'shared', boarddata)
                 .then(function (){
                     t.closePopup();
                 })
