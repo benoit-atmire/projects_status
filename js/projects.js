@@ -131,7 +131,7 @@ function getBadges(t, detailed){
 
 function updateCard(t, card_id, pid, settings, labels) {
 
-    return Promis.all([getProjectData(pid, settings.apitoken), t.lists('all')]) // First we retrieve the project data, and the lists to move the cards
+    return Promise.all([getProjectData(pid, settings.apitoken), t.lists('all')]) // First we retrieve the project data, and the lists to move the cards
         .then(function (data){
             // Let's store the retrieved data in two separata values out of usability
             var project_data = data[0] || {};
