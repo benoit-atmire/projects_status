@@ -59,6 +59,7 @@
         }
 
         else {
+            console.log(settings);
             return t.set('board', 'shared', 'settings', settings)
                 .then(function () {
                     t.closePopup();
@@ -70,6 +71,7 @@
     t.render(function(){
       return t.getAll()
       .then(function(data){
+        console.log(data);
         var settings;
         var hasSettings = (data.board.shared.settings && data.board.shared.settings != '' && data.board.shared.settings.apitoken && data.board.shared.settings.ttoken && data.board.shared.settings.tkey);
         var hasLabels = (data.board.shared.labels && data.board.shared.labels != '');
