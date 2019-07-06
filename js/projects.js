@@ -40,7 +40,7 @@ function getBadges(t, detailed){
     t.getAll()
         .then( function (plugindata){
             // Plugindata contains all stored values in the card
-
+            console.log(plugindata);
             var settings = plugindata.board.shared.settings; // Shared settings to get data from the API
             var carddata = (plugindata.card && plugindata.card.shared) ? plugindata.card.shared : {};
             var projectdata = carddata.project || {}; // Shared data that replicates and stores the content from the API
