@@ -106,7 +106,7 @@ function getBadges(t, detailed){
             // If not, we can assume it's fixed price project
             else {
                 var endphase;
-                if (projectdata.status == "In Planning" || projectdata.status == "In Progress") endphase = projectdata.end_impl;
+                if (projectdata.project_status == "In Planning" || projectdata.project_status == "In Progress") endphase = projectdata.end_impl;
                 else endphase = projectdata.end_date;
      
                 var endphase_dt = new Date(endphase);
@@ -153,7 +153,7 @@ function updateCard(t, card_id, pid, settings, labels) {
                     // The card title is the proejct name and the client name
                     name: project_data.project_name.value + " (" + project_data.company_name.value + ")",
                     // And finaly the card is placed in the list that corresponds to its status
-                    idList: lists[project_data.status.value] ? lists[project_data.status.value] : lists["Other"]
+                    idList: lists[project_data.project_status.value] ? lists[project_data.project_status.value] : lists["Other"]
                 };
 
                 // We are also going to adjust the labels of the card ; this requires a separate API call for labels to add or remove, so we prepare two lists    
@@ -166,9 +166,9 @@ function updateCard(t, card_id, pid, settings, labels) {
                 // We are also going to add a comment in the card to track the changes made since the last update
                 var comment = "";
 
-                if (project_data.status.changed) {
-                    comment += "Updated status: " + project_data.status.value;
-                    comment += " (was: " + project_data.status.previous + ")";
+                if (project_data.project_status.changed) {
+                    comment += "Updated status: " + project_data.project_status.value;
+                    comment += " (was: " + project_data.project_status.previous + ")";
                     comment += "%0D%0A";
                 }
 
@@ -232,7 +232,7 @@ function updateCard(t, card_id, pid, settings, labels) {
 
                     var nextDeadline;
 
-                    if (project_data.status.value == "In Planning" || project_data.status.value == "In Progress") nextDeadline = new Date(project_data.end_impl.value.substring(0, 10));
+                    if (project_data.project_status.value == "In Planning" || project_data.project_status.value == "In Progress") nextDeadline = new Date(project_data.end_impl.value.substring(0, 10));
                     else nextDeadline = new Date(project_data.end_date.value.substring(0, 10));
 
                     if (nextDeadline < new Date()) idLabels_add.push(labels["Outdated"].id);
@@ -253,9 +253,9 @@ function updateCard(t, card_id, pid, settings, labels) {
                     var percentage = project_data.worked_hours.value / project_data.billable_hours.value;
                     var budgetrisk = false;
 
-                    if (project_data.status.value == "In Planning" && percentage > 0.1) budgetrisk = true;
-                    if (project_data.status.value  == "In Progress" && percentage > 0.6) budgetrisk = true;
-                    if (project_data.status.value  == "In Test" && percentage > 0.8) budgetrisk = true;
+                    if (project_data.project_status.value == "In Planning" && percentage > 0.1) budgetrisk = true;
+                    if (project_data.project_status.value  == "In Progress" && percentage > 0.6) budgetrisk = true;
+                    if (project_data.project_status.value  == "In Test" && percentage > 0.8) budgetrisk = true;
 
                     if (budgetrisk) idLabels_add.push(labels["Budget risk"].id);
                     else idLabels_remove.push(labels["Budget risk"].id);
