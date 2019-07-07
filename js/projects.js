@@ -130,7 +130,9 @@ function getBadges(t, detailed){
 
             console.log(badges);
             // We're done with the badges, we can return them
-            return badges;  
+            return new Promise(function (resolve, reject){
+                resolve(badges);
+            });  
 
         });
 }
