@@ -67,10 +67,10 @@ function getBadges(t, detailed) {
                     title: 'Project'
                 },
                 {
-                    icon: TRACKER_ICON,
-                    text: detailed ? 'Tracker' : null,
-                    url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
-                    title: 'Tracker'
+                    icon: CLOCK_ICON,
+                    text: "x",
+                    color: 16 > 15 ? null : 'red',
+                    title: 'Days before next phase'
                 }];
 
                 // If we don't have projectdata, there won't be badges, so we can already quit this
