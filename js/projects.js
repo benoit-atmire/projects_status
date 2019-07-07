@@ -228,20 +228,21 @@ function updateCard(t, card_id, pid, settings, labels) {
                         }
 
                     }
-                }
+                
 
-                if (datechanged) idLabels_add.push(labels["Date changed"].id);
-                if (datemissing) idLabels_add.push(labels["Date missing"].id);
-                else {
-                    idLabels_remove.push(labels["Date missing"].id);
+                    if (datechanged) idLabels_add.push(labels["Date changed"].id);
+                    if (datemissing) idLabels_add.push(labels["Date missing"].id);
+                    else {
+                        idLabels_remove.push(labels["Date missing"].id);
 
-                    var nextDeadline;
+                        var nextDeadline;
 
-                    if (project_data.project_status.value == "In Planning" || project_data.project_status.value == "In Progress") nextDeadline = new Date(project_data.end_impl.value.substring(0, 10));
-                    else nextDeadline = new Date(project_data.end_date.value.substring(0, 10));
+                        if (project_data.project_status.value == "In Planning" || project_data.project_status.value == "In Progress") nextDeadline = new Date(project_data.end_impl.value.substring(0, 10));
+                        else nextDeadline = new Date(project_data.end_date.value.substring(0, 10));
 
-                    if (nextDeadline < new Date()) idLabels_add.push(labels["Outdated"].id);
-                    else idLabels_remove.push(labels["Outdated"].id);
+                        if (nextDeadline < new Date()) idLabels_add.push(labels["Outdated"].id);
+                        else idLabels_remove.push(labels["Outdated"].id);
+                    }
                 }
                 // Project time & budget
 
