@@ -54,25 +54,6 @@ function getAllBadges(t, detailed) {
 
                 var badges = []; // Initialise the array of badges we want to see
 
-                var b = [{
-                    icon: TRACKER_ICON,
-                    text: detailed ? 'Tracker' : null,
-                    url: "https://tracker.atmire.com/tickets-" + "sladata.tracker",
-                    title: 'Tracker'
-                },
-                {
-                    icon: W2P_ICON,
-                    text: detailed ? 'W2P' : null,
-                    url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + "projectdata.pid.value",
-                    title: 'Project'
-                },
-                {
-                    icon: CLOCK_ICON,
-                    text: "x",
-                    color: 16 > 15 ? null : 'red',
-                    title: 'Days before next phase'
-                }];
-
                 // If we don't have projectdata, there won't be badges, so we can already quit this
 
                if (!projectdata.pid) return badges;
@@ -152,7 +133,6 @@ function getAllBadges(t, detailed) {
                 console.log(badges);
                 // We're done with the badges, we can return them
                 return badges;
-                //return b;
         });
 }
 
