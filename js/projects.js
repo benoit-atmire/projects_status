@@ -24,10 +24,47 @@ TrelloPowerUp.initialize({
     'card-badges': function(t, options) {
         var b = getBadges(t, false); 
         console.log(b);
-        return b;
+        var detailed = false;
+        return [{
+            icon: TRACKER_ICON,
+            text: detailed ? 'Tracker' : null,
+            url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
+            title: 'Tracker'
+        },
+        {
+            icon: W2P_ICON,
+            text: detailed ? 'W2P' : null,
+            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
+            title: 'Project'
+        },
+        {
+            icon: CLOCK_ICON,
+            text: "x",
+            color: 16 > 15 ? null : 'red',
+            title: 'Days before next phase'
+        }];
     },
     'card-detail-badges': function(t, options) {
-        return getBadges(t, true);
+        //return getBadges(t, true);
+        var detailed = true;
+        return [{
+            icon: TRACKER_ICON,
+            text: detailed ? 'Tracker' : null,
+            url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
+            title: 'Tracker'
+        },
+        {
+            icon: W2P_ICON,
+            text: detailed ? 'W2P' : null,
+            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
+            title: 'Project'
+        },
+        {
+            icon: CLOCK_ICON,
+            text: "x",
+            color: 16 > 15 ? null : 'red',
+            title: 'Days before next phase'
+        }];
     },
     'card-buttons': function(t, options){
         var b = getCardButtons(t);
