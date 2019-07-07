@@ -136,7 +136,12 @@ function updateCard(t, card_id, pid, settings, labels) {
         .then(function (data){
             // Let's store the retrieved data in two separata values out of usability
             var project_data = data[0] || {};
-            var lists = data[1] || {}; 
+            var lists_table = data[1] || {}; 
+
+            
+            // Transforming the list table into an object formatted to retrieve list IDs based on labels
+            var lists = {};
+            for (var i in lists_table){lists[lists_table[i].name] = lists_table[i].id;}
 
             // The function will need to return a Promise, as per Trello's Power Up rules, so let's embed all the processing withing a new promise
             // Also we need to update the data stored in the card for this project
