@@ -56,7 +56,7 @@ function getBadges(t, detailed) {
 
                 // If we don't have projectdata, there won't be badges, so we can already quit this
 
-                if (!projectdata.pid) return badges;
+//                if (!projectdata.pid) return badges;
 
                 /* As a first thing, let's make sure we are using the latest data
                 *       We "shoot and forget" as it doesn't matter whether each calculation uses the latest data
@@ -66,7 +66,7 @@ function getBadges(t, detailed) {
 
                 var today = new Date();
 
-                if (!detailed) {
+/*                if (!detailed) {
                     var lastsyncdate = new Date(projectdata.week.value);                    
                     var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
                     thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
