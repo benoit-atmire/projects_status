@@ -56,7 +56,7 @@ function getBadges(t, detailed) {
 
                 // If we don't have projectdata, there won't be badges, so we can already quit this
 
-                if (!projectdata.pid) return badges;
+//                if (!projectdata.pid) return badges;
 
                 /* As a first thing, let's make sure we are using the latest data
                 *       We "shoot and forget" as it doesn't matter whether each calculation uses the latest data
@@ -64,7 +64,7 @@ function getBadges(t, detailed) {
                 *       This will only be triggered for board view, not every time a card is opened, to avoid double requests too often
                 * */
 
-                if (!detailed) {
+  /*              if (!detailed) {
                     var lastsyncdate = new Date(projectdata.week.value);
                     var today = new Date();
                     var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
@@ -72,7 +72,7 @@ function getBadges(t, detailed) {
 
                     if (thisweek > lastsyncdate) updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
                 }
-                /* Now we can start generating the badges we need, being: 
+*/              /* Now we can start generating the badges we need, being: 
                 *   - an icon with a link to the project
                 *   - an icon with a link to the tracker if the project is an SLA and that the tracker has been included
                 *   - for fixed price projects, a counter of days left before next phase
