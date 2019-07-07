@@ -72,7 +72,8 @@ function getBadges(t, detailed){
             *   - for SLAs, the margin
             * */
 
-
+            console.log(projectdata);
+            console.log(sladata);
             // Project icon
             if (projectdata && projectdata.pid && projectdata.pid.value && projectdata.pid.value != "") {
                 badges.push({
