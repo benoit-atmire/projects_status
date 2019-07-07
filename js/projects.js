@@ -56,15 +56,17 @@ function getBadges(t, detailed){
             /* As a first thing, let's make sure we are using the latest data
             *       We "shoot and forget" as it doesn't matter whether each calculation uses the latest data
             *       This will indeed be re-calculated every time the card is seen (so, basically, when the board is opened)
+            *       This will only be triggered for board view, not every time a card is opened, to avoid double requests too often
             * */
 
-            var lastsyncdate = new Date(projectdata.week.value);
-            var today = new Date();
-            var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
-            thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
+            if (!detailed) {
+                var lastsyncdate = new Date(projectdata.week.value);
+                var today = new Date();
+                var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
+                thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
 
-            if (thisweek > lastsyncdate) updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
-
+                if (thisweek > lastsyncdate) updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
+            }
             /* Now we can start generating the badges we need, being: 
             *   - an icon with a link to the project
             *   - an icon with a link to the tracker if the project is an SLA and that the tracker has been included
