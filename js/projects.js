@@ -65,7 +65,7 @@ function getBadges(t, detailed){
                 var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
                 thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
 
-                //if (thisweek > lastsyncdate) updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
+                if (thisweek > lastsyncdate) updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
             }
             /* Now we can start generating the badges we need, being: 
             *   - an icon with a link to the project
