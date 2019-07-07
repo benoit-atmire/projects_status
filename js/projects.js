@@ -392,7 +392,7 @@ function getCardButtons(t) {
                     condition: 'admin'
                 });
 
-                if (data.card.shared && data.card.shared.project && data.card.shared.project.project_type && data.card.shared.project.project_type == "SLA"){
+                if (data.card.shared && data.card.shared.project && data.card.shared.project.project_type && data.card.shared.project.project_type.value && data.card.shared.project.project_type.value == "SLA"){
                     buttons.push({
                         icon: MONEY_ICON,
                         text: "Add fixed price credits",
