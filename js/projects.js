@@ -31,7 +31,9 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': function(t, options) {
-        return getAllBadges(t, false);
+        var b = getAllBadges(t, false);
+        console.log(b);
+        return b;
     },
     'card-detail-badges': function(t, options) {
         return getAllBadges(t, true);
@@ -393,7 +395,7 @@ function getAllBadges(t, long) {
                     color: balance < 0 ? "red" : null
                 });
             }
-
+            console.log(badges);
             return badges;
 
         });
