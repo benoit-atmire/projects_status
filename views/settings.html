@@ -52,11 +52,7 @@
         if (!hasLabels) {
 
             var labels = createLabels((t.getContext()).board, settings.ttoken, settings.tkey);
-            var boarddata = {
-                "settings" : settings,
-                "labels" : labels
-            };
-            return t.set('board', 'shared', boarddata)
+            return Promise.all([t.set('board', 'shared', 'labels', labels), t.set('board', 'private', 'settings', settings)])
                 .then(function (){
                     t.closePopup();
                 })
@@ -64,7 +60,7 @@
 
         else {
             console.log(settings);
-            return t.set('board', 'shared', 'settings', settings)
+            return t.set('board', 'private', 'settings', settings)
                 .then(function () {
                     t.closePopup();
                 });
@@ -77,11 +73,11 @@
       .then(function(data){
         console.log(data);
         var settings;
-        var hasSettings = (data.board && data.board.shared && data.board.shared.settings && data.board.shared.settings != '' && data.board.shared.settings.apitoken && data.board.shared.settings.ttoken && data.board.shared.settings.tkey);
+        var hasSettings = (data.board && data.board.private && data.board.private.settings && data.board.private.settings != '' && data.board.private.settings.apitoken && data.board.private.settings.ttoken && data.board.private.settings.tkey);
         var hasLabels = (data.board && data.board.shared && data.board.shared.labels && data.board.shared.labels != '');
 
         if (hasSettings) {
-            settings = data.board.shared.settings;
+            settings = data.board.private.settings;
             document.getElementById("apitoken").value = settings.apitoken;
             document.getElementById("ttoken").value = settings.ttoken;
             document.getElementById("tkey").value = settings.tkey;

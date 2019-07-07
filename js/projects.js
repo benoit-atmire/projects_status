@@ -42,7 +42,7 @@ function getBadges(t, detailed){
         .then( function (plugindata){
             // Plugindata contains all stored values in the card
             //console.log(plugindata);
-            var settings = plugindata.board.shared.settings; // Shared settings to get data from the API
+            var settings = plugindata.board.private.settings; // Shared settings to get data from the API
             var carddata = (plugindata.card && plugindata.card.shared) ? plugindata.card.shared : {};
             var projectdata = carddata.project || {}; // Shared data that replicates and stores the content from the API
             var sladata = carddata.sla || {}; // Shared data that contains the SLA details
@@ -351,7 +351,7 @@ function getCardButtons(t) {
         .then(function (data) {
             //console.log(data);
             var buttons = [];
-            if (data && (!data.card || !data.card.shared || !data.card.shared.pid || !data.card.private.pid.value || data.card.private.pid.value == "")){
+            if (data && (!data.card || !data.card.shared || !data.card.shared.project || !data.card.shared.project.pid || !data.card.shared.project.pid.value || data.card.shared.project.pid.value == "")){
                 buttons.push({
                     icon: W2P_ICON,
                     text: "Map with project",
@@ -381,7 +381,7 @@ function getCardButtons(t) {
                     icon: W2P_ICON,
                     text: "Unmap project",
                     callback: function(t){
-                        return t.remove(t.getContext().card, 'private', 'pid');
+                        return t.remove(t.getContext().card, 'shared', 'project');
                     },
                     condition: 'admin'
                 });
@@ -423,7 +423,7 @@ function getCardButtons(t) {
 function getCardBackSection(t){
     return t.getAll()
         .then(function (plugindata){
-            //var settings = plugindata.board.private.settings;
+            var settings = plugindata.board.private.settings;
             var projectdata = plugindata.card.shared.project || {};
             var sladata = plugindata.card.shared.sla || {};
 
