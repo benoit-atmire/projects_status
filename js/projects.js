@@ -43,7 +43,7 @@ function getBadges(t, detailed) {
     // Start by loading all the card data
 
     t.getAll()
-        .then( function (plugindata){
+        .then(function (plugindata) {
             
                 // Plugindata contains all stored values in the card
                 //console.log(plugindata);
@@ -53,6 +53,25 @@ function getBadges(t, detailed) {
                 var sladata = carddata.sla || {}; // Shared data that contains the SLA details
 
                 var badges = []; // Initialise the array of badges we want to see
+
+                var b = [{
+                    icon: TRACKER_ICON,
+                    text: detailed ? 'Tracker' : null,
+                    url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
+                    title: 'Tracker'
+                },
+                {
+                    icon: W2P_ICON,
+                    text: detailed ? 'W2P' : null,
+                    url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
+                    title: 'Project'
+                },
+                {
+                    icon: TRACKER_ICON,
+                    text: detailed ? 'Tracker' : null,
+                    url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
+                    title: 'Tracker'
+                }];
 
                 // If we don't have projectdata, there won't be badges, so we can already quit this
 
@@ -132,7 +151,8 @@ function getBadges(t, detailed) {
                 }
                 console.log(badges);
                 // We're done with the badges, we can return them
-                return badges;
+                //return badges;
+                return b;
         });
 }
 
@@ -380,16 +400,6 @@ function getCardButtons(t) {
             }
 
             else {
-                /*buttons.push({
-                    icon: REFRESH_ICON,
-                    text: "Update project",
-                    callback: function(t){
-                        return updateBoard(t,t.getContext().card);
-                    },
-                    condition: 'admin'
-                });*/
-
-
                 buttons.push({
                     icon: W2P_ICON,
                     text: "Unmap project",
