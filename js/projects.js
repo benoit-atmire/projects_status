@@ -32,12 +32,6 @@ TrelloPowerUp.initialize({
             title: 'Tracker'
         },
         {
-            icon: W2P_ICON,
-            text: detailed ? 'W2P' : null,
-            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
-            title: 'Project'
-        },
-        {
             icon: CLOCK_ICON,
             text: "x",
             color: 16 > 15 ? null : 'red',
@@ -58,12 +52,6 @@ TrelloPowerUp.initialize({
             text: detailed ? 'W2P' : null,
             url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
             title: 'Project'
-        },
-        {
-            icon: CLOCK_ICON,
-            text: "x",
-            color: 16 > 15 ? null : 'red',
-            title: 'Days before next phase'
         }];
     },
     'card-buttons': function(t, options){
