@@ -22,12 +22,12 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': function(t, options) {
-        var b = getBadges(t, false); 
+        var b = getAllBadges(t, false); 
         console.log(b);
         return b;
     },
     'card-detail-badges': function(t, options) {
-        return getBadges(t, true);
+        return getAllBadges(t, true);
     },
     'card-buttons': function(t, options){
         var b = getCardButtons(t);
@@ -39,7 +39,7 @@ TrelloPowerUp.initialize({
     }
 });
 
-function getBadges(t, detailed) {
+function getAllBadges(t, detailed) {
     // Start by loading all the card data
 
     t.getAll()
@@ -151,8 +151,8 @@ function getBadges(t, detailed) {
                 }
                 console.log(badges);
                 // We're done with the badges, we can return them
-                //return badges;
-                return b;
+                return badges;
+                //return b;
         });
 }
 
