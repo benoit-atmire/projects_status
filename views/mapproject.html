@@ -17,6 +17,7 @@
 </form>
 
 <script>
+    var settings = require('./config.js');
     var t = TrelloPowerUp.iframe();
     var Promise = TrelloPowerUp.Promise;
 
@@ -62,10 +63,11 @@
 
 
     t.render(function(){
-        return t.get('board', 'shared', 'settings', '')
+        /*return t.get('board', 'shared', 'settings', '')
             .then(function(settings) {
                 return getProjects(settings.apitoken);
-            })
+            })*/
+            return getProjects(settings.apitoken)
             .then(function (projects) {
                 //console.log(projects);
                 var dataList = document.getElementById('W2plist');
