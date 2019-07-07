@@ -22,7 +22,9 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': function(t, options) {
-        return getBadges(t, false);
+        var badges = getBadges(t, false);
+        console.log(badges);
+        return badges;
     },
     'card-detail-badges': function(t, options) {
         return getBadges(t, true);
