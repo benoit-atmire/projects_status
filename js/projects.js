@@ -44,7 +44,7 @@ TrelloPowerUp.initialize({
         return [{
             icon: TRACKER_ICON,
             text: detailed ? 'Tracker' : null,
-            url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
+            url: "https://tracker.atmire.com/tickets-" + "sladata.tracker",
             title: 'Tracker'
         },
         {
