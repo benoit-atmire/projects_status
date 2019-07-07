@@ -42,7 +42,7 @@ function getBadges(t, detailed) {
 
     t.getAll()
         .then( function (plugindata){
-            return new Promise(function (resolve, reject){
+//            return new Promise(function (resolve, reject){
 
             
                 // Plugindata contains all stored values in the card
@@ -132,8 +132,9 @@ function getBadges(t, detailed) {
                 }
                 console.log(badges);
                 // We're done with the badges, we can return them
-                resolve(badges);  
-            })
+                return badges;
+//                resolve(badges);  
+//            })
         });
 }
 
