@@ -28,7 +28,7 @@ TrelloPowerUp.initialize({
         return [{
             icon: TRACKER_ICON,
             text: detailed ? 'Tracker' : null,
-            url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
+            url: "https://tracker.atmire.com/tickets-" + "tracker",
             title: 'Tracker'
         },
         {
@@ -50,7 +50,7 @@ TrelloPowerUp.initialize({
         {
             icon: W2P_ICON,
             text: detailed ? 'W2P' : null,
-            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
+            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + "pid",
             title: 'Project'
         }];
     },
