@@ -22,9 +22,7 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': function(t, options) {
-        var badges = getBadges(t, false);
-        console.log(badges);
-        return badges;
+        return getBadges(t, false);
     },
     'card-detail-badges': function(t, options) {
         return getBadges(t, true);
@@ -76,8 +74,7 @@ function getBadges(t, detailed){
             *   - for SLAs, the margin
             * */
 
-            console.log(projectdata);
-            console.log(sladata);
+
             // Project icon
             if (projectdata && projectdata.pid && projectdata.pid.value && projectdata.pid.value != "") {
                 badges.push({
@@ -128,7 +125,6 @@ function getBadges(t, detailed){
 
             }
 
-            console.log(badges);
             // We're done with the badges, we can return them
             return badges;  
 

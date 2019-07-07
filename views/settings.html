@@ -59,7 +59,6 @@
         }
 
         else {
-            console.log(settings);
             return t.set('board', 'private', 'settings', settings)
                 .then(function () {
                     t.closePopup();
@@ -71,7 +70,6 @@
     t.render(function(){
       return t.getAll()
       .then(function(data){
-        console.log(data);
         var settings;
         var hasSettings = (data.board && data.board.private && data.board.private.settings && data.board.private.settings != '' && data.board.private.settings.apitoken && data.board.private.settings.ttoken && data.board.private.settings.tkey);
         var hasLabels = (data.board && data.board.shared && data.board.shared.labels && data.board.shared.labels != '');
