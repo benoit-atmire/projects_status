@@ -22,107 +22,21 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': function(t, options) {
-//        var b = getBadges(t, false); 
-//        console.log(b);
-//        return b;
-        var detailed = false;
-
-        t.getAll()
-        .then( function (plugindata){
-//            return new Promise(function (resolve, reject){
-
-            
-                // Plugindata contains all stored values in the card
-                //console.log(plugindata);
-                var settings = (plugindata.board && plugindata.board.private && plugindata.board.private.settings) ? plugindata.board.private.settings : {};// Shared settings to get data from the API
-                var carddata = (plugindata.card && plugindata.card.shared) ? plugindata.card.shared : {};
-                var projectdata = carddata.project || {}; // Shared data that replicates and stores the content from the API
-                var sladata = carddata.sla || {}; // Shared data that contains the SLA details
-
-                var badges = []; // Initialise the array of badges we want to see
-
-                // If we don't have projectdata, there won't be badges, so we can already quit this
-
-//                if (!projectdata.pid) return badges;
-
-                /* As a first thing, let's make sure we are using the latest data
-                *       We "shoot and forget" as it doesn't matter whether each calculation uses the latest data
-                *       This will indeed be re-calculated every time the card is seen (so, basically, when the board is opened)
-                *       This will only be triggered for board view, not every time a card is opened, to avoid double requests too often
-                * */
-
-                var today = new Date();
-
-/*                if (!detailed) {
-                    var lastsyncdate = new Date(projectdata.week.value);                    
-                    var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
-                    thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
-
-                    if (thisweek > lastsyncdate) updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
-                }
-                /* Now we can start generating the badges we need, being: 
-                *   - an icon with a link to the project
-                *   - an icon with a link to the tracker if the project is an SLA and that the tracker has been included
-                *   - for fixed price projects, a counter of days left before next phase
-                *   - for SLAs, the margin
-                * */
-
-
-                // Project icon
-                if (projectdata && projectdata.pid && projectdata.pid.value && projectdata.pid.value != "") {
-                    badges.push({
-                        icon: W2P_ICON,
-                        text: detailed ? 'W2P' : null,
-                        url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
-                        title: 'Project'
-                    });
-                }
-
-                // If the card is an SLA
-
-                if (sladata && sladata.tracker && sladata.tracker != ""){
-                    badges.push({
-                        icon: TRACKER_ICON,
-                        text: detailed ? 'Tracker' : null,
-                        url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
-                        title: 'Tracker'
-                    });
-    
-                    // Next badge is commented out since not immediately possible with new API
-                    /*var balance = -Math.round(sladata.all_time_diff);
-    
-                    badges.push({
-                        icon: balance < 0 ? MONEY_ICON_WHITE : MONEY_ICON,
-                        title: 'Margin',
-                        text: balance + (detailed ? " credits" : ""),
-                        color: balance < 0 ? "red" : null
-                    });*/
-                }
-                // If not, we can assume it's fixed price project
-                else {
-                    var endphase;
-                    if (projectdata.project_status == "In Planning" || projectdata.project_status == "In Progress") endphase = projectdata.end_impl;
-                    else endphase = projectdata.end_date;
-        
-                    var endphase_dt = new Date(endphase);
-        
-        
-                    var daysleft = Math.floor((endphase_dt - today) / (1000 * 60 * 60 * 24));
-        
-                    if (daysleft >= 0) badges.push({
-                        icon: daysleft > 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
-                        text: daysleft + (detailed ? " day" + (daysleft < 2 ? "" : "s") : ""),
-                        color: daysleft > 15 ? null : 'red',
-                        title: 'Days before next phase'
-                    });
-
-                }
-                console.log(badges);
-                // We're done with the badges, we can return them
-                return badges;
-//                resolve(badges);  
-//            })
-        });
+        var b = getBadges(t, false); 
+        console.log(b);
+        //return b;
+        return [{
+            icon: W2P_ICON,
+            text: null,
+            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
+            title: 'Project'
+        },
+        {
+            icon: CLOCK_ICON,
+            text: "x",
+            color: null,
+            title: 'Days before next phase'
+        }]
     },
     'card-detail-badges': function(t, options) {
         return getBadges(t, true);
@@ -140,8 +54,6 @@ function getBadges(t, detailed) {
 
     t.getAll()
         .then( function (plugindata){
-//            return new Promise(function (resolve, reject){
-
             
                 // Plugindata contains all stored values in the card
                 //console.log(plugindata);
@@ -154,7 +66,7 @@ function getBadges(t, detailed) {
 
                 // If we don't have projectdata, there won't be badges, so we can already quit this
 
-//                if (!projectdata.pid) return badges;
+               if (!projectdata.pid) return badges;
 
                 /* As a first thing, let's make sure we are using the latest data
                 *       We "shoot and forget" as it doesn't matter whether each calculation uses the latest data
@@ -164,7 +76,7 @@ function getBadges(t, detailed) {
 
                 var today = new Date();
 
-/*                if (!detailed) {
+                if (!detailed) {
                     var lastsyncdate = new Date(projectdata.week.value);                    
                     var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
                     thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
@@ -231,8 +143,6 @@ function getBadges(t, detailed) {
                 console.log(badges);
                 // We're done with the badges, we can return them
                 return badges;
-//                resolve(badges);  
-//            })
         });
 }
 
