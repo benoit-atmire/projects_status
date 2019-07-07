@@ -284,7 +284,7 @@ function updateCard(t, card_id, pid, settings, labels) {
                 request.onload = function () {
                     if (this.status >= 200 && this.status < 300) {
                         var response = JSON.parse(request.responseText);
-                        resolve(card_data);
+                        resolve(project_data);
                     } 
                 };
 
