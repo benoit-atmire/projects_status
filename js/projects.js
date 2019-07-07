@@ -74,11 +74,11 @@ function getBadges(t, detailed){
 
 
             // Project icon
-            if (projectdata && projectdata.project_id && projectdata.project_id != "") {
+            if (projectdata && projectdata.pid && projectdata.pid.value && projectdata.pid.value != "") {
                 badges.push({
                     icon: W2P_ICON,
                     text: detailed ? 'W2P' : null,
-                    url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.project_id,
+                    url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
                     title: 'Project'
                 });
             }
