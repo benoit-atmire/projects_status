@@ -24,19 +24,7 @@ TrelloPowerUp.initialize({
     'card-badges': function(t, options) {
         var b = getBadges(t, false); 
         console.log(b);
-        //return b;
-        return [{
-            icon: W2P_ICON,
-            text: null,
-            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + "xxxx",
-            title: 'Project'
-        },
-        {
-            icon: CLOCK_ICON,
-            text: "x",
-            color: null,
-            title: 'Days before next phase'
-        }]
+        return b;
     },
     'card-detail-badges': function(t, options) {
         return getBadges(t, true);
@@ -300,17 +288,18 @@ function updateCard(t, card_id, pid, settings, labels) {
 
                 request.onload = function () {
                     if (this.status >= 200 && this.status < 300) {
-                        var response = JSON.parse(request.responseText);
-                        resolve(project_data);
+                        //var response = JSON.parse(request.responseText);
+                        //resolve(project_data);
+                        if (comment.length > 0) createComment(card_id, comment, settings.tkey, settings.ttoken);
+                        if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
+                        if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);                        
                     } 
                 };
 
                 request.send();
 
                 // Comment card
-                if (comment.length > 0) createComment(card_id, comment, settings.tkey, settings.ttoken);
-                if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
-                if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);
+
 
             })]);
         });
