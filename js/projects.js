@@ -30,7 +30,9 @@ TrelloPowerUp.initialize({
         return getBadges(t, true);
     },
     'card-buttons': function(t, options){
-        return getCardButtons(t);
+        var b = getCardButtons(t);
+        console.log(b);
+        return b;
     },
     'card-back-section': function(t, options){
         return getCardBackSection(t);
@@ -311,7 +313,7 @@ function createComment(card_id, text, key, token) {
 
     request.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
-            console.log(this.responseText);
+            //console.log(this.responseText);
         }
     });
 
@@ -425,7 +427,7 @@ function getCardButtons(t) {
 
                 }
             }
-
+            console.log(buttons);
             return buttons;
 
         });
