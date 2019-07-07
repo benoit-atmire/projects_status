@@ -28,7 +28,7 @@ TrelloPowerUp.initialize({
         return [{
             icon: W2P_ICON,
             text: null,
-            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.pid.value,
+            url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + "xxxx",
             title: 'Project'
         },
         {
