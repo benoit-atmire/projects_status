@@ -69,10 +69,10 @@ function getAllBadges(t, detailed) {
 
                 if (!detailed) {
                     var lastsyncdate = new Date(projectdata.week.value);                    
-                    var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
-                    thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
+                    var lastweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
+                    lastweek.setDate(lastweek.getDate()-(lastweek.getDay() || 7)-6); // we're interested only in weeks that are finished
 
-                    if (thisweek > lastsyncdate) projectdata = await updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
+                    if (lastweek > lastsyncdate) projectdata = await updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
                 }
                 /* Now we can start generating the badges we need, being: 
                 *   - an icon with a link to the project
@@ -260,8 +260,10 @@ function updateCard(t, card_id, pid, settings, labels) {
                 }
 
 
-                comment += (project_data.worked_hours.changed ? (project_data.worked_hours.value - project_data.worked_hours.previous) : 0) + " hour(s) worked since last log.";
-
+                if (project_data.worked_hours.value > 0.0) {
+                    comment += (project_data.worked_hours.changed ? (project_data.worked_hours.value - project_data.worked_hours.previous) : 0) + " hour(s) worked last week.";
+                }
+                
                 if (project_data.project_type.value == "Module installation" || project_data.project_type.value == "Fixed Price Project") {
                     var percentage = project_data.worked_hours.value / project_data.billable_hours.value;
                     var budgetrisk = false;
