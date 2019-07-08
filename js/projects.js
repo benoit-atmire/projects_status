@@ -40,11 +40,11 @@ TrelloPowerUp.initialize({
 });
 
 // Asynchronous: source: https://stackoverflow.com/questions/28250680/how-do-i-access-previous-promise-results-in-a-then-chain
-async function getAllBadges(t, detailed) {
+function getAllBadges(t, detailed) {
     // Start by loading all the card data
 
     t.getAll()
-        .then(function (plugindata) {
+        .then(async function (plugindata) {
             
                 // Plugindata contains all stored values in the card
                 //console.log(plugindata);
