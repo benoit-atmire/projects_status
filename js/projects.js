@@ -71,7 +71,7 @@ function getAllBadges(t, detailed) {
                     var thisweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
                     thisweek.setDate(thisweek.getDate()-(thisweek.getDay() || 7)+1); 
 
-                    if (thisweek > lastsyncdate) updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
+                    if (thisweek > lastsyncdate) projectdata = await updateCard(t, t.getContext().card, projectdata.pid.value, settings, plugindata.board.shared.labels);
                 }
                 /* Now we can start generating the badges we need, being: 
                 *   - an icon with a link to the project
@@ -290,11 +290,12 @@ function updateCard(t, card_id, pid, settings, labels) {
 
                 request.onload = function () {
                     if (this.status >= 200 && this.status < 300) {
-                        //var response = JSON.parse(request.responseText);
-                        //resolve(project_data);
+                        
                         if (comment.length > 0) createComment(card_id, comment, settings.tkey, settings.ttoken);
                         if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
                         if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);                        
+                        //var response = JSON.parse(request.responseText);
+                        resolve(project_data);
                     } 
                 };
 
