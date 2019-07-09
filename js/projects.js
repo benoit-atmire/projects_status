@@ -162,7 +162,7 @@ async function updateCard2(t) {
     var lastweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
     lastweek.setDate(lastweek.getDate()-(lastweek.getDay() || 7)-6); // we're interested only in weeks that are finished
 
-    if (lastweek.getTime() >= lastsyncdate.getTime()) return false;
+    if (lastweek.getTime() <= lastsyncdate.getTime()) return false;
     console.log("Card outdated, update required for card " + t.getContext().card);
     // In order to fine-tune the reports, let's also check whether this is a new item
 
