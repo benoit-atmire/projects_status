@@ -20,7 +20,7 @@ TrelloPowerUp.initialize({
     },
     'card-badges': async function(t, options) {
         await updateCard(t);
-        var b = getBadges(t, false); 
+        var b = await getBadges(t, false); 
         console.log(b);
         return b;
     },
