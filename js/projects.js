@@ -155,7 +155,7 @@ async function updateCard2(t) {
 
     // If we don't have a pid, there's nothing much to do, so we can quit
     if (!pid) return false;
-
+    console.log("Pid found, continuing for " + t.getContext().card);
     // If card is already up-to-date, we can also quit
     var lastsyncdate = new Date(projectdata.week.value);                    
     var today = new Date();
@@ -163,7 +163,7 @@ async function updateCard2(t) {
     lastweek.setDate(lastweek.getDate()-(lastweek.getDay() || 7)-6); // we're interested only in weeks that are finished
 
     if (lastweek.getTime() <= lastsyncdate.getTime()) return false;
-
+    console.log("Card outdated, update required for card " + t.getContext().card);
     // In order to fine-tune the reports, let's also check whether this is a new item
 
     var isNewCard = project_data.pm ? true : false;
