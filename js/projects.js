@@ -99,7 +99,7 @@ function getBadges(t, detailed) {
                     console.log
                     var endphase_dt = new Date(endphase);
         
-        
+                    var today = new Date();
                     var daysleft = Math.floor((endphase_dt - today) / (1000 * 60 * 60 * 24));
         
                     if (daysleft >= 0) badges.push({
