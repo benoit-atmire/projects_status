@@ -29,16 +29,74 @@ TrelloPowerUp.initialize({
         return getAllBadges(t, true);
     },
     'card-buttons': function(t, options){
-        var b = getCardButtons(t);
-        console.log(b);
-        return b;
+        return getCardButtons(t);
     },
     'card-back-section': function(t, options){
         return getCardBackSection(t);
     }
 });
 
-function getAllBadges(t, detailed) {
+function getAllBadges(t, long) {
+
+    return t.getAll()
+        .then(function (plugindata) {
+            var settings = plugindata.board.private.settings;
+            var projectdata = plugindata.card.shared.project || {};
+            var sladata = plugindata.card.shared.sla || {};
+            var sla_projects = plugindata.card.shared.sla_projects || [];
+
+            var endphase;
+
+            if (projectdata.status == "In Planning" || projectdata.status == "In Progress") endphase = projectdata.end_impl;
+            else endphase = projectdata.end_date;
+
+            var endphase_dt = new Date(endphase);
+            var today = new Date();
+
+            var daysleft = Math.floor((endphase_dt - today) / (1000 * 60 * 60 * 24));
+
+            var badges = [];
+
+            if (daysleft >= 0) badges.push({
+                icon: daysleft > 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
+                text: daysleft + (long ? " day" + (daysleft < 2 ? "" : "s") : ""),
+                color: daysleft > 15 ? null : 'red',
+                title: 'Days before next phase'
+            });
+
+            if (projectdata && projectdata.project_id && projectdata.project_id != "") {
+                badges.push({
+                    icon: W2P_ICON,
+                    text: long ? 'W2P' : null,
+                    url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.project_id,
+                    title: 'Project'
+                });
+            }
+
+            if (sladata && sladata.tracker && sladata.tracker != ""){
+                badges.push({
+                    icon: TRACKER_ICON,
+                    text: long ? 'Tracker' : null,
+                    url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
+                    title: 'Tracker'
+                });
+
+                var balance = -Math.round(sladata.all_time_diff);
+
+                badges.push({
+                    icon: balance < 0 ? MONEY_ICON_WHITE : MONEY_ICON,
+                    title: 'Margin',
+                    text: balance + (long ? " credits" : ""),
+                    color: balance < 0 ? "red" : null
+                });
+            }
+            console.log(badges);
+            return badges;
+
+        });
+}
+
+function getBadges(t, detailed) {
     // Start by loading all the card data
     console.log("Getting badges for " + t.getContext().card);
     t.getAll()
@@ -249,7 +307,6 @@ async function updateCard(t) { // Asynchronous: source: https://stackoverflow.co
 
             }
         
-
             if (datechanged) idLabels_add.push(labels["Date changed"].id);
             if (datemissing) idLabels_add.push(labels["Date missing"].id);
             else {
@@ -427,7 +484,6 @@ function getCardButtons(t) {
 
                 }
             }
-            console.log(buttons);
             return buttons;
 
         });
