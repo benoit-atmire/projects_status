@@ -14,9 +14,7 @@ TrelloPowerUp.initialize({
         return [{
             icon: ATMIRE_ICON,
             text: 'Update projects list',
-            callback: function(t){
-                return updateProjects(t);
-            },
+            callback: updateProjects(t),
             condition: 'edit'
         }];
     },
