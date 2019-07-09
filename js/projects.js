@@ -472,7 +472,7 @@ function updateProjects(t) {
             if (!settings) return;
 
             return new Promise(function (resolve, reject){
-                var url = 'https://reports.atmi.re//harvest/projects';
+                var url = 'https://reports.atmi.re/harvest/projects';
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.open("GET", url);
                 xmlhttp.onload = function () {
