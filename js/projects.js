@@ -45,7 +45,7 @@ function getAllBadges(t, detailed) {
     // Start by loading all the card data
 
     t.getAll()
-        .then(async function (plugindata) {
+        .then(function (plugindata) {
             
                 // Plugindata contains all stored values in the card
                 //console.log(plugindata);
