@@ -20,14 +20,10 @@ TrelloPowerUp.initialize({
     },
     'card-badges': async function(t, options) {
         await updateCard(t);
-        var b = getBadges(t, false); 
-        console.log(b);
-        return b;
+        return getBadges(t, false); 
     },
     'card-detail-badges': function(t, options) {
-        var b = getBadges(t, true); 
-        console.log(b);
-        return b;
+        return getBadges(t, true); 
     },
     'card-buttons': function(t, options){
         return getCardButtons(t);
@@ -39,7 +35,6 @@ TrelloPowerUp.initialize({
 
 function getBadges(t, detailed) {
     // Start by loading all the card data
-    console.log("Getting badges for " + t.getContext().card);
     return t.getAll()
         .then(function (plugindata) {
             
@@ -110,7 +105,6 @@ function getBadges(t, detailed) {
                     });
 
                 }
-                console.log(badges);
                 // We're done with the badges, we can return them
                 return badges;
         });
@@ -361,7 +355,6 @@ function removeLabels(labels, card_id, key, token){
 function getCardButtons(t) {
     return t.getAll()
         .then(function (data) {
-            //console.log(data);
             var buttons = [];
             if (data && (!data.card || !data.card.shared || !data.card.shared.project || !data.card.shared.project.pid || !data.card.shared.project.pid.value || data.card.shared.project.pid.value == "")){
                 buttons.push({
