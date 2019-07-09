@@ -20,10 +20,14 @@ TrelloPowerUp.initialize({
     },
     'card-badges': async function(t, options) {
         await updateCard(t);
-        return getBadges(t, false); 
+        var b = getBadges(t, false); 
+        console.log(b);
+        return b;
     },
     'card-detail-badges': function(t, options) {
-        return getBadges(t, true);
+        var b = getBadges(t, true); 
+        console.log(b);
+        return b;
     },
     'card-buttons': function(t, options){
         return getCardButtons(t);
@@ -92,7 +96,7 @@ function getBadges(t, detailed) {
                     var endphase;
                     if (projectdata.project_status.value == "In Planning" || projectdata.project_status.value == "In Progress") endphase = projectdata.end_impl.value;
                     else endphase = projectdata.end_date.value;
-        
+                    console.log
                     var endphase_dt = new Date(endphase);
         
         
@@ -106,7 +110,7 @@ function getBadges(t, detailed) {
                     });
 
                 }
-
+                console.log(badges);
                 // We're done with the badges, we can return them
                 return badges;
         });
