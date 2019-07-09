@@ -157,7 +157,7 @@ async function updateCard2(t) {
     if (!pid) return false;
     console.log("Pid found, continuing for " + t.getContext().card);
     // If card is already up-to-date, we can also quit
-    var lastsyncdate = new Date(projectdata.week.value);                    
+    var lastsyncdate = projectdata.week ? new Date(projectdata.week.value) : new Date(0);                    
     var today = new Date();
     var lastweek = new Date(today.toISOString().substring(0,10)); // doing this in 2 steps prevents conflicts with hours being different
     lastweek.setDate(lastweek.getDate()-(lastweek.getDay() || 7)-6); // we're interested only in weeks that are finished
