@@ -153,6 +153,8 @@ async function updateCard2(t) {
     var pid = project_data.pid ? project_data.pid.value : 0;
     console.log(project_data);
 
+    var labels = boarddata.board.shared.labels;
+
     // If we don't have a pid, there's nothing much to do, so we can quit
     if (!pid) return false;
     console.log("Pid found, continuing for " + t.getContext().card);
@@ -205,7 +207,7 @@ async function updateCard2(t) {
 
         // We are also going to add a comment in the card to track the changes made since the last update
         var comment = "";
-
+        console.log("I'm here");
         if (project_data.project_status.changed) {
             comment += "Updated status: " + project_data.project_status.value;
             comment += " (was: " + project_data.project_status.previous + ")";
