@@ -147,10 +147,11 @@ async function updateCard2(t) {
     // ... and store them in conveniently named variables
     var boarddata = data[0] || {};
     var lists_table = data[1] || {}; 
-
+    console.log(boarddata);
     var settings = (boarddata.board.private && boarddata.board.private.settings) ? boarddata.board.private.settings : {};
     var project_data = (boarddata.card.shared && boarddata.card.shared.project) ? boarddata.card.shared.project : {}; 
     var pid = project_data.pid ? project_data.pid.value : 0;
+    console.log(project_data);
 
     // If we don't have a pid, there's nothing much to do, so we can quit
     if (!pid) return false;
