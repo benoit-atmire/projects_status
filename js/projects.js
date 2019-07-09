@@ -7,10 +7,7 @@ var REFRESH_ICON = 'https://benoit-atmire.github.io/projects_status/img/refresh.
 var MONEY_ICON = 'https://benoit-atmire.github.io/projects_status/img/money.svg';
 var MONEY_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/money-white.svg';
 
-//var settings = require('./config.js');
-
 var Promise = TrelloPowerUp.Promise;
-
 
 TrelloPowerUp.initialize({
     'show-settings': function(t, options){
@@ -22,11 +19,11 @@ TrelloPowerUp.initialize({
       });
     },
     'card-badges': async function(t, options) {
-        await updateCard2(t);
-        return getAllBadges(t, false); 
+        await updateCard(t);
+        return getBadges(t, false); 
     },
     'card-detail-badges': function(t, options) {
-        return getAllBadges(t, true);
+        return getBadges(t, true);
     },
     'card-buttons': function(t, options){
         return getCardButtons(t);
@@ -35,66 +32,6 @@ TrelloPowerUp.initialize({
         return getCardBackSection(t);
     }
 });
-
-function getAllBadges(t, long) {
-
-    return t.getAll()
-        .then(function (plugindata) {
-            var settings = plugindata.board.private.settings;
-            var projectdata = plugindata.card.shared.project || {};
-            var sladata = plugindata.card.shared.sla || {};
-            var sla_projects = plugindata.card.shared.sla_projects || [];
-
-            var endphase;
-
-            if (projectdata.status == "In Planning" || projectdata.status == "In Progress") endphase = projectdata.end_impl;
-            else endphase = projectdata.end_date;
-
-            var endphase_dt = new Date(endphase);
-            var today = new Date();
-
-            var daysleft = Math.floor((endphase_dt - today) / (1000 * 60 * 60 * 24));
-
-            var badges = [];
-
-            if (daysleft >= 0) badges.push({
-                icon: daysleft > 15 ? CLOCK_ICON : CLOCK_ICON_WHITE,
-                text: daysleft + (long ? " day" + (daysleft < 2 ? "" : "s") : ""),
-                color: daysleft > 15 ? null : 'red',
-                title: 'Days before next phase'
-            });
-
-            if (projectdata && projectdata.project_id && projectdata.project_id != "") {
-                badges.push({
-                    icon: W2P_ICON,
-                    text: long ? 'W2P' : null,
-                    url: "https://web2project.atmire.com/web2project/index.php?m=projects&a=view&project_id=" + projectdata.project_id,
-                    title: 'Project'
-                });
-            }
-
-            if (sladata && sladata.tracker && sladata.tracker != ""){
-                badges.push({
-                    icon: TRACKER_ICON,
-                    text: long ? 'Tracker' : null,
-                    url: "https://tracker.atmire.com/tickets-" + sladata.tracker,
-                    title: 'Tracker'
-                });
-
-                var balance = -Math.round(sladata.all_time_diff);
-
-                badges.push({
-                    icon: balance < 0 ? MONEY_ICON_WHITE : MONEY_ICON,
-                    title: 'Margin',
-                    text: balance + (long ? " credits" : ""),
-                    color: balance < 0 ? "red" : null
-                });
-            }
-            console.log(badges);
-            return badges;
-
-        });
-}
 
 function getBadges(t, detailed) {
     // Start by loading all the card data
@@ -113,24 +50,15 @@ function getBadges(t, detailed) {
 
                if (!projectdata.pid) return badges;
 
-                /* As a first thing, let's make sure we are using the latest data
-                *       We "shoot and forget" as it doesn't matter whether each calculation uses the latest data
-                *       This will indeed be re-calculated every time the card is seen (so, basically, when the board is opened)
-                *       This will only be triggered for board view, not every time a card is opened, to avoid double requests too often
-                * */
-
-                var today = new Date();
-
-               /* Now we can start generating the badges we need, being: 
+                /* Now we can start generating the badges we need, being: 
                 *   - an icon with a link to the project
                 *   - an icon with a link to the tracker if the project is an SLA and that the tracker has been included
                 *   - for fixed price projects, a counter of days left before next phase
                 *   - for SLAs, the margin
                 * */
 
-
                 // Project icon
-                if (projectdata && projectdata.pid && projectdata.pid.value && projectdata.pid.value != "") {
+                if (projectdata && projectdata.pid && projectdata.pid.value && projectdata.pid.value !== "") {
                     badges.push({
                         icon: W2P_ICON,
                         text: detailed ? 'W2P' : null,
@@ -141,7 +69,7 @@ function getBadges(t, detailed) {
 
                 // If the card is an SLA
 
-                if (sladata && sladata.tracker && sladata.tracker != ""){
+                if (sladata && sladata.tracker && sladata.tracker !== ""){
                     badges.push({
                         icon: TRACKER_ICON,
                         text: detailed ? 'Tracker' : null,
@@ -162,8 +90,8 @@ function getBadges(t, detailed) {
                 // If not, we can assume it's fixed price project
                 else {
                     var endphase;
-                    if (projectdata.project_status == "In Planning" || projectdata.project_status == "In Progress") endphase = projectdata.end_impl;
-                    else endphase = projectdata.end_date;
+                    if (projectdata.project_status.value == "In Planning" || projectdata.project_status.value == "In Progress") endphase = projectdata.end_impl.value;
+                    else endphase = projectdata.end_date.value;
         
                     var endphase_dt = new Date(endphase);
         
