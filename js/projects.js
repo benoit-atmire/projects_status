@@ -10,6 +10,16 @@ var MONEY_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/mone
 var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
+    'board-buttons': function (t, opts) {
+        return [{
+            icon: ATMIRE_ICON,
+            text: 'Update projects list',
+            callback: function(t){
+                return updateProjects(t);
+            },
+            condition: 'edit'
+        }];
+    },
     'show-settings': function(t, options){
         return t.popup({
             title: 'Settings',
@@ -392,6 +402,7 @@ function getCardButtons(t) {
                             })},
                         condition: 'admin'
                     });
+                    // TODO: add refresh SLA data button
                     if (!data.card.shared.sla || !data.card.shared.sla.tracker || data.card.shared.sla.tracker == ""){
                         buttons.push({
                             icon: TRACKER_ICON,
@@ -452,4 +463,26 @@ function getProjectData(pid, apitoken){
         xmlhttp.setRequestHeader('Authorization', 'Bearer ' + apitoken)
         xmlhttp.send();
     });
+}
+
+function updateProjects(t) {
+    return t.getAll()
+        .then(function (data){
+            var settings = (data.board.private && data.board.private.settings) ? data.board.private.settings : false;
+            if (!settings) return;
+
+            return new Promise(function (resolve, reject){
+                var url = 'https://reports.atmi.re//harvest/projects';
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("GET", url);
+                xmlhttp.onload = function () {
+                    if (this.status >= 200 && this.status < 300) {
+                        var projects = JSON.parse(xmlhttp.responseText);
+                        resolve(projects);
+                    }
+                };
+                xmlhttp.setRequestHeader('Authorization', 'Bearer ' + settings.apitoken)
+                xmlhttp.send();
+            });
+        });
 }
