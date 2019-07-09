@@ -194,7 +194,8 @@ async function updateCard2(t) {
             // And finaly the card is placed in the list that corresponds to its status
             idList: lists[project_data.project_status.value] ? lists[project_data.project_status.value] : lists["Other"]
         };
-
+        console.log("Card will be updated as ");
+        console.log(card);
         // We are also going to adjust the labels of the card ; this requires a separate API call for labels to add or remove, so we prepare two lists    
         var idLabels_add = [];
         var idLabels_remove = [];
@@ -324,7 +325,7 @@ async function updateCard2(t) {
                 if (comment.length > 0 && !isNewCard) createComment(card_id, comment, settings.tkey, settings.ttoken);
                 if (idLabels_add.length > 0) addLabels(idLabels_add, card_id, settings.tkey, settings.ttoken);
                 if (idLabels_remove.length > 0) removeLabels(idLabels_remove, card_id, settings.tkey, settings.ttoken);                        
-                //var response = JSON.parse(request.responseText);
+                console.log(JSON.parse(request.responseText));
                 resolve(project_data);
             } 
         };
