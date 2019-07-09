@@ -12,7 +12,7 @@ var Promise = TrelloPowerUp.Promise;
 TrelloPowerUp.initialize({
     'board-buttons': function (t, opts) {
         return [{
-            icon: ATMIRE_ICON,
+            icon: W2P_ICON,
             text: 'Update projects list',
             callback: function(t){
                 return updateProjects(t);
