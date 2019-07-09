@@ -320,6 +320,7 @@ async function updateCard2(t) {
         request.open(action, url);
 
         request.onload = function () {
+            console.log(this);
             if (this.status >= 200 && this.status < 300) {
                 
                 if (comment.length > 0 && !isNewCard) createComment(card_id, comment, settings.tkey, settings.ttoken);
