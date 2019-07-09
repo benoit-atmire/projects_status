@@ -211,13 +211,13 @@ async function updateCard2(t) {
             comment += " (was: " + project_data.project_status.previous + ")";
             comment += "%0D%0A";
         }
-
+        console.log("I'm here");
         // Project dates
         var datechanged = false;
         var datemissing = false;
 
         if (project_data.project_type.value !== "SLA") { // Date labels are irrelevant for SLAs
-            
+            console.log("I'm an SLA");
             if (project_data.start_date.value == null || project_data.start_date.value.substring(0, 10) == "0000-00-00") datemissing = true;
             else {
 
@@ -304,7 +304,7 @@ async function updateCard2(t) {
             else idLabels_remove.push(labels["Budget risk"].id);
         }
 
-
+        console.log("I'm here");
         var action = 'PUT';
         var url = "https://api.trello.com/1/cards/" + card_id + "?";
 
@@ -318,9 +318,10 @@ async function updateCard2(t) {
         var request = new XMLHttpRequest();
 
         request.open(action, url);
-
+        console.log("I'm here");
         request.onload = function () {
-            console.log(this);
+            console.log("Responded");
+            console.log(this.status);
             if (this.status >= 200 && this.status < 300) {
                 
                 if (comment.length > 0 && !isNewCard) createComment(card_id, comment, settings.tkey, settings.ttoken);
@@ -332,7 +333,7 @@ async function updateCard2(t) {
         };
 
         request.send();
-
+        console.log("Sent");
         // Comment card
 
 
