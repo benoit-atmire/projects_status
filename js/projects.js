@@ -20,7 +20,7 @@ TrelloPowerUp.initialize({
     },
     'card-badges': async function(t, options) {
         await updateCard(t);
-        var b = await getBadges(t, false); 
+        var b = getBadges(t, false); 
         console.log(b);
         return b;
     },
@@ -40,7 +40,7 @@ TrelloPowerUp.initialize({
 function getBadges(t, detailed) {
     // Start by loading all the card data
     console.log("Getting badges for " + t.getContext().card);
-    t.getAll()
+    return t.getAll()
         .then(function (plugindata) {
             
                 // Plugindata contains all stored values in the card
