@@ -10,11 +10,13 @@ var MONEY_ICON_WHITE = 'https://benoit-atmire.github.io/projects_status/img/mone
 var Promise = TrelloPowerUp.Promise;
 
 TrelloPowerUp.initialize({
-    'board-buttons': function (t, opts) {
+    'board-buttons': function (t, options) {
         return [{
             icon: ATMIRE_ICON,
             text: 'Update projects list',
-            callback: updateProjects(t),
+            callback: function (t) {
+                updateProjects(t);
+            },
             condition: 'edit'
         }];
     },

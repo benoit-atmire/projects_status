@@ -52,7 +52,8 @@
                 tracker : tracker_id
             }
             return t.set('card', 'shared', 'sla', card_data)
-                .then(function(){
+                .then(function(carddata){
+                    console.log(carddata);
                     t.closePopup();
                 });
         }
