@@ -10,7 +10,7 @@
     <fieldset id="fields">
         <label for="tracker">Tracker: </label><input type="text" id="tracker" list="trackerlist"/>
         <datalist id="trackerlist"></datalist>
-
+        <input type="hidden" id="pid"/>
     </fieldset>
     <button id="submit" type="submit" class="mod-primary">Add</button>
     <p id="error" style="color: red;"></p>
@@ -26,6 +26,7 @@
 
 
         var tracker = document.getElementById("tracker").value;
+        var pid = document.getElementById('pid').value;
 
         if (tracker == "") {
             document.getElementById("error").value = "Please fill in a tracker";
@@ -51,21 +52,21 @@
             var card_data = {
                 tracker : tracker_id
             }
-            return t.set('card', 'shared', 'sla', card_data)
+            return Promise.all([t.set('card', 'shared', 'sla', card_data), mapTracker(pid, tracker)])
                 .then(function(){
                     //console.log(carddata);
                     t.closePopup();
+
                 });
         }
-    })
-    .then(function (carddata){
-        console.log(carddata);
     });
 
 
-    t.render(function(){
-        return getUnmappedTrackers()
-            .then(function (trackers) {
+    t.render(function(t){
+        return Promise.all([getUnmappedTrackers(), t.get('card', 'shared', 'project')])
+            .then(function (data) {
+                var trackers = data[0];
+                var project_data = data[1];
                 console.log(trackers);
                 var dataList = document.getElementById('trackerlist');
 
@@ -75,6 +76,7 @@
                     option.setAttribute("trackername", trackers[i].link);
                     dataList.appendChild(option);
                 }
+                document.getElementById('pid').value = project_data.pid.value;
 
                 t.sizeTo('#addtracker').done();
             });
@@ -93,6 +95,11 @@
             };
             xmlhttp.send();
         });
+    }
+
+    function mapTracker(){
+        console.log("Mapping tracker - Function to be written");
+        return true;
     }
 
 
