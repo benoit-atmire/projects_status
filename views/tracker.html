@@ -52,11 +52,14 @@
                 tracker : tracker_id
             }
             return t.set('card', 'shared', 'sla', card_data)
-                .then(function(carddata){
-                    console.log(carddata);
+                .then(function(){
+                    //console.log(carddata);
                     t.closePopup();
                 });
         }
+    })
+    .then(function (carddata){
+        console.log(carddata);
     });
 
 
