@@ -97,9 +97,21 @@
         });
     }
 
-    function mapTracker(){
+    function mapTracker(pid, tracker){
         console.log("Mapping tracker - Function to be written");
-        return true;
+        return new Promise(function (resolve, reject){
+            var url = 'https://reports.atmi.re/slas/' + tracker + '/project';
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", url);
+            xmlhttp.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    var trackers = JSON.parse(xmlhttp.responseText);
+                    resolve(trackers);
+                }
+            };
+            xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xmlhttp.send("pid=" + pid);
+        });
     }
 
 
